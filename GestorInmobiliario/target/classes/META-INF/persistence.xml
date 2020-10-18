@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.betancur_GestorInmobiliario_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.betancur.gestorinmobiliario.model.entity.Actividad</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Alquiler</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ArancelEspecial</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ArancelEspecialExpensa</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ArancelEspecialServicio</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Barrio</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.BoletaDePago</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Casa</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Cliente</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Comision</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ComprobanteDeIngreso</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ComprobanteMonotributo</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Contrato</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ContratoAlquiler</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ContratoVenta</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.CuotaVenta</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Departamento</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.DocumentoDeIngreso</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.EstadoCivil</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Garante</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.GaranteDependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.GaranteIndependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Inmobiliaria</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Inmueble</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.LineaDeComision</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Locador</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.LocalComercial</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Localidad</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Locatario</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.LocatarioDependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.LocatarioEstudiante</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.LocatarioIndependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Provincia</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.RecargoPorMora</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.ReciboDeSueldo</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Terreno</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.TipoDNI</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.TipoUsuario</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Usuario</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.UsuarioCliente</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.UsuarioEmpresa</class>
+    <class>com.betancur.gestorinmobiliario.model.entity.Venta</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/inmobiliaria?serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="admin"/>
+    </properties>
+  </persistence-unit>
+</persistence>
