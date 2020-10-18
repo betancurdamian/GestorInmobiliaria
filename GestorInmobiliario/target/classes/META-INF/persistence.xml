@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.betancur_GestorInmobiliario_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.betancur.gestorinmobiliario.model.Actividad</class>
+    <class>com.betancur.gestorinmobiliario.model.Alquiler</class>
+    <class>com.betancur.gestorinmobiliario.model.ArancelEspecial</class>
+    <class>com.betancur.gestorinmobiliario.model.ArancelEspecialExpensa</class>
+    <class>com.betancur.gestorinmobiliario.model.ArancelEspecialServicio</class>
+    <class>com.betancur.gestorinmobiliario.model.Barrio</class>
+    <class>com.betancur.gestorinmobiliario.model.Casa</class>
+    <class>com.betancur.gestorinmobiliario.model.Cliente</class>
+    <class>com.betancur.gestorinmobiliario.model.ComprobanteDeIngreso</class>
+    <class>com.betancur.gestorinmobiliario.model.ComprobanteMonotributo</class>
+    <class>com.betancur.gestorinmobiliario.model.ContratoAlquiler</class>
+    <class>com.betancur.gestorinmobiliario.model.Departamento</class>
+    <class>com.betancur.gestorinmobiliario.model.DocumentoDeIngreso</class>
+    <class>com.betancur.gestorinmobiliario.model.EstadoCivil</class>
+    <class>com.betancur.gestorinmobiliario.model.Garante</class>
+    <class>com.betancur.gestorinmobiliario.model.GaranteDependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.GaranteIndependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.Inmobiliaria</class>
+    <class>com.betancur.gestorinmobiliario.model.Inmueble</class>
+    <class>com.betancur.gestorinmobiliario.model.Locador</class>
+    <class>com.betancur.gestorinmobiliario.model.LocalComercial</class>
+    <class>com.betancur.gestorinmobiliario.model.Localidad</class>
+    <class>com.betancur.gestorinmobiliario.model.Locatario</class>
+    <class>com.betancur.gestorinmobiliario.model.LocatarioDependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.LocatarioEstudiante</class>
+    <class>com.betancur.gestorinmobiliario.model.LocatarioIndependiente</class>
+    <class>com.betancur.gestorinmobiliario.model.Provincia</class>
+    <class>com.betancur.gestorinmobiliario.model.RecargoPorMora</class>
+    <class>com.betancur.gestorinmobiliario.model.ReciboDeSueldo</class>
+    <class>com.betancur.gestorinmobiliario.model.Terreno</class>
+    <class>com.betancur.gestorinmobiliario.model.TipoDNI</class>
+    <class>com.betancur.gestorinmobiliario.model.TipoUsuario</class>
+    <class>com.betancur.gestorinmobiliario.model.UsuarioCliente</class>
+    <class>com.betancur.gestorinmobiliario.model.UsuarioEmpresa</class>
+    <class>com.betancur.gestorinmobiliario.model.Venta</class>
+    <class>com.betancur.gestorinmobiliario.model.Usuario</class>
+    <class>com.betancur.gestorinmobiliario.model.Comision</class>
+    <class>com.betancur.gestorinmobiliario.model.LineaDeComision</class>
+    <class>com.betancur.gestorinmobiliario.model.Contrato</class>
+    <class>com.betancur.gestorinmobiliario.model.ContratoVenta</class>
+    <class>com.betancur.gestorinmobiliario.model.BoletaDePago</class>
+    <class>com.betancur.gestorinmobiliario.model.CuotaVenta</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/inmobiliaria?serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="admin"/>
+    </properties>
+  </persistence-unit>
+</persistence>
