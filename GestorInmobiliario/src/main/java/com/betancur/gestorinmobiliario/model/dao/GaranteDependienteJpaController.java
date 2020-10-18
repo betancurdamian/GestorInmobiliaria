@@ -5,17 +5,17 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
+import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.Inmobiliaria;
-import com.betancur.gestorinmobiliario.model.Locatario;
-import com.betancur.gestorinmobiliario.model.ContratoAlquiler;
-import com.betancur.gestorinmobiliario.model.ComprobanteDeIngreso;
-import com.betancur.gestorinmobiliario.model.GaranteDependiente;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
+import com.betancur.gestorinmobiliario.model.entity.Locatario;
+import com.betancur.gestorinmobiliario.model.entity.ContratoAlquiler;
+import com.betancur.gestorinmobiliario.model.entity.ComprobanteDeIngreso;
+import com.betancur.gestorinmobiliario.model.entity.GaranteDependiente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -71,7 +71,7 @@ public class GaranteDependienteJpaController implements Serializable {
                 unaInmobiliariaGarante = em.merge(unaInmobiliariaGarante);
             }
             if (unLocatario != null) {
-                com.betancur.gestorinmobiliario.model.Garante oldUnGaranteOfUnLocatario = unLocatario.getUnGarante();
+                com.betancur.gestorinmobiliario.model.entity.Garante oldUnGaranteOfUnLocatario = unLocatario.getUnGarante();
                 if (oldUnGaranteOfUnLocatario != null) {
                     oldUnGaranteOfUnLocatario.setUnLocatario(null);
                     oldUnGaranteOfUnLocatario = em.merge(oldUnGaranteOfUnLocatario);
@@ -80,7 +80,7 @@ public class GaranteDependienteJpaController implements Serializable {
                 unLocatario = em.merge(unLocatario);
             }
             if (unContratoAlquiler != null) {
-                com.betancur.gestorinmobiliario.model.Garante oldUnGaranteOfUnContratoAlquiler = unContratoAlquiler.getUnGarante();
+                com.betancur.gestorinmobiliario.model.entity.Garante oldUnGaranteOfUnContratoAlquiler = unContratoAlquiler.getUnGarante();
                 if (oldUnGaranteOfUnContratoAlquiler != null) {
                     oldUnGaranteOfUnContratoAlquiler.setUnContratoAlquiler(null);
                     oldUnGaranteOfUnContratoAlquiler = em.merge(oldUnGaranteOfUnContratoAlquiler);
@@ -147,7 +147,7 @@ public class GaranteDependienteJpaController implements Serializable {
                 unLocatarioOld = em.merge(unLocatarioOld);
             }
             if (unLocatarioNew != null && !unLocatarioNew.equals(unLocatarioOld)) {
-                com.betancur.gestorinmobiliario.model.Garante oldUnGaranteOfUnLocatario = unLocatarioNew.getUnGarante();
+                com.betancur.gestorinmobiliario.model.entity.Garante oldUnGaranteOfUnLocatario = unLocatarioNew.getUnGarante();
                 if (oldUnGaranteOfUnLocatario != null) {
                     oldUnGaranteOfUnLocatario.setUnLocatario(null);
                     oldUnGaranteOfUnLocatario = em.merge(oldUnGaranteOfUnLocatario);
@@ -160,7 +160,7 @@ public class GaranteDependienteJpaController implements Serializable {
                 unContratoAlquilerOld = em.merge(unContratoAlquilerOld);
             }
             if (unContratoAlquilerNew != null && !unContratoAlquilerNew.equals(unContratoAlquilerOld)) {
-                com.betancur.gestorinmobiliario.model.Garante oldUnGaranteOfUnContratoAlquiler = unContratoAlquilerNew.getUnGarante();
+                com.betancur.gestorinmobiliario.model.entity.Garante oldUnGaranteOfUnContratoAlquiler = unContratoAlquilerNew.getUnGarante();
                 if (oldUnGaranteOfUnContratoAlquiler != null) {
                     oldUnGaranteOfUnContratoAlquiler.setUnContratoAlquiler(null);
                     oldUnGaranteOfUnContratoAlquiler = em.merge(oldUnGaranteOfUnContratoAlquiler);

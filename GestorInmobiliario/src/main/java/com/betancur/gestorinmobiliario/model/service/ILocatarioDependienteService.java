@@ -5,7 +5,7 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.LocatarioDependiente;
+import com.betancur.gestorinmobiliario.model.entity.LocatarioDependiente;
 
 /**
  *

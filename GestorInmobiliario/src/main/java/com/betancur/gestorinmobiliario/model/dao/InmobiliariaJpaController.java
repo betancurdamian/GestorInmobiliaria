@@ -5,24 +5,24 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
+import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
+import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.Inmueble;
+import com.betancur.gestorinmobiliario.model.entity.Inmueble;
 import java.util.ArrayList;
 import java.util.List;
-import com.betancur.gestorinmobiliario.model.Alquiler;
-import com.betancur.gestorinmobiliario.model.Venta;
-import com.betancur.gestorinmobiliario.model.Cliente;
-import com.betancur.gestorinmobiliario.model.Garante;
-import com.betancur.gestorinmobiliario.model.RecargoPorMora;
-import com.betancur.gestorinmobiliario.model.ArancelEspecial;
-import com.betancur.gestorinmobiliario.model.Inmobiliaria;
-import com.betancur.gestorinmobiliario.model.Usuario;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.Alquiler;
+import com.betancur.gestorinmobiliario.model.entity.Venta;
+import com.betancur.gestorinmobiliario.model.entity.Cliente;
+import com.betancur.gestorinmobiliario.model.entity.Garante;
+import com.betancur.gestorinmobiliario.model.entity.RecargoPorMora;
+import com.betancur.gestorinmobiliario.model.entity.ArancelEspecial;
+import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
+import com.betancur.gestorinmobiliario.model.entity.Usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -230,14 +230,6 @@ public class InmobiliariaJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Inmueble " + inmueblesOldInmueble + " since its unaInmobiliariaInmueble field is not nullable.");
                 }
             }
-            for (Alquiler alquileresOldAlquiler : alquileresOld) {
-                if (!alquileresNew.contains(alquileresOldAlquiler)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Alquiler " + alquileresOldAlquiler + " since its unaInmobiliariaAlquiler field is not nullable.");
-                }
-            }
             for (ArancelEspecial arancelesEspecialesOldArancelEspecial : arancelesEspecialesOld) {
                 if (!arancelesEspecialesNew.contains(arancelesEspecialesOldArancelEspecial)) {
                     if (illegalOrphanMessages == null) {
@@ -323,6 +315,12 @@ public class InmobiliariaJpaController implements Serializable {
                         oldUnaInmobiliariaInmuebleOfInmueblesNewInmueble.getInmuebles().remove(inmueblesNewInmueble);
                         oldUnaInmobiliariaInmuebleOfInmueblesNewInmueble = em.merge(oldUnaInmobiliariaInmuebleOfInmueblesNewInmueble);
                     }
+                }
+            }
+            for (Alquiler alquileresOldAlquiler : alquileresOld) {
+                if (!alquileresNew.contains(alquileresOldAlquiler)) {
+                    alquileresOldAlquiler.setUnaInmobiliariaAlquiler(null);
+                    alquileresOldAlquiler = em.merge(alquileresOldAlquiler);
                 }
             }
             for (Alquiler alquileresNewAlquiler : alquileresNew) {
@@ -463,13 +461,6 @@ public class InmobiliariaJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Inmobiliaria (" + inmobiliaria + ") cannot be destroyed since the Inmueble " + inmueblesOrphanCheckInmueble + " in its inmuebles field has a non-nullable unaInmobiliariaInmueble field.");
             }
-            List<Alquiler> alquileresOrphanCheck = inmobiliaria.getAlquileres();
-            for (Alquiler alquileresOrphanCheckAlquiler : alquileresOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Inmobiliaria (" + inmobiliaria + ") cannot be destroyed since the Alquiler " + alquileresOrphanCheckAlquiler + " in its alquileres field has a non-nullable unaInmobiliariaAlquiler field.");
-            }
             List<ArancelEspecial> arancelesEspecialesOrphanCheck = inmobiliaria.getArancelesEspeciales();
             for (ArancelEspecial arancelesEspecialesOrphanCheckArancelEspecial : arancelesEspecialesOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -486,6 +477,11 @@ public class InmobiliariaJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            List<Alquiler> alquileres = inmobiliaria.getAlquileres();
+            for (Alquiler alquileresAlquiler : alquileres) {
+                alquileresAlquiler.setUnaInmobiliariaAlquiler(null);
+                alquileresAlquiler = em.merge(alquileresAlquiler);
             }
             List<Venta> ventas = inmobiliaria.getVentas();
             for (Venta ventasVenta : ventas) {

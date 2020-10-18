@@ -5,7 +5,7 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.TipoDNI;
+import com.betancur.gestorinmobiliario.model.entity.TipoDNI;
 
 /**
  *

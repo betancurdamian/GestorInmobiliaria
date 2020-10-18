@@ -5,7 +5,7 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.RecargoPorMora;
+import com.betancur.gestorinmobiliario.model.entity.RecargoPorMora;
 
 /**
  *

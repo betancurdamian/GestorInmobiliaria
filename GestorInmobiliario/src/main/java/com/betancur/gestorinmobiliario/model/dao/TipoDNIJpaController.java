@@ -5,8 +5,8 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
-import com.betancur.gestorinmobiliario.model.TipoDNI;
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.TipoDNI;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;

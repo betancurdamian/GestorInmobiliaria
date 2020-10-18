@@ -5,15 +5,15 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
+import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.Inmobiliaria;
-import com.betancur.gestorinmobiliario.model.Alquiler;
-import com.betancur.gestorinmobiliario.model.Departamento;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
+import com.betancur.gestorinmobiliario.model.entity.Alquiler;
+import com.betancur.gestorinmobiliario.model.entity.Departamento;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -54,7 +54,7 @@ public class DepartamentoJpaController implements Serializable {
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
             }
             if (unAlquiler != null) {
-                com.betancur.gestorinmobiliario.model.Inmueble oldUnInmuebleOfUnAlquiler = unAlquiler.getUnInmueble();
+                com.betancur.gestorinmobiliario.model.entity.Inmueble oldUnInmuebleOfUnAlquiler = unAlquiler.getUnInmueble();
                 if (oldUnInmuebleOfUnAlquiler != null) {
                     oldUnInmuebleOfUnAlquiler.setUnAlquiler(null);
                     oldUnInmuebleOfUnAlquiler = em.merge(oldUnInmuebleOfUnAlquiler);
@@ -102,7 +102,7 @@ public class DepartamentoJpaController implements Serializable {
                 unAlquilerOld = em.merge(unAlquilerOld);
             }
             if (unAlquilerNew != null && !unAlquilerNew.equals(unAlquilerOld)) {
-                com.betancur.gestorinmobiliario.model.Inmueble oldUnInmuebleOfUnAlquiler = unAlquilerNew.getUnInmueble();
+                com.betancur.gestorinmobiliario.model.entity.Inmueble oldUnInmuebleOfUnAlquiler = unAlquilerNew.getUnInmueble();
                 if (oldUnInmuebleOfUnAlquiler != null) {
                     oldUnInmuebleOfUnAlquiler.setUnAlquiler(null);
                     oldUnInmuebleOfUnAlquiler = em.merge(oldUnInmuebleOfUnAlquiler);

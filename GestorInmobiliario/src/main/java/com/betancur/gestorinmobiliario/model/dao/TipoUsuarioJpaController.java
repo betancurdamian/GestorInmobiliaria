@@ -5,8 +5,8 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
-import com.betancur.gestorinmobiliario.model.TipoUsuario;
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.TipoUsuario;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;

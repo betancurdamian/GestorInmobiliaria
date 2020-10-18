@@ -5,7 +5,7 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.Terreno;
+import com.betancur.gestorinmobiliario.model.entity.Terreno;
 
 /**
  *

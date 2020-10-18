@@ -5,7 +5,7 @@
  */
 package com.betancur.gestorinmobiliario.controller;
 
-import com.betancur.gestorinmobiliario.model.Alquiler;
+import com.betancur.gestorinmobiliario.model.entity.Alquiler;
 import com.betancur.gestorinmobiliario.model.dao.Conexion;
 
 /**

@@ -5,17 +5,17 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
+import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
+import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.Garante;
-import com.betancur.gestorinmobiliario.model.Comision;
-import com.betancur.gestorinmobiliario.model.BoletaDePago;
-import com.betancur.gestorinmobiliario.model.ContratoAlquiler;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.Garante;
+import com.betancur.gestorinmobiliario.model.entity.Comision;
+import com.betancur.gestorinmobiliario.model.entity.BoletaDePago;
+import com.betancur.gestorinmobiliario.model.entity.ContratoAlquiler;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -71,7 +71,7 @@ public class ContratoAlquilerJpaController implements Serializable {
                 unGarante = em.merge(unGarante);
             }
             if (unaComision != null) {
-                com.betancur.gestorinmobiliario.model.Contrato oldUnContratoOfUnaComision = unaComision.getUnContrato();
+                com.betancur.gestorinmobiliario.model.entity.Contrato oldUnContratoOfUnaComision = unaComision.getUnContrato();
                 if (oldUnContratoOfUnaComision != null) {
                     oldUnContratoOfUnaComision.setUnaComision(null);
                     oldUnContratoOfUnaComision = em.merge(oldUnContratoOfUnaComision);
@@ -80,7 +80,7 @@ public class ContratoAlquilerJpaController implements Serializable {
                 unaComision = em.merge(unaComision);
             }
             for (BoletaDePago boletasDePagoBoletaDePago : contratoAlquiler.getBoletasDePago()) {
-                com.betancur.gestorinmobiliario.model.Contrato oldUnContratoOfBoletasDePagoBoletaDePago = boletasDePagoBoletaDePago.getUnContrato();
+                com.betancur.gestorinmobiliario.model.entity.Contrato oldUnContratoOfBoletasDePagoBoletaDePago = boletasDePagoBoletaDePago.getUnContrato();
                 boletasDePagoBoletaDePago.setUnContrato(contratoAlquiler);
                 boletasDePagoBoletaDePago = em.merge(boletasDePagoBoletaDePago);
                 if (oldUnContratoOfBoletasDePagoBoletaDePago != null) {
@@ -154,7 +154,7 @@ public class ContratoAlquilerJpaController implements Serializable {
                 unaComisionOld = em.merge(unaComisionOld);
             }
             if (unaComisionNew != null && !unaComisionNew.equals(unaComisionOld)) {
-                com.betancur.gestorinmobiliario.model.Contrato oldUnContratoOfUnaComision = unaComisionNew.getUnContrato();
+                com.betancur.gestorinmobiliario.model.entity.Contrato oldUnContratoOfUnaComision = unaComisionNew.getUnContrato();
                 if (oldUnContratoOfUnaComision != null) {
                     oldUnContratoOfUnaComision.setUnaComision(null);
                     oldUnContratoOfUnaComision = em.merge(oldUnContratoOfUnaComision);

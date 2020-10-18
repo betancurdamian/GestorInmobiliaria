@@ -5,7 +5,7 @@
  */
 package com.betancur.gestorinmobiliario.model.service.Impl;
 
-import com.betancur.gestorinmobiliario.model.Alquiler;
+import com.betancur.gestorinmobiliario.model.entity.Alquiler;
 import com.betancur.gestorinmobiliario.model.dao.AlquilerJpaController;
 import com.betancur.gestorinmobiliario.model.dao.Conexion;
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;

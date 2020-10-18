@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.betancur.gestorinmobiliario.model;
+package com.betancur.gestorinmobiliario.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -52,7 +52,7 @@ public class Alquiler implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaAlquiler;
-    
+
     @Column(name = "disponible")
     private boolean disponible;
 
@@ -66,8 +66,6 @@ public class Alquiler implements Serializable {
         this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
         this.disponible = disponible;
     }
-
-    
 
     public Long getId() {
         return id;
@@ -150,5 +148,4 @@ public class Alquiler implements Serializable {
         this.disponible = disponible;
     }
 
-    
 }

@@ -5,17 +5,17 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
-import com.betancur.gestorinmobiliario.model.ComprobanteDeIngreso;
+import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.ComprobanteDeIngreso;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.Locatario;
+import com.betancur.gestorinmobiliario.model.entity.Locatario;
 import java.util.ArrayList;
 import java.util.List;
-import com.betancur.gestorinmobiliario.model.Garante;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.Garante;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 

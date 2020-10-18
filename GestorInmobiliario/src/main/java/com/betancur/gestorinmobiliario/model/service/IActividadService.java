@@ -5,7 +5,8 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.Actividad;
+import com.betancur.gestorinmobiliario.model.entity.Actividad;
+
 
 /**
  *

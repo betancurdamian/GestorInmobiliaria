@@ -5,18 +5,18 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
+import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
+import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.Garante;
-import com.betancur.gestorinmobiliario.model.Inmobiliaria;
-import com.betancur.gestorinmobiliario.model.UsuarioCliente;
-import com.betancur.gestorinmobiliario.model.ComprobanteDeIngreso;
-import com.betancur.gestorinmobiliario.model.Locatario;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.Garante;
+import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
+import com.betancur.gestorinmobiliario.model.entity.UsuarioCliente;
+import com.betancur.gestorinmobiliario.model.entity.ComprobanteDeIngreso;
+import com.betancur.gestorinmobiliario.model.entity.Locatario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -81,7 +81,7 @@ public class LocatarioJpaController implements Serializable {
                 unaInmobiliariaCliente = em.merge(unaInmobiliariaCliente);
             }
             if (unUsuarioCliente != null) {
-                com.betancur.gestorinmobiliario.model.Cliente oldUnClienteOfUnUsuarioCliente = unUsuarioCliente.getUnCliente();
+                com.betancur.gestorinmobiliario.model.entity.Cliente oldUnClienteOfUnUsuarioCliente = unUsuarioCliente.getUnCliente();
                 if (oldUnClienteOfUnUsuarioCliente != null) {
                     oldUnClienteOfUnUsuarioCliente.setUnUsuarioCliente(null);
                     oldUnClienteOfUnUsuarioCliente = em.merge(oldUnClienteOfUnUsuarioCliente);
@@ -167,7 +167,7 @@ public class LocatarioJpaController implements Serializable {
                 unaInmobiliariaClienteNew = em.merge(unaInmobiliariaClienteNew);
             }
             if (unUsuarioClienteNew != null && !unUsuarioClienteNew.equals(unUsuarioClienteOld)) {
-                com.betancur.gestorinmobiliario.model.Cliente oldUnClienteOfUnUsuarioCliente = unUsuarioClienteNew.getUnCliente();
+                com.betancur.gestorinmobiliario.model.entity.Cliente oldUnClienteOfUnUsuarioCliente = unUsuarioClienteNew.getUnCliente();
                 if (oldUnClienteOfUnUsuarioCliente != null) {
                     oldUnClienteOfUnUsuarioCliente.setUnUsuarioCliente(null);
                     oldUnClienteOfUnUsuarioCliente = em.merge(oldUnClienteOfUnUsuarioCliente);
