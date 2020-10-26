@@ -29,10 +29,10 @@ public class CuotaVenta implements Serializable {
     private Long id;
 
     @Column(name = "numero_cuota")
-    private int numeroCuota;
+    private Integer numeroCuota;
 
     @Column(name = "monto_cuota")
-    private float montoCuota;
+    private Float montoCuota;
 
     @ManyToOne
     @JoinColumn(name = "fk_contrato_venta", nullable = false, updatable = true)
@@ -41,7 +41,7 @@ public class CuotaVenta implements Serializable {
     public CuotaVenta() {
     }
 
-    public CuotaVenta(int numeroCuota, float montoCuota, ContratoVenta unContratoVenta) {
+    public CuotaVenta(Integer numeroCuota, Float montoCuota, ContratoVenta unContratoVenta) {
         this.numeroCuota = numeroCuota;
         this.montoCuota = montoCuota;
         this.unContratoVenta = unContratoVenta;
@@ -55,44 +55,19 @@ public class CuotaVenta implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CuotaVenta)) {
-            return false;
-        }
-        CuotaVenta other = (CuotaVenta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.betancur.gestorinmobiliario.model.CuotaVenta[ id=" + id + " ]";
-    }
-
-    public int getNumeroCuota() {
+    public Integer getNumeroCuota() {
         return numeroCuota;
     }
 
-    public void setNumeroCuota(int numeroCuota) {
+    public void setNumeroCuota(Integer numeroCuota) {
         this.numeroCuota = numeroCuota;
     }
 
-    public float getMontoCuota() {
+    public Float getMontoCuota() {
         return montoCuota;
     }
 
-    public void setMontoCuota(float montoCuota) {
+    public void setMontoCuota(Float montoCuota) {
         this.montoCuota = montoCuota;
     }
 

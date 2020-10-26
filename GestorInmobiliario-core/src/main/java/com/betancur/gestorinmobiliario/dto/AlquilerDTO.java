@@ -17,10 +17,10 @@ public class AlquilerDTO {
     private Long id;
     private String unaFechaInicio;
     private String unaFechaFin;
-    private Long unContratoAlquilerID;
-    private Long unInmuebleID;
-    private Long unaInmobiliariaAlquilerID;
-    private boolean disponible;
+    private ContratoAlquilerDTO unContratoAlquilerDTO;
+    private InmuebleDTO unInmuebleDTO;
+    private InmobiliariaDTO unaInmobiliariaAlquilerDTO;
+    private Boolean disponible;
 
     public Long getId() {
         return id;
@@ -46,37 +46,38 @@ public class AlquilerDTO {
         this.unaFechaFin = unaFechaFin;
     }
 
-    public Long getUnContratoAlquilerID() {
-        return unContratoAlquilerID;
+    public ContratoAlquilerDTO getUnContratoAlquilerDTO() {
+        return unContratoAlquilerDTO;
     }
 
-    public void setUnContratoAlquilerID(Long unContratoAlquilerID) {
-        this.unContratoAlquilerID = unContratoAlquilerID;
+    public void setUnContratoAlquilerDTO(ContratoAlquilerDTO unContratoAlquilerDTO) {
+        this.unContratoAlquilerDTO = unContratoAlquilerDTO;
     }
 
-    public Long getUnInmuebleID() {
-        return unInmuebleID;
+    public InmuebleDTO getUnInmuebleDTO() {
+        return unInmuebleDTO;
     }
 
-    public void setUnInmuebleID(Long unInmuebleID) {
-        this.unInmuebleID = unInmuebleID;
+    public void setUnInmuebleDTO(InmuebleDTO unInmuebleDTO) {
+        this.unInmuebleDTO = unInmuebleDTO;
     }
 
-    public Long getUnaInmobiliariaAlquilerID() {
-        return unaInmobiliariaAlquilerID;
+    public InmobiliariaDTO getUnaInmobiliariaAlquilerDTO() {
+        return unaInmobiliariaAlquilerDTO;
     }
 
-    public void setUnaInmobiliariaAlquilerID(Long unaInmobiliariaAlquilerID) {
-        this.unaInmobiliariaAlquilerID = unaInmobiliariaAlquilerID;
+    public void setUnaInmobiliariaAlquilerDTO(InmobiliariaDTO unaInmobiliariaAlquilerDTO) {
+        this.unaInmobiliariaAlquilerDTO = unaInmobiliariaAlquilerDTO;
     }
 
-    public boolean isDisponible() {
+    public Boolean isDisponible() {
         return disponible;
     }
 
-    public void setDisponible(boolean disponible) {
+    public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
-
     
+    
+
 }

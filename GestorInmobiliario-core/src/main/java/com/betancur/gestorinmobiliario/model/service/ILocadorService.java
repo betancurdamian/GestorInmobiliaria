@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.Locador;
+import com.betancur.gestorinmobiliario.dto.LocadorDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface ILocadorService extends ICRUD<Locador>{
+public interface ILocadorService extends ICRUD<LocadorDTO>{
     
 }

@@ -6,7 +6,7 @@
 package com.betancur.gestorinmobiliario.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -18,17 +18,15 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
  * @author Ariel
  */
 @Entity
-@Table(name="aranceles_especiales")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipo_arancel")
+@Table(name = "aranceles_especiales")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_arancel")
 public abstract class ArancelEspecial implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,32 +34,29 @@ public abstract class ArancelEspecial implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "fecha_recargo")
-    private Date unaFechaDeRecargo;
-    
-    @Column(name="descripcion")
+    private LocalDate unaFechaDeRecargo;
+
+    @Column(name = "descripcion")
     private String descripcion;
-    
+
     @Column(name = "monto")
-    private float monto;
-    
+    private Float monto;
+
     @ManyToOne
-    @JoinColumn(name = "fk_inmobiliaria", nullable = false, updatable = true)
+    @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaArancelEspecial;
 
     public ArancelEspecial() {
     }
 
-    public ArancelEspecial(Date unaFechaDeRecargo, String descripcion, float monto, Inmobiliaria unaInmobiliariaArancelEspecial) {
+    public ArancelEspecial(LocalDate unaFechaDeRecargo, String descripcion, Float monto, Inmobiliaria unaInmobiliariaArancelEspecial) {
         this.unaFechaDeRecargo = unaFechaDeRecargo;
         this.descripcion = descripcion;
         this.monto = monto;
         this.unaInmobiliariaArancelEspecial = unaInmobiliariaArancelEspecial;
     }
-    
-    
-    
+
     public Long getId() {
         return id;
     }
@@ -95,11 +90,11 @@ public abstract class ArancelEspecial implements Serializable {
         return "com.betancur.gestorinmobiliario.model.ArancelEspecial[ id=" + id + " ]";
     }
 
-    public Date getUnaFechaDeRecargo() {
+    public LocalDate getUnaFechaDeRecargo() {
         return unaFechaDeRecargo;
     }
 
-    public void setUnaFechaDeRecargo(Date unaFechaDeRecargo) {
+    public void setUnaFechaDeRecargo(LocalDate unaFechaDeRecargo) {
         this.unaFechaDeRecargo = unaFechaDeRecargo;
     }
 
@@ -111,11 +106,11 @@ public abstract class ArancelEspecial implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public float getMonto() {
+    public Float getMonto() {
         return monto;
     }
 
-    public void setMonto(float monto) {
+    public void setMonto(Float monto) {
         this.monto = monto;
     }
 
@@ -126,6 +121,5 @@ public abstract class ArancelEspecial implements Serializable {
     public void setUnaInmobiliariaArancelEspecial(Inmobiliaria unaInmobiliariaArancelEspecial) {
         this.unaInmobiliariaArancelEspecial = unaInmobiliariaArancelEspecial;
     }
-    
-    
+
 }

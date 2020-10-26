@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.EstadoCivil;
+import com.betancur.gestorinmobiliario.dto.EstadoCivilDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IEstadoCivilService extends ICRUD<EstadoCivil>{
+public interface IEstadoCivilService extends ICRUD<EstadoCivilDTO>{
     
 }

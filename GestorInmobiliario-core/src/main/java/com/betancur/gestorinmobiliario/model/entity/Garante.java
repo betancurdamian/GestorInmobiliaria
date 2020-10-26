@@ -50,19 +50,26 @@ public abstract class Garante extends Persona {
     private List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes;
 
     public Garante() {
-        this.comprobantesDeIngresosGarantes = new ArrayList<>();
     }
 
-    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario) {
+    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes) {
         this.unaActividad = unaActividad;
         this.unaInmobiliariaGarante = unaInmobiliariaGarante;
+        this.unLocatario = unLocatario;
+        this.unContratoAlquiler = unContratoAlquiler;
+        this.comprobantesDeIngresosGarantes = comprobantesDeIngresosGarantes;
     }
 
-    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Barrio direccionBarrio, String telefono, String correoElectronico) {
-        super(nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionBarrio, telefono, correoElectronico);
+    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
+        super(nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, telefono, correoElectronico);
         this.unaActividad = unaActividad;
         this.unaInmobiliariaGarante = unaInmobiliariaGarante;
+        this.unLocatario = unLocatario;
+        this.unContratoAlquiler = unContratoAlquiler;
+        this.comprobantesDeIngresosGarantes = comprobantesDeIngresosGarantes;
     }
+
+   
 
     public Actividad getUnaActividad() {
         return unaActividad;

@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.ContratoAlquiler;
+import com.betancur.gestorinmobiliario.dto.ContratoAlquilerDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IContratoAlquilerService extends ICRUD<ContratoAlquiler>{
+public interface IContratoAlquilerService extends ICRUD<ContratoAlquilerDTO>{
     
 }

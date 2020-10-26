@@ -18,43 +18,41 @@ import javax.persistence.Entity;
 public class Terreno extends Inmueble {
 
     @Column(name = "ancho")
-    private int ancho;
+    private Integer ancho;
 
     @Column(name = "largo")
-    private int largo;
+    private Integer largo;
 
     public Terreno() {
-
     }
 
-    public Terreno(int ancho, int largo) {
+    public Terreno(Integer ancho, Integer largo) {
         this.ancho = ancho;
         this.largo = largo;
     }
 
-    public Terreno(int ancho, int largo, String direccionCalle, String direccionNumero, Barrio direccionBarrio, int superficieTotal, boolean estaDisponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
-        super(direccionCalle, direccionNumero, direccionBarrio, superficieTotal, estaDisponible, descripcion, unaInmobiliariaInmueble);
+    public Terreno(Integer ancho, Integer largo, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
+        super(direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble);
         this.ancho = ancho;
+        this.largo = largo;
+    }
+
+    public Integer getAncho() {
+        return ancho;
+    }
+
+    public void setAncho(Integer ancho) {
+        this.ancho = ancho;
+    }
+
+    public Integer getLargo() {
+        return largo;
+    }
+
+    public void setLargo(Integer largo) {
         this.largo = largo;
     }
 
     
-   
-
-    public int getAncho() {
-        return ancho;
-    }
-
-    public void setAncho(int ancho) {
-        this.ancho = ancho;
-    }
-
-    public int getLargo() {
-        return largo;
-    }
-
-    public void setLargo(int largo) {
-        this.largo = largo;
-    }
 
 }

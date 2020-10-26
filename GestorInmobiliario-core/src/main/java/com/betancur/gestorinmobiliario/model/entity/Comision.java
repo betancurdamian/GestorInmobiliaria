@@ -38,10 +38,10 @@ public class Comision implements Serializable {
     private Contrato unContrato;
     
     @Column(name = "cantidad_cuota")
-    private int cantidadDeCuotas;
+    private Integer cantidadDeCuotas;
     
     @Column(name = "montoTotal")
-    private float montoTotal;
+    private Float montoTotal;
 
     @OneToMany(mappedBy = "unaComision", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
         CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -51,13 +51,12 @@ public class Comision implements Serializable {
         this.linesasDecomisiones = new ArrayList<>();
     }
 
-    public Comision(Contrato unContrato, int cantidadDeCuotas, float montoTotal) {
+    public Comision(Contrato unContrato, Integer cantidadDeCuotas, Float montoTotal) {
         this.unContrato = unContrato;
         this.cantidadDeCuotas = cantidadDeCuotas;
         this.montoTotal = montoTotal;
         this.linesasDecomisiones = new ArrayList<>();
     }
-    
 
     public Long getId() {
         return id;
@@ -65,39 +64,6 @@ public class Comision implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Comision)) {
-            return false;
-        }
-        Comision other = (Comision) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.betancur.gestorinmobiliario.model.Comision[ id=" + id + " ]";
-    }
-
-    public List<LineaDeComision> getLinesasDecomisiones() {
-        return linesasDecomisiones;
-    }
-
-    public void setLinesasDecomisiones(List<LineaDeComision> linesasDecomisiones) {
-        this.linesasDecomisiones = linesasDecomisiones;
     }
 
     public Contrato getUnContrato() {
@@ -108,20 +74,30 @@ public class Comision implements Serializable {
         this.unContrato = unContrato;
     }
 
-    public int getCantidadDeCuotas() {
+    public Integer getCantidadDeCuotas() {
         return cantidadDeCuotas;
     }
 
-    public void setCantidadDeCuotas(int cantidadDeCuotas) {
+    public void setCantidadDeCuotas(Integer cantidadDeCuotas) {
         this.cantidadDeCuotas = cantidadDeCuotas;
     }
 
-    public float getMontoTotal() {
+    public Float getMontoTotal() {
         return montoTotal;
     }
 
-    public void setMontoTotal(float montoTotal) {
+    public void setMontoTotal(Float montoTotal) {
         this.montoTotal = montoTotal;
     }
 
+    public List<LineaDeComision> getLinesasDecomisiones() {
+        return linesasDecomisiones;
+    }
+
+    public void setLinesasDecomisiones(List<LineaDeComision> linesasDecomisiones) {
+        this.linesasDecomisiones = linesasDecomisiones;
+    }
+    
+
+    
 }

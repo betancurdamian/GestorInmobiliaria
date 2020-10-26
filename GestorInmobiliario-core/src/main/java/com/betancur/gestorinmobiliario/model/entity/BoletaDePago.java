@@ -6,7 +6,7 @@
 package com.betancur.gestorinmobiliario.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -34,18 +32,17 @@ public class BoletaDePago implements Serializable {
     @Column(name = "numero_boleta")
     private String numeroBoleta;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "fecha_pago")
-    private Date fechaPago;
+    private LocalDate fechaPago;
 
     @Column(name = "numero_cuota")
-    private int numeroCuota;
+    private Integer numeroCuota;
 
     @Column(name = "monto")
-    private float monto;
+    private Float monto;
 
     @Column(name = "pagado")
-    private boolean pagado;
+    private Boolean pagado;
 
     @ManyToOne
     @JoinColumn(name = "fk_contrato", nullable = false, updatable = true)
@@ -55,7 +52,7 @@ public class BoletaDePago implements Serializable {
 
     }
 
-    public BoletaDePago(String numeroBoleta, Date fechaPago, int numeroCuota, float monto, boolean pagado, Contrato unContrato) {
+    public BoletaDePago(String numeroBoleta, LocalDate fechaPago, Integer numeroCuota, Float monto, Boolean pagado, Contrato unContrato) {
         this.numeroBoleta = numeroBoleta;
         this.fechaPago = fechaPago;
         this.numeroCuota = numeroCuota;
@@ -105,35 +102,35 @@ public class BoletaDePago implements Serializable {
         this.numeroBoleta = numeroBoleta;
     }
 
-    public Date getFechaPago() {
+    public LocalDate getFechaPago() {
         return fechaPago;
     }
 
-    public void setFechaPago(Date fechaPago) {
+    public void setFechaPago(LocalDate fechaPago) {
         this.fechaPago = fechaPago;
     }
 
-    public int getNumeroCuota() {
+    public Integer getNumeroCuota() {
         return numeroCuota;
     }
 
-    public void setNumeroCuota(int numeroCuota) {
+    public void setNumeroCuota(Integer numeroCuota) {
         this.numeroCuota = numeroCuota;
     }
 
-    public float getMonto() {
+    public Float getMonto() {
         return monto;
     }
 
-    public void setMonto(float monto) {
+    public void setMonto(Float monto) {
         this.monto = monto;
     }
 
-    public boolean isPagado() {
+    public Boolean isPagado() {
         return pagado;
     }
 
-    public void setPagado(boolean pagado) {
+    public void setPagado(Boolean pagado) {
         this.pagado = pagado;
     }
 

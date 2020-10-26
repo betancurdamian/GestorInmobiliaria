@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.ArancelEspecialExpensa;
+import com.betancur.gestorinmobiliario.dto.ArancelEspecialExpensaDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IArancelEspecialExpensaService extends ICRUD<ArancelEspecialExpensa>{
+public interface IArancelEspecialExpensaService extends ICRUD<ArancelEspecialExpensaDTO>{
     
 }

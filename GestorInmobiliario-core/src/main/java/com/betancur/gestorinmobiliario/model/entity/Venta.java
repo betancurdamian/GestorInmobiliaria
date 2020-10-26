@@ -6,7 +6,7 @@
 package com.betancur.gestorinmobiliario.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -32,43 +30,37 @@ public class Venta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Temporal(TemporalType.DATE)
+    
     @Column(name = "fecha_venta")
-    private Date unaFechaVenta;
+    private LocalDate unaFechaVenta;
     
     @Column(name = "completa")
-    private boolean completa;
+    private Boolean completa;
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_contrato_venta")
     private ContratoVenta unContratoVenta;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "fk_inmobiliaria")
+    private Inmobiliaria unaInmobiliariaVenta;
     
     @ManyToOne
-    @JoinColumn(name = "fk_inmobiliaria", nullable = true, updatable = true)
-    private Inmobiliaria unaInmobiliariaVenta;
+    @JoinColumn(name = "fk_inmueble")
+    private Inmueble unInmuebleVenta;
 
     public Venta() {
     }
 
-    public Venta(Date unaFechaVenta, boolean completa, ContratoVenta unContratoVenta, Inmobiliaria unaInmobiliariaVenta) {
+    public Venta(LocalDate unaFechaVenta, Boolean completa, Inmobiliaria unaInmobiliariaVenta, Inmueble unInmuebleVenta) {
         this.unaFechaVenta = unaFechaVenta;
         this.completa = completa;
-        this.unContratoVenta = unContratoVenta;
         this.unaInmobiliariaVenta = unaInmobiliariaVenta;
+        this.unInmuebleVenta = unInmuebleVenta;
     }
+
     
     
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -94,27 +86,27 @@ public class Venta implements Serializable {
         return "com.betancur.gestorinmobiliario.model.Venta[ id=" + id + " ]";
     }
 
-    public Inmobiliaria getUnaInmobiliariaVenta() {
-        return unaInmobiliariaVenta;
+    public Long getId() {
+        return id;
     }
 
-    public void setUnaInmobiliariaVenta(Inmobiliaria unaInmobiliariaVenta) {
-        this.unaInmobiliariaVenta = unaInmobiliariaVenta;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Date getUnaFechaVenta() {
+    public LocalDate getUnaFechaVenta() {
         return unaFechaVenta;
     }
 
-    public void setUnaFechaVenta(Date unaFechaVenta) {
+    public void setUnaFechaVenta(LocalDate unaFechaVenta) {
         this.unaFechaVenta = unaFechaVenta;
     }
 
-    public boolean isCompleta() {
+    public Boolean getCompleta() {
         return completa;
     }
 
-    public void setCompleta(boolean completa) {
+    public void setCompleta(Boolean completa) {
         this.completa = completa;
     }
 
@@ -125,7 +117,22 @@ public class Venta implements Serializable {
     public void setUnContratoVenta(ContratoVenta unContratoVenta) {
         this.unContratoVenta = unContratoVenta;
     }
-    
-    
 
+    public Inmobiliaria getUnaInmobiliariaVenta() {
+        return unaInmobiliariaVenta;
+    }
+
+    public void setUnaInmobiliariaVenta(Inmobiliaria unaInmobiliariaVenta) {
+        this.unaInmobiliariaVenta = unaInmobiliariaVenta;
+    }
+
+    public Inmueble getUnInmuebleVenta() {
+        return unInmuebleVenta;
+    }
+
+    public void setUnInmuebleVenta(Inmueble unInmuebleVenta) {
+        this.unInmuebleVenta = unInmuebleVenta;
+    }
+
+    
 }

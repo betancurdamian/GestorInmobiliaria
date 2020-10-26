@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.BoletaDePago;
+import com.betancur.gestorinmobiliario.dto.BoletaDePagoDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IBoletaDePagoService extends ICRUD<BoletaDePago>{
+public interface IBoletaDePagoService extends ICRUD<BoletaDePagoDTO>{
     
 }

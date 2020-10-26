@@ -29,14 +29,14 @@ public class AlquilerController {
     public void listarAlquileres() {
         for (AlquilerDTO alqdto : service.listarTodos()) {
             System.out.println("ID: " + alqdto.getId());
-            System.out.println("Contratos " + alqdto.getUnContratoAlquilerID());
+            System.out.println("Contratos " + alqdto.getUnContratoAlquilerDTO());
 
         }
     }
     
     public void listarID(){
-        System.out.println("por id"+service.listarID(1l).getId());
-    System.out.println("por id"+service.listarID(1l).getUnaFechaFin());
+        System.out.println("por id"+service.listarID(3l).getId());
+    System.out.println("por id"+service.listarID(3l).getUnaFechaFin());
     }
 
 }

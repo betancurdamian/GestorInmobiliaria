@@ -35,16 +35,16 @@ public abstract class ComprobanteDeIngreso implements Serializable {
     private Long id;
 
     @Column(name = "mes")
-    private int mes;
+    private Integer mes;
 
     @Column(name = "anio")
-    private int anio;
+    private Integer anio;
 
     @Column(name = "importe_bruto")
-    private float importeBruto;
+    private Float importeBruto;
 
     @Column(name = "importe_neto")
-    private float importeNeto;
+    private Float importeNeto;
 
     @ManyToMany(mappedBy = "comprobantesDeIngresosLocatarios")
     private List<Locatario> locatarios;
@@ -57,7 +57,7 @@ public abstract class ComprobanteDeIngreso implements Serializable {
         this.garantes = new ArrayList<>();
     }
 
-    public ComprobanteDeIngreso(int mes, int anio, float importeBruto, float importeNeto) {
+    public ComprobanteDeIngreso(Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
         this.mes = mes;
         this.anio = anio;
         this.importeBruto = importeBruto;
@@ -72,29 +72,36 @@ public abstract class ComprobanteDeIngreso implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public Integer getMes() {
+        return mes;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ComprobanteDeIngreso)) {
-            return false;
-        }
-        ComprobanteDeIngreso other = (ComprobanteDeIngreso) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setMes(Integer mes) {
+        this.mes = mes;
     }
 
-    @Override
-    public String toString() {
-        return "com.betancur.gestorinmobiliario.model.ComprobanteDeIngreso[ id=" + id + " ]";
+    public Integer getAnio() {
+        return anio;
+    }
+
+    public void setAnio(Integer anio) {
+        this.anio = anio;
+    }
+
+    public Float getImporteBruto() {
+        return importeBruto;
+    }
+
+    public void setImporteBruto(Float importeBruto) {
+        this.importeBruto = importeBruto;
+    }
+
+    public Float getImporteNeto() {
+        return importeNeto;
+    }
+
+    public void setImporteNeto(Float importeNeto) {
+        this.importeNeto = importeNeto;
     }
 
     public List<Locatario> getLocatarios() {
@@ -111,38 +118,6 @@ public abstract class ComprobanteDeIngreso implements Serializable {
 
     public void setGarantes(List<Garante> garantes) {
         this.garantes = garantes;
-    }
-
-    public int getMes() {
-        return mes;
-    }
-
-    public void setMes(int mes) {
-        this.mes = mes;
-    }
-
-    public int getAnio() {
-        return anio;
-    }
-
-    public void setAnio(int anio) {
-        this.anio = anio;
-    }
-
-    public float getImporteBruto() {
-        return importeBruto;
-    }
-
-    public void setImporteBruto(float importeBruto) {
-        this.importeBruto = importeBruto;
-    }
-
-    public float getImporteNeto() {
-        return importeNeto;
-    }
-
-    public void setImporteNeto(float importeNeto) {
-        this.importeNeto = importeNeto;
     }
 
 }

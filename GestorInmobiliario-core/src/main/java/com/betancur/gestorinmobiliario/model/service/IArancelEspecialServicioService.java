@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.ArancelEspecialServicio;
+import com.betancur.gestorinmobiliario.dto.ArancelEspecialServicioDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IArancelEspecialServicioService extends ICRUD<ArancelEspecialServicio>{
+public interface IArancelEspecialServicioService extends ICRUD<ArancelEspecialServicioDTO>{
     
 }

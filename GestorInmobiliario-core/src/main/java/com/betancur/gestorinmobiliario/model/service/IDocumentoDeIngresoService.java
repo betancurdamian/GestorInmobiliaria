@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.DocumentoDeIngreso;
+import com.betancur.gestorinmobiliario.dto.DocumentoDeIngresoDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IDocumentoDeIngresoService extends ICRUD<DocumentoDeIngreso>{
+public interface IDocumentoDeIngresoService extends ICRUD<DocumentoDeIngresoDTO>{
     
 }

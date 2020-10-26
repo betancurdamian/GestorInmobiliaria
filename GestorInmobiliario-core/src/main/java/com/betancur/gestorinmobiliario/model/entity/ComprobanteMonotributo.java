@@ -21,17 +21,17 @@ public class ComprobanteMonotributo extends ComprobanteDeIngreso {
     private String cuit;
 
     @Column(name = "estado_monotributo")
-    private boolean estadoMonotributo;
+    private Boolean estadoMonotributo;
 
     public ComprobanteMonotributo() {
     }
 
-    public ComprobanteMonotributo(String cuit, boolean estadoMonotributo) {
+    public ComprobanteMonotributo(String cuit, Boolean estadoMonotributo) {
         this.cuit = cuit;
         this.estadoMonotributo = estadoMonotributo;
     }
 
-    public ComprobanteMonotributo(String cuit, boolean estadoMonotributo, int mes, int anio, float importeBruto, float importeNeto) {
+    public ComprobanteMonotributo(String cuit, Boolean estadoMonotributo, Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
         super(mes, anio, importeBruto, importeNeto);
         this.cuit = cuit;
         this.estadoMonotributo = estadoMonotributo;
@@ -45,14 +45,13 @@ public class ComprobanteMonotributo extends ComprobanteDeIngreso {
         this.cuit = cuit;
     }
 
-    public boolean isEstadoMonotributo() {
+    public Boolean getEstadoMonotributo() {
         return estadoMonotributo;
     }
 
-    public void setEstadoMonotributo(boolean estadoMonotributo) {
+    public void setEstadoMonotributo(Boolean estadoMonotributo) {
         this.estadoMonotributo = estadoMonotributo;
     }
-    
-    
+
     
 }

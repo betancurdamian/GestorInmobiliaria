@@ -9,7 +9,6 @@ import com.betancur.gestorinmobiliario.converter.ProvinciaConverter;
 import com.betancur.gestorinmobiliario.dto.ProvinciaDTO;
 import com.betancur.gestorinmobiliario.model.dao.Conexion;
 import com.betancur.gestorinmobiliario.model.dao.ProvinciaJpaController;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import com.betancur.gestorinmobiliario.model.entity.Provincia;
 import com.betancur.gestorinmobiliario.model.service.IProvinciaService;
@@ -38,17 +37,17 @@ public class ProvinciaServiceImpl implements IProvinciaService{
     
     @Override
     public ProvinciaDTO crear(ProvinciaDTO dto) {
-        Provincia provinciaEntity = this.converter.fromDto(dto);
-        this.provinciaDAO.create(provinciaEntity);
-        dto.setId(provinciaEntity.getId());
+        Provincia entity = this.converter.fromDto(dto);
+        this.provinciaDAO.create(entity);
+        dto.setId(entity.getId());
         return dto;
     }
 
     @Override
     public ProvinciaDTO modificar(ProvinciaDTO dto) {
-        Provincia provinciaEntity = this.converter.fromDto(dto);
+        Provincia entity = this.converter.fromDto(dto);
         try {
-            provinciaDAO.edit(provinciaEntity);
+            provinciaDAO.edit(entity);
         } catch (Exception ex) {
             Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,20 +60,19 @@ public class ProvinciaServiceImpl implements IProvinciaService{
             provinciaDAO.destroy(id);
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalOrphanException ex) {
-            Logger.getLogger(ProvinciaServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     @Override
     public ProvinciaDTO listarID(Long id) {
-        Provincia provincia = provinciaDAO.findProvincia(id);
-        return this.converter.fromEntity(provincia);
+        Provincia entity = provinciaDAO.findProvincia(id);
+        return this.converter.fromEntity(entity);
     }
 
     @Override
     public List<ProvinciaDTO> listarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Provincia> entities = provinciaDAO.findProvinciaEntities();
+        return this.converter.fromEntity(entities);
     }
     
 }

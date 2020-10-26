@@ -11,8 +11,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
 import com.betancur.gestorinmobiliario.model.entity.ContratoVenta;
+import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
 import com.betancur.gestorinmobiliario.model.entity.Venta;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -38,21 +38,17 @@ public class VentaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Inmobiliaria unaInmobiliariaVenta = venta.getUnaInmobiliariaVenta();
-            if (unaInmobiliariaVenta != null) {
-                unaInmobiliariaVenta = em.getReference(unaInmobiliariaVenta.getClass(), unaInmobiliariaVenta.getId());
-                venta.setUnaInmobiliariaVenta(unaInmobiliariaVenta);
-            }
             ContratoVenta unContratoVenta = venta.getUnContratoVenta();
             if (unContratoVenta != null) {
                 unContratoVenta = em.getReference(unContratoVenta.getClass(), unContratoVenta.getId());
                 venta.setUnContratoVenta(unContratoVenta);
             }
-            em.persist(venta);
+            Inmobiliaria unaInmobiliariaVenta = venta.getUnaInmobiliariaVenta();
             if (unaInmobiliariaVenta != null) {
-                unaInmobiliariaVenta.getVentas().add(venta);
-                unaInmobiliariaVenta = em.merge(unaInmobiliariaVenta);
+                unaInmobiliariaVenta = em.getReference(unaInmobiliariaVenta.getClass(), unaInmobiliariaVenta.getId());
+                venta.setUnaInmobiliariaVenta(unaInmobiliariaVenta);
             }
+            em.persist(venta);
             if (unContratoVenta != null) {
                 Venta oldUnaVentaOfUnContratoVenta = unContratoVenta.getUnaVenta();
                 if (oldUnaVentaOfUnContratoVenta != null) {
@@ -61,6 +57,10 @@ public class VentaJpaController implements Serializable {
                 }
                 unContratoVenta.setUnaVenta(venta);
                 unContratoVenta = em.merge(unContratoVenta);
+            }
+            if (unaInmobiliariaVenta != null) {
+                unaInmobiliariaVenta.getVentas().add(venta);
+                unaInmobiliariaVenta = em.merge(unaInmobiliariaVenta);
             }
             em.getTransaction().commit();
         } finally {
@@ -76,27 +76,19 @@ public class VentaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Venta persistentVenta = em.find(Venta.class, venta.getId());
-            Inmobiliaria unaInmobiliariaVentaOld = persistentVenta.getUnaInmobiliariaVenta();
-            Inmobiliaria unaInmobiliariaVentaNew = venta.getUnaInmobiliariaVenta();
             ContratoVenta unContratoVentaOld = persistentVenta.getUnContratoVenta();
             ContratoVenta unContratoVentaNew = venta.getUnContratoVenta();
-            if (unaInmobiliariaVentaNew != null) {
-                unaInmobiliariaVentaNew = em.getReference(unaInmobiliariaVentaNew.getClass(), unaInmobiliariaVentaNew.getId());
-                venta.setUnaInmobiliariaVenta(unaInmobiliariaVentaNew);
-            }
+            Inmobiliaria unaInmobiliariaVentaOld = persistentVenta.getUnaInmobiliariaVenta();
+            Inmobiliaria unaInmobiliariaVentaNew = venta.getUnaInmobiliariaVenta();
             if (unContratoVentaNew != null) {
                 unContratoVentaNew = em.getReference(unContratoVentaNew.getClass(), unContratoVentaNew.getId());
                 venta.setUnContratoVenta(unContratoVentaNew);
             }
+            if (unaInmobiliariaVentaNew != null) {
+                unaInmobiliariaVentaNew = em.getReference(unaInmobiliariaVentaNew.getClass(), unaInmobiliariaVentaNew.getId());
+                venta.setUnaInmobiliariaVenta(unaInmobiliariaVentaNew);
+            }
             venta = em.merge(venta);
-            if (unaInmobiliariaVentaOld != null && !unaInmobiliariaVentaOld.equals(unaInmobiliariaVentaNew)) {
-                unaInmobiliariaVentaOld.getVentas().remove(venta);
-                unaInmobiliariaVentaOld = em.merge(unaInmobiliariaVentaOld);
-            }
-            if (unaInmobiliariaVentaNew != null && !unaInmobiliariaVentaNew.equals(unaInmobiliariaVentaOld)) {
-                unaInmobiliariaVentaNew.getVentas().add(venta);
-                unaInmobiliariaVentaNew = em.merge(unaInmobiliariaVentaNew);
-            }
             if (unContratoVentaOld != null && !unContratoVentaOld.equals(unContratoVentaNew)) {
                 unContratoVentaOld.setUnaVenta(null);
                 unContratoVentaOld = em.merge(unContratoVentaOld);
@@ -109,6 +101,14 @@ public class VentaJpaController implements Serializable {
                 }
                 unContratoVentaNew.setUnaVenta(venta);
                 unContratoVentaNew = em.merge(unContratoVentaNew);
+            }
+            if (unaInmobiliariaVentaOld != null && !unaInmobiliariaVentaOld.equals(unaInmobiliariaVentaNew)) {
+                unaInmobiliariaVentaOld.getVentas().remove(venta);
+                unaInmobiliariaVentaOld = em.merge(unaInmobiliariaVentaOld);
+            }
+            if (unaInmobiliariaVentaNew != null && !unaInmobiliariaVentaNew.equals(unaInmobiliariaVentaOld)) {
+                unaInmobiliariaVentaNew.getVentas().add(venta);
+                unaInmobiliariaVentaNew = em.merge(unaInmobiliariaVentaNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -139,15 +139,15 @@ public class VentaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The venta with id " + id + " no longer exists.", enfe);
             }
-            Inmobiliaria unaInmobiliariaVenta = venta.getUnaInmobiliariaVenta();
-            if (unaInmobiliariaVenta != null) {
-                unaInmobiliariaVenta.getVentas().remove(venta);
-                unaInmobiliariaVenta = em.merge(unaInmobiliariaVenta);
-            }
             ContratoVenta unContratoVenta = venta.getUnContratoVenta();
             if (unContratoVenta != null) {
                 unContratoVenta.setUnaVenta(null);
                 unContratoVenta = em.merge(unContratoVenta);
+            }
+            Inmobiliaria unaInmobiliariaVenta = venta.getUnaInmobiliariaVenta();
+            if (unaInmobiliariaVenta != null) {
+                unaInmobiliariaVenta.getVentas().remove(venta);
+                unaInmobiliariaVenta = em.merge(unaInmobiliariaVenta);
             }
             em.remove(venta);
             em.getTransaction().commit();

@@ -12,7 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.betancur.gestorinmobiliario.model.entity.Inmueble;
+import com.betancur.gestorinmobiliario.model.entity.ContratoAlquiler;
 import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -38,10 +38,10 @@ public class AlquilerJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Inmueble unInmueble = alquiler.getUnInmueble();
-            if (unInmueble != null) {
-                unInmueble = em.getReference(unInmueble.getClass(), unInmueble.getId());
-                alquiler.setUnInmueble(unInmueble);
+            ContratoAlquiler unContratoAlquiler = alquiler.getUnContratoAlquiler();
+            if (unContratoAlquiler != null) {
+                unContratoAlquiler = em.getReference(unContratoAlquiler.getClass(), unContratoAlquiler.getId());
+                alquiler.setUnContratoAlquiler(unContratoAlquiler);
             }
             Inmobiliaria unaInmobiliariaAlquiler = alquiler.getUnaInmobiliariaAlquiler();
             if (unaInmobiliariaAlquiler != null) {
@@ -49,14 +49,14 @@ public class AlquilerJpaController implements Serializable {
                 alquiler.setUnaInmobiliariaAlquiler(unaInmobiliariaAlquiler);
             }
             em.persist(alquiler);
-            if (unInmueble != null) {
-                Alquiler oldUnAlquilerOfUnInmueble = unInmueble.getUnAlquiler();
-                if (oldUnAlquilerOfUnInmueble != null) {
-                    oldUnAlquilerOfUnInmueble.setUnInmueble(null);
-                    oldUnAlquilerOfUnInmueble = em.merge(oldUnAlquilerOfUnInmueble);
+            if (unContratoAlquiler != null) {
+                Alquiler oldUnAlquilerOfUnContratoAlquiler = unContratoAlquiler.getUnAlquiler();
+                if (oldUnAlquilerOfUnContratoAlquiler != null) {
+                    oldUnAlquilerOfUnContratoAlquiler.setUnContratoAlquiler(null);
+                    oldUnAlquilerOfUnContratoAlquiler = em.merge(oldUnAlquilerOfUnContratoAlquiler);
                 }
-                unInmueble.setUnAlquiler(alquiler);
-                unInmueble = em.merge(unInmueble);
+                unContratoAlquiler.setUnAlquiler(alquiler);
+                unContratoAlquiler = em.merge(unContratoAlquiler);
             }
             if (unaInmobiliariaAlquiler != null) {
                 unaInmobiliariaAlquiler.getAlquileres().add(alquiler);
@@ -76,31 +76,31 @@ public class AlquilerJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Alquiler persistentAlquiler = em.find(Alquiler.class, alquiler.getId());
-            Inmueble unInmuebleOld = persistentAlquiler.getUnInmueble();
-            Inmueble unInmuebleNew = alquiler.getUnInmueble();
+            ContratoAlquiler unContratoAlquilerOld = persistentAlquiler.getUnContratoAlquiler();
+            ContratoAlquiler unContratoAlquilerNew = alquiler.getUnContratoAlquiler();
             Inmobiliaria unaInmobiliariaAlquilerOld = persistentAlquiler.getUnaInmobiliariaAlquiler();
             Inmobiliaria unaInmobiliariaAlquilerNew = alquiler.getUnaInmobiliariaAlquiler();
-            if (unInmuebleNew != null) {
-                unInmuebleNew = em.getReference(unInmuebleNew.getClass(), unInmuebleNew.getId());
-                alquiler.setUnInmueble(unInmuebleNew);
+            if (unContratoAlquilerNew != null) {
+                unContratoAlquilerNew = em.getReference(unContratoAlquilerNew.getClass(), unContratoAlquilerNew.getId());
+                alquiler.setUnContratoAlquiler(unContratoAlquilerNew);
             }
             if (unaInmobiliariaAlquilerNew != null) {
                 unaInmobiliariaAlquilerNew = em.getReference(unaInmobiliariaAlquilerNew.getClass(), unaInmobiliariaAlquilerNew.getId());
                 alquiler.setUnaInmobiliariaAlquiler(unaInmobiliariaAlquilerNew);
             }
             alquiler = em.merge(alquiler);
-            if (unInmuebleOld != null && !unInmuebleOld.equals(unInmuebleNew)) {
-                unInmuebleOld.setUnAlquiler(null);
-                unInmuebleOld = em.merge(unInmuebleOld);
+            if (unContratoAlquilerOld != null && !unContratoAlquilerOld.equals(unContratoAlquilerNew)) {
+                unContratoAlquilerOld.setUnAlquiler(null);
+                unContratoAlquilerOld = em.merge(unContratoAlquilerOld);
             }
-            if (unInmuebleNew != null && !unInmuebleNew.equals(unInmuebleOld)) {
-                Alquiler oldUnAlquilerOfUnInmueble = unInmuebleNew.getUnAlquiler();
-                if (oldUnAlquilerOfUnInmueble != null) {
-                    oldUnAlquilerOfUnInmueble.setUnInmueble(null);
-                    oldUnAlquilerOfUnInmueble = em.merge(oldUnAlquilerOfUnInmueble);
+            if (unContratoAlquilerNew != null && !unContratoAlquilerNew.equals(unContratoAlquilerOld)) {
+                Alquiler oldUnAlquilerOfUnContratoAlquiler = unContratoAlquilerNew.getUnAlquiler();
+                if (oldUnAlquilerOfUnContratoAlquiler != null) {
+                    oldUnAlquilerOfUnContratoAlquiler.setUnContratoAlquiler(null);
+                    oldUnAlquilerOfUnContratoAlquiler = em.merge(oldUnAlquilerOfUnContratoAlquiler);
                 }
-                unInmuebleNew.setUnAlquiler(alquiler);
-                unInmuebleNew = em.merge(unInmuebleNew);
+                unContratoAlquilerNew.setUnAlquiler(alquiler);
+                unContratoAlquilerNew = em.merge(unContratoAlquilerNew);
             }
             if (unaInmobiliariaAlquilerOld != null && !unaInmobiliariaAlquilerOld.equals(unaInmobiliariaAlquilerNew)) {
                 unaInmobiliariaAlquilerOld.getAlquileres().remove(alquiler);
@@ -139,10 +139,10 @@ public class AlquilerJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The alquiler with id " + id + " no longer exists.", enfe);
             }
-            Inmueble unInmueble = alquiler.getUnInmueble();
-            if (unInmueble != null) {
-                unInmueble.setUnAlquiler(null);
-                unInmueble = em.merge(unInmueble);
+            ContratoAlquiler unContratoAlquiler = alquiler.getUnContratoAlquiler();
+            if (unContratoAlquiler != null) {
+                unContratoAlquiler.setUnAlquiler(null);
+                unContratoAlquiler = em.merge(unContratoAlquiler);
             }
             Inmobiliaria unaInmobiliariaAlquiler = alquiler.getUnaInmobiliariaAlquiler();
             if (unaInmobiliariaAlquiler != null) {

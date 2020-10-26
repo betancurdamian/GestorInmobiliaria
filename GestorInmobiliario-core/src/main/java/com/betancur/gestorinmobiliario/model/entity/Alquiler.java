@@ -7,8 +7,6 @@ package com.betancur.gestorinmobiliario.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,11 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.modelmapper.Conditions;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 
 /**
  *
@@ -50,22 +43,22 @@ public class Alquiler implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "fk_inmueble")
-    private Inmueble unInmueble;
+    private Inmueble unInmuebleAlquiler;
 
     @ManyToOne
     @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaAlquiler;
 
     @Column(name = "disponible")
-    private boolean disponible;
+    private Boolean disponible;
 
     public Alquiler() {
     }
 
-    public Alquiler(LocalDate unaFechaInicio, LocalDate unaFechaFin, Inmueble unInmueble, Inmobiliaria unaInmobiliariaAlquiler, boolean disponible) {
+    public Alquiler(LocalDate unaFechaInicio, LocalDate unaFechaFin, Inmueble unInmueble, Inmobiliaria unaInmobiliariaAlquiler, Boolean disponible) {
         this.unaFechaInicio = unaFechaInicio;
         this.unaFechaFin = unaFechaFin;
-        this.unInmueble = unInmueble;
+        this.unInmuebleAlquiler = unInmueble;
         this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
         this.disponible = disponible;
     }
@@ -119,7 +112,7 @@ public class Alquiler implements Serializable {
         this.unaFechaFin = unaFechaFin;
     }
 
-    public Contrato getUnContratoAlquiler() {
+    public ContratoAlquiler getUnContratoAlquiler() {
         return unContratoAlquiler;
     }
 
@@ -127,12 +120,12 @@ public class Alquiler implements Serializable {
         this.unContratoAlquiler = unContratoAlquiler;
     }
 
-    public Inmueble getUnInmueble() {
-        return unInmueble;
+    public Inmueble getUnInmuebleAlquiler() {
+        return unInmuebleAlquiler;
     }
 
-    public void setUnInmueble(Inmueble unInmueble) {
-        this.unInmueble = unInmueble;
+    public void setUnInmuebleAlquiler(Inmueble unInmuebleAlquiler) {
+        this.unInmuebleAlquiler = unInmuebleAlquiler;
     }
 
     public Inmobiliaria getUnaInmobiliariaAlquiler() {
@@ -143,11 +136,11 @@ public class Alquiler implements Serializable {
         this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
     }
 
-    public boolean isDisponible() {
+    public Boolean isDisponible() {
         return disponible;
     }
 
-    public void setDisponible(boolean disponible) {
+    public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
     

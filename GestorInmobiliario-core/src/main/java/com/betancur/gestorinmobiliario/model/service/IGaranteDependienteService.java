@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.GaranteDependiente;
+import com.betancur.gestorinmobiliario.dto.GaranteDependienteDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IGaranteDependienteService extends ICRUD<GaranteDependiente>{
+public interface IGaranteDependienteService extends ICRUD<GaranteDependienteDTO>{
     
 }

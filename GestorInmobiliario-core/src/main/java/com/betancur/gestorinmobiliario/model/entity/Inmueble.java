@@ -16,7 +16,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -41,42 +40,40 @@ public abstract class Inmueble implements Serializable {
     private String direccionNumero;
 
     @ManyToOne
-    @JoinColumn(name = "fk_direccion_provincia", nullable = false)
+    @JoinColumn(name = "fk_direccion_provincia")
     private Provincia direccionProvincia;
 
     @ManyToOne
-    @JoinColumn(name = "fk_direccion_localidad", nullable = false)
+    @JoinColumn(name = "fk_direccion_localidad")
     private Localidad direccionLocalidad;
 
     @ManyToOne
-    @JoinColumn(name = "fk_direccion_barrio", nullable = false)
+    @JoinColumn(name = "fk_direccion_barrio")
     private Barrio direccionBarrio;
 
     @Column(name = "superficie_total")
-    private int superficieTotal;
+    private Integer superficieTotal;
 
     @Column(name = "disponible")
-    private boolean disponible;
+    private Boolean disponible;
 
     @Column(name = "descripcion")
     private String descripcion;
 
     @ManyToOne
-    @JoinColumn(name = "fk_inmobiliaria", nullable = false, updatable = true)
-    private Inmobiliaria unaInmobiliariaInmueble;
-    
-    @OneToOne(mappedBy = "unInmueble")
-    private Alquiler unAlquiler;
-
+    @JoinColumn(name = "fk_inmobiliaria")
+    private Inmobiliaria unaInmobiliariaInmueble;   
     public Inmueble() {
     }
 
-    public Inmueble(String direccionCalle, String direccionNumero, Barrio direccionBarrio, int superficieTotal, boolean estaDisponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
+    public Inmueble(String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
         this.direccionCalle = direccionCalle;
         this.direccionNumero = direccionNumero;
-        setDireccionBarrio(direccionBarrio);
+        this.direccionProvincia = direccionProvincia;
+        this.direccionLocalidad = direccionLocalidad;
+        this.direccionBarrio = direccionBarrio;
         this.superficieTotal = superficieTotal;
-        this.disponible = estaDisponible;
+        this.disponible = disponible;
         this.descripcion = descripcion;
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
@@ -87,31 +84,6 @@ public abstract class Inmueble implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Inmueble)) {
-            return false;
-        }
-        Inmueble other = (Inmueble) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.betancur.gestorinmobiliario.model.Inmueble[ id=" + id + " ]";
     }
 
     public String getDireccionCalle() {
@@ -134,8 +106,16 @@ public abstract class Inmueble implements Serializable {
         return direccionProvincia;
     }
 
+    public void setDireccionProvincia(Provincia direccionProvincia) {
+        this.direccionProvincia = direccionProvincia;
+    }
+
     public Localidad getDireccionLocalidad() {
         return direccionLocalidad;
+    }
+
+    public void setDireccionLocalidad(Localidad direccionLocalidad) {
+        this.direccionLocalidad = direccionLocalidad;
     }
 
     public Barrio getDireccionBarrio() {
@@ -144,9 +124,22 @@ public abstract class Inmueble implements Serializable {
 
     public void setDireccionBarrio(Barrio direccionBarrio) {
         this.direccionBarrio = direccionBarrio;
-        this.direccionLocalidad = direccionBarrio.getUnaLocalidad();
-        this.direccionProvincia = direccionBarrio.getUnaLocalidad().getUnaProvincia();
+    }
 
+    public Integer getSuperficieTotal() {
+        return superficieTotal;
+    }
+
+    public void setSuperficieTotal(Integer superficieTotal) {
+        this.superficieTotal = superficieTotal;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
     }
 
     public String getDescripcion() {
@@ -165,30 +158,5 @@ public abstract class Inmueble implements Serializable {
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
 
-    public int getSuperficieTotal() {
-        return superficieTotal;
-    }
-
-    public void setSuperficieTotal(int superficieTotal) {
-        this.superficieTotal = superficieTotal;
-    }
-
-    public boolean isDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
-    public Alquiler getUnAlquiler() {
-        return unAlquiler;
-    }
-
-    public void setUnAlquiler(Alquiler unAlquiler) {
-        this.unAlquiler = unAlquiler;
-    }
-
     
-
 }

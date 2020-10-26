@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.Venta;
+import com.betancur.gestorinmobiliario.dto.VentaDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IventaService extends ICRUD<Venta>{
+public interface IVentaService extends ICRUD<VentaDTO>{
     
 }

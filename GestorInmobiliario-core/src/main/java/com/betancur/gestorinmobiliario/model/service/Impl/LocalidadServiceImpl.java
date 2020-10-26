@@ -9,7 +9,6 @@ import com.betancur.gestorinmobiliario.converter.LocalidadConverter;
 import com.betancur.gestorinmobiliario.dto.LocalidadDTO;
 import com.betancur.gestorinmobiliario.model.dao.Conexion;
 import com.betancur.gestorinmobiliario.model.dao.LocalidadJpaController;
-import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import com.betancur.gestorinmobiliario.model.entity.Localidad;
 import com.betancur.gestorinmobiliario.model.service.ILocalidadService;
@@ -38,17 +37,17 @@ public class LocalidadServiceImpl implements ILocalidadService{
     
     @Override
     public LocalidadDTO crear(LocalidadDTO dto) {
-        Localidad localidadEntity = this.converter.fromDto(dto);
-        this.localidadDAO.create(localidadEntity);
-        dto.setId(localidadEntity.getId());
+        Localidad entity = this.converter.fromDto(dto);
+        this.localidadDAO.create(entity);
+        dto.setId(entity.getId());
         return dto;
     }
 
     @Override
     public LocalidadDTO modificar(LocalidadDTO dto) {
-        Localidad localidadEntity = this.converter.fromDto(dto);
+        Localidad entity = this.converter.fromDto(dto);
         try {
-            localidadDAO.edit(localidadEntity);
+            localidadDAO.edit(entity);
         } catch (Exception ex) {
             Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,21 +60,19 @@ public class LocalidadServiceImpl implements ILocalidadService{
             localidadDAO.destroy(id);
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalOrphanException ex) {
-            Logger.getLogger(LocalidadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     @Override
     public LocalidadDTO listarID(Long id) {
-        Localidad localidad = localidadDAO.findLocalidad(id);
-        return this.converter.fromEntity(localidad);
+        Localidad entity = localidadDAO.findLocalidad(id);
+        return this.converter.fromEntity(entity);
     }
 
     @Override
     public List<LocalidadDTO> listarTodos() {
-        List<Localidad> localidades = localidadDAO.findLocalidadEntities();
-        return this.converter.fromEntity(localidades);
+        List<Localidad> entities = localidadDAO.findLocalidadEntities();
+        return this.converter.fromEntity(entities);
     }
     
 }

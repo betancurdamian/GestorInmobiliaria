@@ -12,7 +12,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
-import com.betancur.gestorinmobiliario.model.entity.Alquiler;
 import com.betancur.gestorinmobiliario.model.entity.LocalComercial;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -43,24 +42,10 @@ public class LocalComercialJpaController implements Serializable {
                 unaInmobiliariaInmueble = em.getReference(unaInmobiliariaInmueble.getClass(), unaInmobiliariaInmueble.getId());
                 localComercial.setUnaInmobiliariaInmueble(unaInmobiliariaInmueble);
             }
-            Alquiler unAlquiler = localComercial.getUnAlquiler();
-            if (unAlquiler != null) {
-                unAlquiler = em.getReference(unAlquiler.getClass(), unAlquiler.getId());
-                localComercial.setUnAlquiler(unAlquiler);
-            }
             em.persist(localComercial);
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().add(localComercial);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
-            }
-            if (unAlquiler != null) {
-                com.betancur.gestorinmobiliario.model.entity.Inmueble oldUnInmuebleOfUnAlquiler = unAlquiler.getUnInmueble();
-                if (oldUnInmuebleOfUnAlquiler != null) {
-                    oldUnInmuebleOfUnAlquiler.setUnAlquiler(null);
-                    oldUnInmuebleOfUnAlquiler = em.merge(oldUnInmuebleOfUnAlquiler);
-                }
-                unAlquiler.setUnInmueble(localComercial);
-                unAlquiler = em.merge(unAlquiler);
             }
             em.getTransaction().commit();
         } finally {
@@ -78,15 +63,9 @@ public class LocalComercialJpaController implements Serializable {
             LocalComercial persistentLocalComercial = em.find(LocalComercial.class, localComercial.getId());
             Inmobiliaria unaInmobiliariaInmuebleOld = persistentLocalComercial.getUnaInmobiliariaInmueble();
             Inmobiliaria unaInmobiliariaInmuebleNew = localComercial.getUnaInmobiliariaInmueble();
-            Alquiler unAlquilerOld = persistentLocalComercial.getUnAlquiler();
-            Alquiler unAlquilerNew = localComercial.getUnAlquiler();
             if (unaInmobiliariaInmuebleNew != null) {
                 unaInmobiliariaInmuebleNew = em.getReference(unaInmobiliariaInmuebleNew.getClass(), unaInmobiliariaInmuebleNew.getId());
                 localComercial.setUnaInmobiliariaInmueble(unaInmobiliariaInmuebleNew);
-            }
-            if (unAlquilerNew != null) {
-                unAlquilerNew = em.getReference(unAlquilerNew.getClass(), unAlquilerNew.getId());
-                localComercial.setUnAlquiler(unAlquilerNew);
             }
             localComercial = em.merge(localComercial);
             if (unaInmobiliariaInmuebleOld != null && !unaInmobiliariaInmuebleOld.equals(unaInmobiliariaInmuebleNew)) {
@@ -96,19 +75,6 @@ public class LocalComercialJpaController implements Serializable {
             if (unaInmobiliariaInmuebleNew != null && !unaInmobiliariaInmuebleNew.equals(unaInmobiliariaInmuebleOld)) {
                 unaInmobiliariaInmuebleNew.getInmuebles().add(localComercial);
                 unaInmobiliariaInmuebleNew = em.merge(unaInmobiliariaInmuebleNew);
-            }
-            if (unAlquilerOld != null && !unAlquilerOld.equals(unAlquilerNew)) {
-                unAlquilerOld.setUnInmueble(null);
-                unAlquilerOld = em.merge(unAlquilerOld);
-            }
-            if (unAlquilerNew != null && !unAlquilerNew.equals(unAlquilerOld)) {
-                com.betancur.gestorinmobiliario.model.entity.Inmueble oldUnInmuebleOfUnAlquiler = unAlquilerNew.getUnInmueble();
-                if (oldUnInmuebleOfUnAlquiler != null) {
-                    oldUnInmuebleOfUnAlquiler.setUnAlquiler(null);
-                    oldUnInmuebleOfUnAlquiler = em.merge(oldUnInmuebleOfUnAlquiler);
-                }
-                unAlquilerNew.setUnInmueble(localComercial);
-                unAlquilerNew = em.merge(unAlquilerNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -143,11 +109,6 @@ public class LocalComercialJpaController implements Serializable {
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().remove(localComercial);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
-            }
-            Alquiler unAlquiler = localComercial.getUnAlquiler();
-            if (unAlquiler != null) {
-                unAlquiler.setUnInmueble(null);
-                unAlquiler = em.merge(unAlquiler);
             }
             em.remove(localComercial);
             em.getTransaction().commit();

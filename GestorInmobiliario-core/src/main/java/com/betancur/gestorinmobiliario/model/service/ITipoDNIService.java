@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.TipoDNI;
+import com.betancur.gestorinmobiliario.dto.TipoDNIDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface ITipoDNIService extends ICRUD<TipoDNI>{
+public interface ITipoDNIService extends ICRUD<TipoDNIDTO>{
     
 }

@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.betancur.gestorinmobiliario.model.service;
-
-import com.betancur.gestorinmobiliario.model.entity.Departamento;
+package com.betancur.gestorinmobiliario.dto;
 
 /**
  *
  * @author Ariel
  */
-public interface IDepartamentoService extends ICRUD<Departamento>{
+public class LocatarioEstudianteDTO extends LocatarioDTO{
     
 }

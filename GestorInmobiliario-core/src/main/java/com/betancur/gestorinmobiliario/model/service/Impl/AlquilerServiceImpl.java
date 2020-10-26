@@ -6,9 +6,13 @@
 package com.betancur.gestorinmobiliario.model.service.Impl;
 
 import com.betancur.gestorinmobiliario.converter.AlquilerConverter;
+import com.betancur.gestorinmobiliario.converter.ContratoConverter;
+import com.betancur.gestorinmobiliario.converter.InmobiliariaConverter;
+import com.betancur.gestorinmobiliario.converter.InmuebleConverter;
 import com.betancur.gestorinmobiliario.dto.AlquilerDTO;
 import com.betancur.gestorinmobiliario.model.dao.AlquilerJpaController;
 import com.betancur.gestorinmobiliario.model.dao.Conexion;
+import com.betancur.gestorinmobiliario.model.dao.ContratoAlquilerJpaController;
 import com.betancur.gestorinmobiliario.model.dao.InmobiliariaJpaController;
 import com.betancur.gestorinmobiliario.model.dao.InmuebleJpaController;
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
@@ -27,6 +31,7 @@ public class AlquilerServiceImpl implements IAlquilerService {
     private final AlquilerJpaController alquilerDAO;
     private final InmobiliariaJpaController inmobiliariaDAO;
     private final InmuebleJpaController inmuebleDAO;
+    private final ContratoAlquilerJpaController contratoAlquilerDAO;
     
     private final AlquilerConverter converter;
 
@@ -36,31 +41,40 @@ public class AlquilerServiceImpl implements IAlquilerService {
         this.alquilerDAO = new AlquilerJpaController(Conexion.getEmf());
         this.inmobiliariaDAO = new InmobiliariaJpaController(Conexion.getEmf());
         this.inmuebleDAO = new InmuebleJpaController(Conexion.getEmf());
+        this.contratoAlquilerDAO = new ContratoAlquilerJpaController(Conexion.getEmf());
         
         this.converter = new AlquilerConverter();
     }
 
     @Override
     public AlquilerDTO crear(AlquilerDTO dto) {
-        Alquiler alquilerEntity = this.converter.fromDto(dto);
+        Alquiler entity = this.converter.fromDto(dto);
 
-        if (dto.getUnInmuebleID() != null) {
-            alquilerEntity.setUnInmueble(inmuebleDAO.findInmueble(dto.getUnInmuebleID()));
+        if (dto.getUnInmuebleDTO()!= null) {
+            InmuebleConverter converterInmueble = new InmuebleConverter();            
+            entity.setUnInmuebleAlquiler(inmuebleDAO.findInmueble(converterInmueble.fromDto(dto.getUnInmuebleDTO()).getId()));
         }
-        if (dto.getUnaInmobiliariaAlquilerID() != null) {
-            alquilerEntity.setUnaInmobiliariaAlquiler(inmobiliariaDAO.findInmobiliaria(dto.getUnaInmobiliariaAlquilerID()));
+        if (dto.getUnaInmobiliariaAlquilerDTO() != null) {
+            InmobiliariaConverter converterInmobiliaria = new InmobiliariaConverter();            
+            entity.setUnaInmobiliariaAlquiler(inmobiliariaDAO.findInmobiliaria(converterInmobiliaria.fromDto(dto.getUnaInmobiliariaAlquilerDTO()).getId()));
         }
-        this.alquilerDAO.create(alquilerEntity);
-        dto.setId(alquilerEntity.getId());
+        
+        if (dto.getUnContratoAlquilerDTO()!= null) {
+            ContratoConverter converterContratoAlquiler = new ContratoConverter();            
+            entity.setUnContratoAlquiler(contratoAlquilerDAO.findContratoAlquiler(converterContratoAlquiler.fromDto(dto.getUnContratoAlquilerDTO()).getId()));
+        }
+        
+        this.alquilerDAO.create(entity);
+        dto.setId(entity.getId());
         return dto;
     }
 
     @Override
     public AlquilerDTO modificar(AlquilerDTO dto) {
-        Alquiler alquilerEntity = this.converter.fromDto(dto);
+        Alquiler entity = this.converter.fromDto(dto);
 
         try {
-            alquilerDAO.edit(alquilerEntity);
+            alquilerDAO.edit(entity);
         } catch (Exception ex) {
             Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,14 +92,14 @@ public class AlquilerServiceImpl implements IAlquilerService {
 
     @Override
     public AlquilerDTO listarID(Long id) {
-        Alquiler alquiler = alquilerDAO.findAlquiler(id);
-        return this.converter.fromEntity(alquiler);
+        Alquiler entity = alquilerDAO.findAlquiler(id);
+        return this.converter.fromEntity(entity);
     }
 
     @Override
     public List<AlquilerDTO> listarTodos() {
-        List<Alquiler> alquileres = alquilerDAO.findAlquilerEntities();
-        return this.converter.fromEntity(alquileres);
+        List<Alquiler> entities = alquilerDAO.findAlquilerEntities();
+        return this.converter.fromEntity(entities);
     }
 
 }

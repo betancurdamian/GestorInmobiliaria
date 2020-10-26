@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.betancur.gestorinmobiliario.model.service;
-
-import com.betancur.gestorinmobiliario.model.entity.Terreno;
+package com.betancur.gestorinmobiliario.dto;
 
 /**
  *
  * @author Ariel
  */
-public interface ITerrenoService extends ICRUD<Terreno>{
+public class GaranteIndependienteDTO extends GaranteDTO{
     
 }

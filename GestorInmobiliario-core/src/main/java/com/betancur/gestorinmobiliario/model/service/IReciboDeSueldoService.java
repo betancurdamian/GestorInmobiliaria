@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.ReciboDeSueldo;
+import com.betancur.gestorinmobiliario.dto.ReciboDeSueldoDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IReciboDeSueldoService extends ICRUD<ReciboDeSueldo>{
+public interface IReciboDeSueldoService extends ICRUD<ReciboDeSueldoDTO>{
     
 }

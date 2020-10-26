@@ -6,7 +6,9 @@
 package com.betancur.gestorinmobiliario.converter;
 
 import com.betancur.gestorinmobiliario.dto.AlquilerDTO;
+import com.betancur.gestorinmobiliario.dto.ContratoAlquilerDTO;
 import com.betancur.gestorinmobiliario.model.entity.Alquiler;
+import com.betancur.gestorinmobiliario.model.entity.ContratoAlquiler;
 import java.util.List;
 
 /**
@@ -19,22 +21,37 @@ public class AlquilerConverter extends AbstractConverter<Alquiler, AlquilerDTO> 
     public Alquiler fromDto(AlquilerDTO dto) {
         if (dto != null) {
             Alquiler entity = new Alquiler();
-            entity.setId(dto.getId());
 
-            entity.setId(dto.getId());
-            entity.setUnaFechaInicio(Converter.converterStringToLocalDate(dto.getUnaFechaInicio()));
-            entity.setUnaFechaFin(Converter.converterStringToLocalDate(dto.getUnaFechaFin()));
+            if (dto.getId() != null) {
+                entity.setId(dto.getId());
+            }
 
-            
-            //Para asignar el ID es necesrio obtenerlo del EntityManager, se realiza en el service
-            //entity.setUnContratoAlquiler(dto.getUnContratoAlquiler().getId());
-            
-            //Para asignar el ID es necesrio obtenerlo del EntityManager, se realiza en el service
-            //entity.setUnInmueble(dto.getUnInmueble().getId());
-            
-            //Para asignar el ID es necesrio obtenerlo del EntityManager, se realiza en el service
-            //entity.setUnaInmobiliariaAlquiler(dto.getUnaInmobiliariaAlquiler().getId());
-            dto.setDisponible(dto.isDisponible());
+            if (dto.getUnaFechaInicio() != null) {
+                entity.setUnaFechaInicio(Converter.converterStringToLocalDate(dto.getUnaFechaInicio()));
+            }
+
+            if (dto.getUnaFechaFin() != null) {
+                entity.setUnaFechaFin(Converter.converterStringToLocalDate(dto.getUnaFechaFin()));
+            }
+
+            if (dto.getUnContratoAlquilerDTO() != null) {
+                ContratoConverter converter = new ContratoConverter();
+                entity.setUnContratoAlquiler((ContratoAlquiler) converter.fromDto(dto.getUnContratoAlquilerDTO()));
+            }
+
+            if (dto.getUnInmuebleDTO() != null) {
+                InmuebleConverter converter = new InmuebleConverter();
+                entity.setUnInmuebleAlquiler(converter.fromDto(dto.getUnInmuebleDTO()));
+            }
+
+            if (dto.getUnaInmobiliariaAlquilerDTO() != null) {
+                InmobiliariaConverter converter = new InmobiliariaConverter();
+                entity.setUnaInmobiliariaAlquiler(converter.fromDto(dto.getUnaInmobiliariaAlquilerDTO()));
+            }
+
+            if (dto.isDisponible() != null) {
+                entity.setDisponible(dto.isDisponible());
+            }
 
             return entity;
         } else {
@@ -46,23 +63,37 @@ public class AlquilerConverter extends AbstractConverter<Alquiler, AlquilerDTO> 
     public AlquilerDTO fromEntity(Alquiler entity) {
         if (entity != null) {
             AlquilerDTO dto = new AlquilerDTO();
-            dto.setId(entity.getId());
-            dto.setUnaFechaInicio(Converter.converterLocalDateToString(entity.getUnaFechaInicio()));
-            dto.setUnaFechaFin(Converter.converterLocalDateToString(entity.getUnaFechaFin()));
 
-            if (entity.getUnContratoAlquiler() != null) {
-                dto.setUnContratoAlquilerID(entity.getUnContratoAlquiler().getId());
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
             }
 
-            if (entity.getUnInmueble() != null) {
-                dto.setUnInmuebleID(entity.getUnInmueble().getId());
+            if (entity.getUnaFechaInicio() != null) {
+                dto.setUnaFechaInicio(Converter.converterLocalDateToString(entity.getUnaFechaInicio()));
+            }
+
+            if (entity.getUnaFechaFin() != null) {
+                dto.setUnaFechaFin(Converter.converterLocalDateToString(entity.getUnaFechaFin()));
+            }
+
+            if (entity.getUnContratoAlquiler() != null) {
+                ContratoConverter converter = new ContratoConverter();
+                dto.setUnContratoAlquilerDTO((ContratoAlquilerDTO) converter.fromEntity(entity.getUnContratoAlquiler()));
+            }
+
+            if (entity.getUnInmuebleAlquiler() != null) {
+                InmuebleConverter converter = new InmuebleConverter();
+                dto.setUnInmuebleDTO(converter.fromEntity(entity.getUnInmuebleAlquiler()));
             }
 
             if (entity.getUnaInmobiliariaAlquiler() != null) {
-                dto.setUnaInmobiliariaAlquilerID(entity.getUnaInmobiliariaAlquiler().getId());
+                InmobiliariaConverter converter = new InmobiliariaConverter();
+                dto.setUnaInmobiliariaAlquilerDTO(converter.fromEntity(entity.getUnaInmobiliariaAlquiler()));
             }
 
-            dto.setDisponible(entity.isDisponible());
+            if (entity.isDisponible() != null) {
+                dto.setDisponible(entity.isDisponible());
+            }
 
             return dto;
         } else {
@@ -72,14 +103,12 @@ public class AlquilerConverter extends AbstractConverter<Alquiler, AlquilerDTO> 
 
     @Override
     public List<AlquilerDTO> fromEntity(List<Alquiler> entities) {
-        return super.fromEntity(entities); 
+        return super.fromEntity(entities);
     }
 
     @Override
     public List<Alquiler> fromDto(List<AlquilerDTO> dtos) {
-        return super.fromDto(dtos); 
+        return super.fromDto(dtos);
     }
-    
-    
 
 }

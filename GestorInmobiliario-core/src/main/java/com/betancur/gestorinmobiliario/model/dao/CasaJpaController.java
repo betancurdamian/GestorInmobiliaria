@@ -6,14 +6,13 @@
 package com.betancur.gestorinmobiliario.model.dao;
 
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
+import com.betancur.gestorinmobiliario.model.entity.Casa;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.betancur.gestorinmobiliario.model.entity.Inmobiliaria;
-import com.betancur.gestorinmobiliario.model.entity.Alquiler;
-import com.betancur.gestorinmobiliario.model.entity.Casa;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -43,24 +42,10 @@ public class CasaJpaController implements Serializable {
                 unaInmobiliariaInmueble = em.getReference(unaInmobiliariaInmueble.getClass(), unaInmobiliariaInmueble.getId());
                 casa.setUnaInmobiliariaInmueble(unaInmobiliariaInmueble);
             }
-            Alquiler unAlquiler = casa.getUnAlquiler();
-            if (unAlquiler != null) {
-                unAlquiler = em.getReference(unAlquiler.getClass(), unAlquiler.getId());
-                casa.setUnAlquiler(unAlquiler);
-            }
             em.persist(casa);
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().add(casa);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
-            }
-            if (unAlquiler != null) {
-                com.betancur.gestorinmobiliario.model.entity.Inmueble oldUnInmuebleOfUnAlquiler = unAlquiler.getUnInmueble();
-                if (oldUnInmuebleOfUnAlquiler != null) {
-                    oldUnInmuebleOfUnAlquiler.setUnAlquiler(null);
-                    oldUnInmuebleOfUnAlquiler = em.merge(oldUnInmuebleOfUnAlquiler);
-                }
-                unAlquiler.setUnInmueble(casa);
-                unAlquiler = em.merge(unAlquiler);
             }
             em.getTransaction().commit();
         } finally {
@@ -78,15 +63,9 @@ public class CasaJpaController implements Serializable {
             Casa persistentCasa = em.find(Casa.class, casa.getId());
             Inmobiliaria unaInmobiliariaInmuebleOld = persistentCasa.getUnaInmobiliariaInmueble();
             Inmobiliaria unaInmobiliariaInmuebleNew = casa.getUnaInmobiliariaInmueble();
-            Alquiler unAlquilerOld = persistentCasa.getUnAlquiler();
-            Alquiler unAlquilerNew = casa.getUnAlquiler();
             if (unaInmobiliariaInmuebleNew != null) {
                 unaInmobiliariaInmuebleNew = em.getReference(unaInmobiliariaInmuebleNew.getClass(), unaInmobiliariaInmuebleNew.getId());
                 casa.setUnaInmobiliariaInmueble(unaInmobiliariaInmuebleNew);
-            }
-            if (unAlquilerNew != null) {
-                unAlquilerNew = em.getReference(unAlquilerNew.getClass(), unAlquilerNew.getId());
-                casa.setUnAlquiler(unAlquilerNew);
             }
             casa = em.merge(casa);
             if (unaInmobiliariaInmuebleOld != null && !unaInmobiliariaInmuebleOld.equals(unaInmobiliariaInmuebleNew)) {
@@ -96,19 +75,6 @@ public class CasaJpaController implements Serializable {
             if (unaInmobiliariaInmuebleNew != null && !unaInmobiliariaInmuebleNew.equals(unaInmobiliariaInmuebleOld)) {
                 unaInmobiliariaInmuebleNew.getInmuebles().add(casa);
                 unaInmobiliariaInmuebleNew = em.merge(unaInmobiliariaInmuebleNew);
-            }
-            if (unAlquilerOld != null && !unAlquilerOld.equals(unAlquilerNew)) {
-                unAlquilerOld.setUnInmueble(null);
-                unAlquilerOld = em.merge(unAlquilerOld);
-            }
-            if (unAlquilerNew != null && !unAlquilerNew.equals(unAlquilerOld)) {
-                com.betancur.gestorinmobiliario.model.entity.Inmueble oldUnInmuebleOfUnAlquiler = unAlquilerNew.getUnInmueble();
-                if (oldUnInmuebleOfUnAlquiler != null) {
-                    oldUnInmuebleOfUnAlquiler.setUnAlquiler(null);
-                    oldUnInmuebleOfUnAlquiler = em.merge(oldUnInmuebleOfUnAlquiler);
-                }
-                unAlquilerNew.setUnInmueble(casa);
-                unAlquilerNew = em.merge(unAlquilerNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -143,11 +109,6 @@ public class CasaJpaController implements Serializable {
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().remove(casa);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
-            }
-            Alquiler unAlquiler = casa.getUnAlquiler();
-            if (unAlquiler != null) {
-                unAlquiler.setUnInmueble(null);
-                unAlquiler = em.merge(unAlquiler);
             }
             em.remove(casa);
             em.getTransaction().commit();

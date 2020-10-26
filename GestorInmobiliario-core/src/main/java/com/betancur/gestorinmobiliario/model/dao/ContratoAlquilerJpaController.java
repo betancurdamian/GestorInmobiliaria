@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.betancur.gestorinmobiliario.model.entity.Garante;
+import com.betancur.gestorinmobiliario.model.entity.Alquiler;
 import com.betancur.gestorinmobiliario.model.entity.Comision;
 import com.betancur.gestorinmobiliario.model.entity.BoletaDePago;
 import com.betancur.gestorinmobiliario.model.entity.ContratoAlquiler;
@@ -49,6 +50,11 @@ public class ContratoAlquilerJpaController implements Serializable {
                 unGarante = em.getReference(unGarante.getClass(), unGarante.getId());
                 contratoAlquiler.setUnGarante(unGarante);
             }
+            Alquiler unAlquiler = contratoAlquiler.getUnAlquiler();
+            if (unAlquiler != null) {
+                unAlquiler = em.getReference(unAlquiler.getClass(), unAlquiler.getId());
+                contratoAlquiler.setUnAlquiler(unAlquiler);
+            }
             Comision unaComision = contratoAlquiler.getUnaComision();
             if (unaComision != null) {
                 unaComision = em.getReference(unaComision.getClass(), unaComision.getId());
@@ -69,6 +75,15 @@ public class ContratoAlquilerJpaController implements Serializable {
                 }
                 unGarante.setUnContratoAlquiler(contratoAlquiler);
                 unGarante = em.merge(unGarante);
+            }
+            if (unAlquiler != null) {
+                ContratoAlquiler oldUnContratoAlquilerOfUnAlquiler = unAlquiler.getUnContratoAlquiler();
+                if (oldUnContratoAlquilerOfUnAlquiler != null) {
+                    oldUnContratoAlquilerOfUnAlquiler.setUnAlquiler(null);
+                    oldUnContratoAlquilerOfUnAlquiler = em.merge(oldUnContratoAlquilerOfUnAlquiler);
+                }
+                unAlquiler.setUnContratoAlquiler(contratoAlquiler);
+                unAlquiler = em.merge(unAlquiler);
             }
             if (unaComision != null) {
                 com.betancur.gestorinmobiliario.model.entity.Contrato oldUnContratoOfUnaComision = unaComision.getUnContrato();
@@ -104,6 +119,8 @@ public class ContratoAlquilerJpaController implements Serializable {
             ContratoAlquiler persistentContratoAlquiler = em.find(ContratoAlquiler.class, contratoAlquiler.getId());
             Garante unGaranteOld = persistentContratoAlquiler.getUnGarante();
             Garante unGaranteNew = contratoAlquiler.getUnGarante();
+            Alquiler unAlquilerOld = persistentContratoAlquiler.getUnAlquiler();
+            Alquiler unAlquilerNew = contratoAlquiler.getUnAlquiler();
             Comision unaComisionOld = persistentContratoAlquiler.getUnaComision();
             Comision unaComisionNew = contratoAlquiler.getUnaComision();
             List<BoletaDePago> boletasDePagoOld = persistentContratoAlquiler.getBoletasDePago();
@@ -123,6 +140,10 @@ public class ContratoAlquilerJpaController implements Serializable {
             if (unGaranteNew != null) {
                 unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
                 contratoAlquiler.setUnGarante(unGaranteNew);
+            }
+            if (unAlquilerNew != null) {
+                unAlquilerNew = em.getReference(unAlquilerNew.getClass(), unAlquilerNew.getId());
+                contratoAlquiler.setUnAlquiler(unAlquilerNew);
             }
             if (unaComisionNew != null) {
                 unaComisionNew = em.getReference(unaComisionNew.getClass(), unaComisionNew.getId());
@@ -148,6 +169,19 @@ public class ContratoAlquilerJpaController implements Serializable {
                 }
                 unGaranteNew.setUnContratoAlquiler(contratoAlquiler);
                 unGaranteNew = em.merge(unGaranteNew);
+            }
+            if (unAlquilerOld != null && !unAlquilerOld.equals(unAlquilerNew)) {
+                unAlquilerOld.setUnContratoAlquiler(null);
+                unAlquilerOld = em.merge(unAlquilerOld);
+            }
+            if (unAlquilerNew != null && !unAlquilerNew.equals(unAlquilerOld)) {
+                ContratoAlquiler oldUnContratoAlquilerOfUnAlquiler = unAlquilerNew.getUnContratoAlquiler();
+                if (oldUnContratoAlquilerOfUnAlquiler != null) {
+                    oldUnContratoAlquilerOfUnAlquiler.setUnAlquiler(null);
+                    oldUnContratoAlquilerOfUnAlquiler = em.merge(oldUnContratoAlquilerOfUnAlquiler);
+                }
+                unAlquilerNew.setUnContratoAlquiler(contratoAlquiler);
+                unAlquilerNew = em.merge(unAlquilerNew);
             }
             if (unaComisionOld != null && !unaComisionOld.equals(unaComisionNew)) {
                 unaComisionOld.setUnContrato(null);
@@ -217,6 +251,11 @@ public class ContratoAlquilerJpaController implements Serializable {
             if (unGarante != null) {
                 unGarante.setUnContratoAlquiler(null);
                 unGarante = em.merge(unGarante);
+            }
+            Alquiler unAlquiler = contratoAlquiler.getUnAlquiler();
+            if (unAlquiler != null) {
+                unAlquiler.setUnContratoAlquiler(null);
+                unAlquiler = em.merge(unAlquiler);
             }
             Comision unaComision = contratoAlquiler.getUnaComision();
             if (unaComision != null) {

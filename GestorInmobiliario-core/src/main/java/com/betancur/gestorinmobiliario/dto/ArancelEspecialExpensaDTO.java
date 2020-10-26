@@ -9,6 +9,6 @@ package com.betancur.gestorinmobiliario.dto;
  *
  * @author Ariel
  */
-public class ArancelEspecialExpensaDTO {
+public class ArancelEspecialExpensaDTO extends ArancelEspecialDTO{
     
 }

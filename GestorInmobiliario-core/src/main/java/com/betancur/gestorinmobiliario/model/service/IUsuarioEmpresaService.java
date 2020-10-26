@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.UsuarioEmpresa;
+import com.betancur.gestorinmobiliario.dto.UsuarioEmpresaDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IUsuarioEmpresaService extends ICRUD<UsuarioEmpresa>{
+public interface IUsuarioEmpresaService extends ICRUD<UsuarioEmpresaDTO>{
     
 }

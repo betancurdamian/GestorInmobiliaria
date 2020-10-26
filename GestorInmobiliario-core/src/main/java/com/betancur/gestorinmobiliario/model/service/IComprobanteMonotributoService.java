@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.ComprobanteMonotributo;
+import com.betancur.gestorinmobiliario.dto.ComprobanteMonotributoDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IComprobanteMonotributoService extends ICRUD<ComprobanteMonotributo>{
+public interface IComprobanteMonotributoService extends ICRUD<ComprobanteMonotributoDTO>{
     
 }

@@ -5,8 +5,8 @@
  */
 package com.betancur.gestorinmobiliario.model.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -41,15 +41,11 @@ public class ContratoVenta extends Contrato {
         this.cuotasVenta = new ArrayList<>();
     }
 
-    public ContratoVenta(Venta unaVenta, Date unaFechaPrimerVencimiento, Date unaFechaSegundoVencimiento, float montoTotal, int cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
+    public ContratoVenta(Venta unaVenta, LocalDate unaFechaPrimerVencimiento, LocalDate unaFechaSegundoVencimiento, Float montoTotal, Integer cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
         super(unaFechaPrimerVencimiento, unaFechaSegundoVencimiento, montoTotal, cantidadDeCuotas, unRecargoPorMora, unLocador, unLocatario);
         this.unaVenta = unaVenta;
         this.cuotasVenta = new ArrayList<>();
     }
-
-    
-    
-    
 
     public List<CuotaVenta> getCuotasVenta() {
         return cuotasVenta;
@@ -66,7 +62,6 @@ public class ContratoVenta extends Contrato {
     public void setUnaVenta(Venta unaVenta) {
         this.unaVenta = unaVenta;
     }
-    
     
     
 }

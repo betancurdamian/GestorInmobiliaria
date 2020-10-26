@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.RecargoPorMora;
+import com.betancur.gestorinmobiliario.dto.RecargoPorMoraDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IRecargoPorMoraService extends ICRUD<RecargoPorMora>{
+public interface IRecargoPorMoraService extends ICRUD<RecargoPorMoraDTO>{
     
 }

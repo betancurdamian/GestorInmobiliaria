@@ -6,7 +6,7 @@
 package com.betancur.gestorinmobiliario.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -31,12 +29,11 @@ public class RecargoPorMora implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "fecha_recargo")
-    private Date unaFechaDeRecargo;
+    private LocalDate unaFechaDeRecargo;
 
     @Column(name = "monto")
-    private float monto;
+    private Float monto;
 
     @ManyToOne
     @JoinColumn(name = "fk_inmobiliaria", nullable = true, updatable = true)
@@ -45,7 +42,7 @@ public class RecargoPorMora implements Serializable {
     public RecargoPorMora() {
     }
 
-    public RecargoPorMora(Date unaFechaDeRecargo, float monto, Inmobiliaria unaInmobiliariaRecargoPorMona) {
+    public RecargoPorMora(LocalDate unaFechaDeRecargo, Float monto, Inmobiliaria unaInmobiliariaRecargoPorMona) {
         this.unaFechaDeRecargo = unaFechaDeRecargo;
         this.monto = monto;
         this.unaInmobiliariaRecargoPorMora = unaInmobiliariaRecargoPorMona;
@@ -84,19 +81,19 @@ public class RecargoPorMora implements Serializable {
         return "com.betancur.gestorinmobiliario.model.RecargoPorMora[ id=" + id + " ]";
     }
 
-    public Date getUnaFechaDeRecargo() {
+    public LocalDate getUnaFechaDeRecargo() {
         return unaFechaDeRecargo;
     }
 
-    public void setUnaFechaDeRecargo(Date unaFechaDeRecargo) {
+    public void setUnaFechaDeRecargo(LocalDate unaFechaDeRecargo) {
         this.unaFechaDeRecargo = unaFechaDeRecargo;
     }
 
-    public float getMonto() {
+    public Float getMonto() {
         return monto;
     }
 
-    public void setMonto(float monto) {
+    public void setMonto(Float monto) {
         this.monto = monto;
     }
 

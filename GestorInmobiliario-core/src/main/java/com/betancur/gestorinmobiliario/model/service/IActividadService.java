@@ -5,13 +5,13 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.Actividad;
+import com.betancur.gestorinmobiliario.dto.ActividadDTO;
 
 
 /**
  *
  * @author Ariel
  */
-public interface IActividadService extends ICRUD<Actividad>{
+public interface IActividadService extends ICRUD<ActividadDTO>{
     
 }

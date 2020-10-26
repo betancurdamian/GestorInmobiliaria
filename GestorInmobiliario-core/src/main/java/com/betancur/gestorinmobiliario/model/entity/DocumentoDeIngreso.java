@@ -18,26 +18,28 @@ import javax.persistence.Entity;
 public class DocumentoDeIngreso extends ComprobanteDeIngreso {
 
     @Column(name = "validado")
-    private boolean validado;
+    private Boolean validado;
 
     public DocumentoDeIngreso() {
     }
 
-    public DocumentoDeIngreso(boolean validado) {
+    public DocumentoDeIngreso(Boolean validado) {
         this.validado = validado;
     }
 
-    public DocumentoDeIngreso(boolean validado, int mes, int anio, float importeBruto, float importeNeto) {
+    public DocumentoDeIngreso(Boolean validado, Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
         super(mes, anio, importeBruto, importeNeto);
         this.validado = validado;
     }
 
-    public boolean isValidado() {
+    public Boolean getValidado() {
         return validado;
     }
 
-    public void setValidado(boolean validado) {
+    public void setValidado(Boolean validado) {
         this.validado = validado;
     }
+
+    
 
 }

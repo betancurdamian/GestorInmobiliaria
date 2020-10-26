@@ -21,17 +21,17 @@ public class ReciboDeSueldo extends ComprobanteDeIngreso {
     private String nombreEmpresa;
 
     @Column(name = "antiguedad")
-    private int antiguedad;
+    private Integer antiguedad;
 
     public ReciboDeSueldo() {
     }
 
-    public ReciboDeSueldo(String nombreEmpresa, int antiguedad) {
+    public ReciboDeSueldo(String nombreEmpresa, Integer antiguedad) {
         this.nombreEmpresa = nombreEmpresa;
         this.antiguedad = antiguedad;
     }
 
-    public ReciboDeSueldo(String nombreEmpresa, int antiguedad, int mes, int anio, float importeBruto, float importeNeto) {
+    public ReciboDeSueldo(String nombreEmpresa, Integer antiguedad, Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
         super(mes, anio, importeBruto, importeNeto);
         this.nombreEmpresa = nombreEmpresa;
         this.antiguedad = antiguedad;
@@ -45,11 +45,11 @@ public class ReciboDeSueldo extends ComprobanteDeIngreso {
         this.nombreEmpresa = nombreEmpresa;
     }
 
-    public int getAntiguedad() {
+    public Integer getAntiguedad() {
         return antiguedad;
     }
 
-    public void setAntiguedad(int antiguedad) {
+    public void setAntiguedad(Integer antiguedad) {
         this.antiguedad = antiguedad;
     }
 

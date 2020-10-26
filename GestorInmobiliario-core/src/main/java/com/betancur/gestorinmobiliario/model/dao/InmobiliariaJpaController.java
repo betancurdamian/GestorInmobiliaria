@@ -222,22 +222,6 @@ public class InmobiliariaJpaController implements Serializable {
             List<Usuario> usuariosOld = persistentInmobiliaria.getUsuarios();
             List<Usuario> usuariosNew = inmobiliaria.getUsuarios();
             List<String> illegalOrphanMessages = null;
-            for (Inmueble inmueblesOldInmueble : inmueblesOld) {
-                if (!inmueblesNew.contains(inmueblesOldInmueble)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Inmueble " + inmueblesOldInmueble + " since its unaInmobiliariaInmueble field is not nullable.");
-                }
-            }
-            for (ArancelEspecial arancelesEspecialesOldArancelEspecial : arancelesEspecialesOld) {
-                if (!arancelesEspecialesNew.contains(arancelesEspecialesOldArancelEspecial)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain ArancelEspecial " + arancelesEspecialesOldArancelEspecial + " since its unaInmobiliariaArancelEspecial field is not nullable.");
-                }
-            }
             for (Usuario usuariosOldUsuario : usuariosOld) {
                 if (!usuariosNew.contains(usuariosOldUsuario)) {
                     if (illegalOrphanMessages == null) {
@@ -306,6 +290,12 @@ public class InmobiliariaJpaController implements Serializable {
             usuariosNew = attachedUsuariosNew;
             inmobiliaria.setUsuarios(usuariosNew);
             inmobiliaria = em.merge(inmobiliaria);
+            for (Inmueble inmueblesOldInmueble : inmueblesOld) {
+                if (!inmueblesNew.contains(inmueblesOldInmueble)) {
+                    inmueblesOldInmueble.setUnaInmobiliariaInmueble(null);
+                    inmueblesOldInmueble = em.merge(inmueblesOldInmueble);
+                }
+            }
             for (Inmueble inmueblesNewInmueble : inmueblesNew) {
                 if (!inmueblesOld.contains(inmueblesNewInmueble)) {
                     Inmobiliaria oldUnaInmobiliariaInmuebleOfInmueblesNewInmueble = inmueblesNewInmueble.getUnaInmobiliariaInmueble();
@@ -402,6 +392,12 @@ public class InmobiliariaJpaController implements Serializable {
                     }
                 }
             }
+            for (ArancelEspecial arancelesEspecialesOldArancelEspecial : arancelesEspecialesOld) {
+                if (!arancelesEspecialesNew.contains(arancelesEspecialesOldArancelEspecial)) {
+                    arancelesEspecialesOldArancelEspecial.setUnaInmobiliariaArancelEspecial(null);
+                    arancelesEspecialesOldArancelEspecial = em.merge(arancelesEspecialesOldArancelEspecial);
+                }
+            }
             for (ArancelEspecial arancelesEspecialesNewArancelEspecial : arancelesEspecialesNew) {
                 if (!arancelesEspecialesOld.contains(arancelesEspecialesNewArancelEspecial)) {
                     Inmobiliaria oldUnaInmobiliariaArancelEspecialOfArancelesEspecialesNewArancelEspecial = arancelesEspecialesNewArancelEspecial.getUnaInmobiliariaArancelEspecial();
@@ -454,20 +450,6 @@ public class InmobiliariaJpaController implements Serializable {
                 throw new NonexistentEntityException("The inmobiliaria with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Inmueble> inmueblesOrphanCheck = inmobiliaria.getInmuebles();
-            for (Inmueble inmueblesOrphanCheckInmueble : inmueblesOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Inmobiliaria (" + inmobiliaria + ") cannot be destroyed since the Inmueble " + inmueblesOrphanCheckInmueble + " in its inmuebles field has a non-nullable unaInmobiliariaInmueble field.");
-            }
-            List<ArancelEspecial> arancelesEspecialesOrphanCheck = inmobiliaria.getArancelesEspeciales();
-            for (ArancelEspecial arancelesEspecialesOrphanCheckArancelEspecial : arancelesEspecialesOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Inmobiliaria (" + inmobiliaria + ") cannot be destroyed since the ArancelEspecial " + arancelesEspecialesOrphanCheckArancelEspecial + " in its arancelesEspeciales field has a non-nullable unaInmobiliariaArancelEspecial field.");
-            }
             List<Usuario> usuariosOrphanCheck = inmobiliaria.getUsuarios();
             for (Usuario usuariosOrphanCheckUsuario : usuariosOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -477,6 +459,11 @@ public class InmobiliariaJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            List<Inmueble> inmuebles = inmobiliaria.getInmuebles();
+            for (Inmueble inmueblesInmueble : inmuebles) {
+                inmueblesInmueble.setUnaInmobiliariaInmueble(null);
+                inmueblesInmueble = em.merge(inmueblesInmueble);
             }
             List<Alquiler> alquileres = inmobiliaria.getAlquileres();
             for (Alquiler alquileresAlquiler : alquileres) {
@@ -502,6 +489,11 @@ public class InmobiliariaJpaController implements Serializable {
             for (RecargoPorMora recargosPorMorasRecargoPorMora : recargosPorMoras) {
                 recargosPorMorasRecargoPorMora.setUnaInmobiliariaRecargoPorMora(null);
                 recargosPorMorasRecargoPorMora = em.merge(recargosPorMorasRecargoPorMora);
+            }
+            List<ArancelEspecial> arancelesEspeciales = inmobiliaria.getArancelesEspeciales();
+            for (ArancelEspecial arancelesEspecialesArancelEspecial : arancelesEspeciales) {
+                arancelesEspecialesArancelEspecial.setUnaInmobiliariaArancelEspecial(null);
+                arancelesEspecialesArancelEspecial = em.merge(arancelesEspecialesArancelEspecial);
             }
             em.remove(inmobiliaria);
             em.getTransaction().commit();

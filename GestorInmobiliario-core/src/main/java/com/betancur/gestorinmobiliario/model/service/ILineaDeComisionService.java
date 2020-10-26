@@ -5,12 +5,12 @@
  */
 package com.betancur.gestorinmobiliario.model.service;
 
-import com.betancur.gestorinmobiliario.model.entity.LineaDeComision;
+import com.betancur.gestorinmobiliario.dto.LineaDeComisionDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface ILineaDeComisionService extends ICRUD<LineaDeComision>{
+public interface ILineaDeComisionService extends ICRUD<LineaDeComisionDTO>{
     
 }

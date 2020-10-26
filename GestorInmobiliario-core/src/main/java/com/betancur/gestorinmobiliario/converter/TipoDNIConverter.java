@@ -13,19 +13,19 @@ import java.util.List;
  *
  * @author Ariel
  */
-public class TipoDNIConverter extends AbstractConverter<TipoDNI, TipoDNIDTO>{
+public class TipoDNIConverter extends AbstractConverter<TipoDNI, TipoDNIDTO> {
 
     @Override
     public TipoDNI fromDto(TipoDNIDTO dto) {
         if (dto != null) {
             TipoDNI entity = new TipoDNI();
 
-            if (dto.getId()!=null) {
+            if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
-            
+
             entity.setDescripcion(dto.getDescripcion());
-            
+
             return entity;
         } else {
             return null;
@@ -36,7 +36,7 @@ public class TipoDNIConverter extends AbstractConverter<TipoDNI, TipoDNIDTO>{
     public TipoDNIDTO fromEntity(TipoDNI entity) {
         if (entity != null) {
             TipoDNIDTO dto = new TipoDNIDTO();
-            
+
             dto.setId(entity.getId());
             dto.setDescripcion(entity.getDescripcion());
             return dto;
@@ -54,5 +54,5 @@ public class TipoDNIConverter extends AbstractConverter<TipoDNI, TipoDNIDTO>{
     public List<TipoDNI> fromDto(List<TipoDNIDTO> dtos) {
         return super.fromDto(dtos); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

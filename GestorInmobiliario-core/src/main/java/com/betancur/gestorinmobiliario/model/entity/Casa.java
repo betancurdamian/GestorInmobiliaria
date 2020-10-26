@@ -17,25 +17,25 @@ import javax.persistence.Entity;
 @DiscriminatorValue("CASA")
 public class Casa extends Inmueble {
 
-    @Column(name="cantidad_dormitorio")
-    private int cantidadDeDormitorios;
-    
-    @Column(name="cantidad_banio")
-    private int cantidadDeBanio;
-    
-    @Column(name="numero_piso")
-    private int numeroDePisos;
-    
-    @Column(name="cochera")
-    private boolean cochera;
-    
-    @Column(name="jardin")
-    private boolean jardin;
+    @Column(name = "cantidad_dormitorio")
+    private Integer cantidadDeDormitorios;
+
+    @Column(name = "cantidad_banio")
+    private Integer cantidadDeBanio;
+
+    @Column(name = "numero_piso")
+    private Integer numeroDePisos;
+
+    @Column(name = "cochera")
+    private Boolean cochera;
+
+    @Column(name = "jardin")
+    private Boolean jardin;
 
     public Casa() {
     }
 
-    public Casa(int cantidadDeDormitorios, int cantidadDeBanio, int numeroDePisos, boolean cochera, boolean jardin) {
+    public Casa(Integer cantidadDeDormitorios, Integer cantidadDeBanio, Integer numeroDePisos, Boolean cochera, Boolean jardin) {
         this.cantidadDeDormitorios = cantidadDeDormitorios;
         this.cantidadDeBanio = cantidadDeBanio;
         this.numeroDePisos = numeroDePisos;
@@ -43,56 +43,46 @@ public class Casa extends Inmueble {
         this.jardin = jardin;
     }
 
-    public Casa(int cantidadDeDormitorios, int cantidadDeBanio, int numeroDePisos, boolean cochera, boolean jardin, String direccionCalle, String direccionNumero, Barrio direccionBarrio, int superficieTotal, boolean estaDisponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
-        super(direccionCalle, direccionNumero, direccionBarrio, superficieTotal, estaDisponible, descripcion, unaInmobiliariaInmueble);
-        this.cantidadDeDormitorios = cantidadDeDormitorios;
-        this.cantidadDeBanio = cantidadDeBanio;
-        this.numeroDePisos = numeroDePisos;
-        this.cochera = cochera;
-        this.jardin = jardin;
-    }
-    
-    
-
-    public int getCantidadDeDormitorios() {
+    public Integer getCantidadDeDormitorios() {
         return cantidadDeDormitorios;
     }
 
-    public void setCantidadDeDormitorios(int cantidadDeDormitorios) {
+    public void setCantidadDeDormitorios(Integer cantidadDeDormitorios) {
         this.cantidadDeDormitorios = cantidadDeDormitorios;
     }
 
-    public int getCantidadDeBanio() {
+    public Integer getCantidadDeBanio() {
         return cantidadDeBanio;
     }
 
-    public void setCantidadDeBanio(int cantidadDeBanio) {
+    public void setCantidadDeBanio(Integer cantidadDeBanio) {
         this.cantidadDeBanio = cantidadDeBanio;
     }
 
-    public int getNumeroDePisos() {
+    public Integer getNumeroDePisos() {
         return numeroDePisos;
     }
 
-    public void setNumeroDePisos(int numeroDePisos) {
+    public void setNumeroDePisos(Integer numeroDePisos) {
         this.numeroDePisos = numeroDePisos;
     }
 
-    public boolean isCochera() {
+    public Boolean getCochera() {
         return cochera;
     }
 
-    public void setCochera(boolean cochera) {
+    public void setCochera(Boolean cochera) {
         this.cochera = cochera;
     }
 
-    public boolean isJardin() {
+    public Boolean getJardin() {
         return jardin;
     }
 
-    public void setJardin(boolean jardin) {
+    public void setJardin(Boolean jardin) {
         this.jardin = jardin;
     }
+
     
-    
+
 }

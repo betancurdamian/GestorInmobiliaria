@@ -5,7 +5,6 @@
  */
 package com.betancur.gestorinmobiliario.model.dao;
 
-import com.betancur.gestorinmobiliario.model.dao.exceptions.IllegalOrphanException;
 import com.betancur.gestorinmobiliario.model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -66,7 +65,7 @@ public class ProvinciaJpaController implements Serializable {
         }
     }
 
-    public void edit(Provincia provincia) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Provincia provincia) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -74,18 +73,6 @@ public class ProvinciaJpaController implements Serializable {
             Provincia persistentProvincia = em.find(Provincia.class, provincia.getId());
             List<Localidad> localidadesOld = persistentProvincia.getLocalidades();
             List<Localidad> localidadesNew = provincia.getLocalidades();
-            List<String> illegalOrphanMessages = null;
-            for (Localidad localidadesOldLocalidad : localidadesOld) {
-                if (!localidadesNew.contains(localidadesOldLocalidad)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Localidad " + localidadesOldLocalidad + " since its unaProvincia field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             List<Localidad> attachedLocalidadesNew = new ArrayList<Localidad>();
             for (Localidad localidadesNewLocalidadToAttach : localidadesNew) {
                 localidadesNewLocalidadToAttach = em.getReference(localidadesNewLocalidadToAttach.getClass(), localidadesNewLocalidadToAttach.getId());
@@ -94,6 +81,12 @@ public class ProvinciaJpaController implements Serializable {
             localidadesNew = attachedLocalidadesNew;
             provincia.setLocalidades(localidadesNew);
             provincia = em.merge(provincia);
+            for (Localidad localidadesOldLocalidad : localidadesOld) {
+                if (!localidadesNew.contains(localidadesOldLocalidad)) {
+                    localidadesOldLocalidad.setUnaProvincia(null);
+                    localidadesOldLocalidad = em.merge(localidadesOldLocalidad);
+                }
+            }
             for (Localidad localidadesNewLocalidad : localidadesNew) {
                 if (!localidadesOld.contains(localidadesNewLocalidad)) {
                     Provincia oldUnaProvinciaOfLocalidadesNewLocalidad = localidadesNewLocalidad.getUnaProvincia();
@@ -122,7 +115,7 @@ public class ProvinciaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +127,10 @@ public class ProvinciaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The provincia with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Localidad> localidadesOrphanCheck = provincia.getLocalidades();
-            for (Localidad localidadesOrphanCheckLocalidad : localidadesOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Provincia (" + provincia + ") cannot be destroyed since the Localidad " + localidadesOrphanCheckLocalidad + " in its localidades field has a non-nullable unaProvincia field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Localidad> localidades = provincia.getLocalidades();
+            for (Localidad localidadesLocalidad : localidades) {
+                localidadesLocalidad.setUnaProvincia(null);
+                localidadesLocalidad = em.merge(localidadesLocalidad);
             }
             em.remove(provincia);
             em.getTransaction().commit();

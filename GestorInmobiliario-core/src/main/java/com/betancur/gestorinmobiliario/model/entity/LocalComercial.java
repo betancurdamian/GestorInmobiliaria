@@ -17,44 +17,42 @@ import javax.persistence.Entity;
 @DiscriminatorValue("LOCAL COMERCIAL")
 public class LocalComercial extends Inmueble {
 
-    @Column(name="cantidad_banio")
-    private int cantidadDeBanio;    
-    
-    @Column(name="cochera")
-    private boolean cochera;
+    @Column(name = "cantidad_banio")
+    private Integer cantidadDeBanio;
+
+    @Column(name = "cochera")
+    private Boolean cochera;
 
     public LocalComercial() {
     }
 
-    public LocalComercial(int cantidadDeBanio, boolean cochera) {
+    public LocalComercial(Integer cantidadDeBanio, Boolean cochera) {
         this.cantidadDeBanio = cantidadDeBanio;
         this.cochera = cochera;
     }
 
-    public LocalComercial(int cantidadDeBanio, boolean cochera, String direccionCalle, String direccionNumero, Barrio direccionBarrio, int superficieTotal, boolean estaDisponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
-        super(direccionCalle, direccionNumero, direccionBarrio, superficieTotal, estaDisponible, descripcion, unaInmobiliariaInmueble);
+    public LocalComercial(Integer cantidadDeBanio, Boolean cochera, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
+        super(direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble);
         this.cantidadDeBanio = cantidadDeBanio;
         this.cochera = cochera;
     }
 
-   
-
-    public int getCantidadDeBanio() {
+    public Integer getCantidadDeBanio() {
         return cantidadDeBanio;
     }
 
-    public void setCantidadDeBanio(int cantidadDeBanio) {
+    public void setCantidadDeBanio(Integer cantidadDeBanio) {
         this.cantidadDeBanio = cantidadDeBanio;
     }
 
-    public boolean isCochera() {
+    public Boolean getCochera() {
         return cochera;
     }
 
-    public void setCochera(boolean cochera) {
+    public void setCochera(Boolean cochera) {
         this.cochera = cochera;
     }
+
     
-    
-    
+
 }

@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 /**
  *
  * @author Ariel
+ * @param <ENTITY>
+ * @param <DTO>
  */
 
 public abstract class AbstractConverter <ENTITY,DTO> {

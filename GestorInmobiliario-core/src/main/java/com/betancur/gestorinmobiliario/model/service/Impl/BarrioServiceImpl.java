@@ -36,17 +36,17 @@ public class BarrioServiceImpl implements IBarrioService{
     
     @Override
     public BarrioDTO crear(BarrioDTO dto) {
-        Barrio barrioEntity = this.converter.fromDto(dto);
-        this.barrioDAO.create(barrioEntity);
-        dto.setId(barrioEntity.getId());
+        Barrio entity = this.converter.fromDto(dto);
+        this.barrioDAO.create(entity);
+        dto.setId(entity.getId());
         return dto;
     }
 
     @Override
     public BarrioDTO modificar(BarrioDTO dto) {
-        Barrio barrioEntity = this.converter.fromDto(dto);
+        Barrio entity = this.converter.fromDto(dto);
         try {
-            barrioDAO.edit(barrioEntity);
+            barrioDAO.edit(entity);
         } catch (Exception ex) {
             Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,14 +64,14 @@ public class BarrioServiceImpl implements IBarrioService{
 
     @Override
     public BarrioDTO listarID(Long id) {
-        Barrio barrio = barrioDAO.findBarrio(id);
-        return this.converter.fromEntity(barrio);
+        Barrio entity = barrioDAO.findBarrio(id);
+        return this.converter.fromEntity(entity);
     }
 
     @Override
     public List<BarrioDTO> listarTodos() {
-        List<Barrio> barrios = barrioDAO.findBarrioEntities();
-        return this.converter.fromEntity(barrios);
+        List<Barrio> entities = barrioDAO.findBarrioEntities();
+        return this.converter.fromEntity(entities);
     }
     
 }

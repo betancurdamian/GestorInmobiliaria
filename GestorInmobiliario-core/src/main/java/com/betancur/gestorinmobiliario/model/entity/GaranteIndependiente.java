@@ -5,6 +5,7 @@
  */
 package com.betancur.gestorinmobiliario.model.entity;
 
+import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -19,12 +20,12 @@ public class GaranteIndependiente extends Garante{
     public GaranteIndependiente() {
     }
 
-    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario) {
-        super(unaActividad, unaInmobiliariaGarante, unLocatario);
+    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes) {
+        super(unaActividad, unaInmobiliariaGarante, unLocatario, unContratoAlquiler, comprobantesDeIngresosGarantes);
     }
 
-    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Barrio direccionBarrio, String telefono, String correoElectronico) {
-        super(unaActividad, unaInmobiliariaGarante, unLocatario, nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionBarrio, telefono, correoElectronico);
+    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
+        super(unaActividad, unaInmobiliariaGarante, unLocatario, unContratoAlquiler, comprobantesDeIngresosGarantes, nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, telefono, correoElectronico);
     }
 
     

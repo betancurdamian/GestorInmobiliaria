@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * @author Ariel
  */
 @Entity
-@Table(name="lineas_comisiones")
+@Table(name = "lineas_comisiones")
 public class LineaDeComision implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,11 +29,11 @@ public class LineaDeComision implements Serializable {
     private Long id;
 
     @Column(name = "numero_cuota")
-    private int numeroCuota;
-    
+    private Integer numeroCuota;
+
     @Column(name = "monto")
-    private float monto;
-    
+    private Float monto;
+
     @ManyToOne
     @JoinColumn(name = "fk_comision", nullable = false, updatable = true)
     private Comision unaComision;
@@ -41,16 +41,10 @@ public class LineaDeComision implements Serializable {
     public LineaDeComision() {
     }
 
-    public LineaDeComision(Comision unaComision) {
+    public LineaDeComision(Integer numeroCuota, Float monto, Comision unaComision) {
+        this.numeroCuota = numeroCuota;
+        this.monto = monto;
         this.unaComision = unaComision;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
@@ -76,6 +70,30 @@ public class LineaDeComision implements Serializable {
     @Override
     public String toString() {
         return "com.betancur.gestorinmobiliario.model.LineaDeComision[ id=" + id + " ]";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getNumeroCuota() {
+        return numeroCuota;
+    }
+
+    public void setNumeroCuota(Integer numeroCuota) {
+        this.numeroCuota = numeroCuota;
+    }
+
+    public Float getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Float monto) {
+        this.monto = monto;
     }
 
     public Comision getUnaComision() {

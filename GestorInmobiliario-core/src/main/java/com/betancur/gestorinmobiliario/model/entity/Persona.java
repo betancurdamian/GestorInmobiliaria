@@ -70,6 +70,23 @@ public abstract class Persona implements Serializable {
     public Persona() {
     }
 
+    public Persona(String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.unTipoDNI = unTipoDNI;
+        this.dni = dni;
+        this.unEstadoCivil = unEstadoCivil;
+        this.direccionCalle = direccionCalle;
+        this.direccionNumero = direccionNumero;
+        this.direccionProvincia = direccionProvincia;
+        this.direccionLocalidad = direccionLocalidad;
+        this.direccionBarrio = direccionBarrio;
+        this.telefono = telefono;
+        this.correoElectronico = correoElectronico;
+    }
+
+   
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -95,17 +112,12 @@ public abstract class Persona implements Serializable {
         return "com.betancur.gestorinmobiliario.dao.Inmobiliaria[ id=" + id + " ]";
     }
 
-    public Persona(String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Barrio direccionBarrio, String telefono, String correoElectronico) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.unTipoDNI = unTipoDNI;
-        this.dni = dni;
-        this.unEstadoCivil = unEstadoCivil;
-        this.direccionCalle = direccionCalle;
-        this.direccionNumero = direccionNumero;
-        this.setDireccionBarrio(direccionBarrio);
-        this.telefono = telefono;
-        this.correoElectronico = correoElectronico;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -168,8 +180,16 @@ public abstract class Persona implements Serializable {
         return direccionProvincia;
     }
 
+    public void setDireccionProvincia(Provincia direccionProvincia) {
+        this.direccionProvincia = direccionProvincia;
+    }
+
     public Localidad getDireccionLocalidad() {
         return direccionLocalidad;
+    }
+
+    public void setDireccionLocalidad(Localidad direccionLocalidad) {
+        this.direccionLocalidad = direccionLocalidad;
     }
 
     public Barrio getDireccionBarrio() {
@@ -178,8 +198,6 @@ public abstract class Persona implements Serializable {
 
     public void setDireccionBarrio(Barrio direccionBarrio) {
         this.direccionBarrio = direccionBarrio;
-        this.direccionLocalidad = direccionBarrio.getUnaLocalidad();
-        this.direccionProvincia = direccionBarrio.getUnaLocalidad().getUnaProvincia();
     }
 
     public String getTelefono() {
@@ -196,14 +214,6 @@ public abstract class Persona implements Serializable {
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 }

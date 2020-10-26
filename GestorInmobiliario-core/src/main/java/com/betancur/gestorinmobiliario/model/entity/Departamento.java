@@ -17,57 +17,46 @@ import javax.persistence.Entity;
 @DiscriminatorValue("DEPARTAMENTO")
 public class Departamento extends Inmueble {
 
-    @Column(name="cantidad_dormitorio")
-    private int cantidadDeDormitorios;
-    
-    @Column(name="cantidad_banio")
-    private int cantidadDeBanio;    
-    
-    @Column(name="balcon")
-    private boolean balcon;
+    @Column(name = "cantidad_dormitorio")
+    private Integer cantidadDeDormitorios;
+
+    @Column(name = "cantidad_banio")
+    private Integer cantidadDeBanio;
+
+    @Column(name = "balcon")
+    private Boolean balcon;
 
     public Departamento() {
     }
 
-    public Departamento(int cantidadDeDormitorios, int cantidadDeBanio, boolean balcon) {
+    public Departamento(Integer cantidadDeDormitorios, Integer cantidadDeBanio, Boolean balcon) {
         this.cantidadDeDormitorios = cantidadDeDormitorios;
         this.cantidadDeBanio = cantidadDeBanio;
         this.balcon = balcon;
     }
 
-    public Departamento(int cantidadDeDormitorios, int cantidadDeBanio, boolean balcon, String direccionCalle, String direccionNumero, Barrio direccionBarrio, int superficieTotal, boolean estaDisponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
-        super(direccionCalle, direccionNumero, direccionBarrio, superficieTotal, estaDisponible, descripcion, unaInmobiliariaInmueble);
-        this.cantidadDeDormitorios = cantidadDeDormitorios;
-        this.cantidadDeBanio = cantidadDeBanio;
-        this.balcon = balcon;
-    }
-
-   
-
-    public int getCantidadDeDormitorios() {
+    public Integer getCantidadDeDormitorios() {
         return cantidadDeDormitorios;
     }
 
-    public void setCantidadDeDormitorios(int cantidadDeDormitorios) {
+    public void setCantidadDeDormitorios(Integer cantidadDeDormitorios) {
         this.cantidadDeDormitorios = cantidadDeDormitorios;
     }
 
-    public int getCantidadDeBanio() {
+    public Integer getCantidadDeBanio() {
         return cantidadDeBanio;
     }
 
-    public void setCantidadDeBanio(int cantidadDeBanio) {
+    public void setCantidadDeBanio(Integer cantidadDeBanio) {
         this.cantidadDeBanio = cantidadDeBanio;
     }
 
-    public boolean isBalcon() {
+    public Boolean getBalcon() {
         return balcon;
     }
 
-    public void setBalcon(boolean balcon) {
+    public void setBalcon(Boolean balcon) {
         this.balcon = balcon;
     }
-    
-    
-    
+
 }
