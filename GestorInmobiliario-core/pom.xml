@@ -157,6 +157,51 @@
         
     </dependencies>
     
+    <build>  
+        <resources>
+            <resource>
+                <directory>jaspers</directory>
+                <includes>
+                    <include>**/*.jasper</include>
+                    <include>**/*.jrxml</include>
+                </includes>
+                <targetPath>../jaspers</targetPath>
+            </resource>  
+            <resource>
+                <directory>reports</directory>
+                <excludes>
+                    <exclude>**/*.pdf</exclude>
+                </excludes>
+                <targetPath>../reports</targetPath>
+            </resource>          
+        </resources>      
+        <finalName>inmobiliaria</finalName>
+        <plugins>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <archive>
+                                <manifest>
+                                    <!-- Clase Main -->
+                                    <mainClass>controller.Main</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>            
+        </plugins>        
+    </build>
     
     
 </project>

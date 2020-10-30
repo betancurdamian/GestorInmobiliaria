@@ -41,6 +41,7 @@ public class ExportImpl extends Export {
     }
 
     public void exportarBoletaDePagoPDF() throws JRException, SQLException, FileNotFoundException {
+        
         String rutaCarpeta = "reports";
         String nombreArchivo = "boleta_pago.pdf";
         exportarPDFLocal(rutaCarpeta,nombreArchivo);
