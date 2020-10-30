@@ -5,9 +5,11 @@
  */
 package com.betancur.gestorinmobiliario.client.controller;
 
+import model.entity.Alquiler;
+import model.service.Impl.AlquilerServiceImpl;
 
-import com.betancur.gestorinmobiliario.model.entity.Alquiler;
-import com.betancur.gestorinmobiliario.model.service.Impl.AlquilerServiceImpl;
+
+
 
 /**
  *
@@ -20,6 +22,5 @@ public class Main {
         AlquilerServiceImpl service = new AlquilerServiceImpl();
         
         Alquiler a = new Alquiler(null, null, null, null, true);
-        service.crear(a);
     }
 }

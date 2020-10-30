@@ -8,7 +8,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>GestorInmobiliario</artifactId>
+            <artifactId>GestorInmobiliario-core</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
