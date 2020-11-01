@@ -5,7 +5,6 @@
  */
 package model.dao;
 
-import model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -15,11 +14,12 @@ import model.entity.Inmobiliaria;
 import model.entity.Locatario;
 import model.entity.ContratoAlquiler;
 import model.entity.ComprobanteDeIngreso;
-import model.entity.GaranteIndependiente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.GaranteIndependiente;
 
 /**
  *
@@ -89,8 +89,13 @@ public class GaranteIndependienteJpaController implements Serializable {
                 unContratoAlquiler = em.merge(unContratoAlquiler);
             }
             for (ComprobanteDeIngreso comprobantesDeIngresosGarantesComprobanteDeIngreso : garanteIndependiente.getComprobantesDeIngresosGarantes()) {
-                comprobantesDeIngresosGarantesComprobanteDeIngreso.getGarantes().add(garanteIndependiente);
+                model.entity.Garante oldUnGaranteOfComprobantesDeIngresosGarantesComprobanteDeIngreso = comprobantesDeIngresosGarantesComprobanteDeIngreso.getUnGarante();
+                comprobantesDeIngresosGarantesComprobanteDeIngreso.setUnGarante(garanteIndependiente);
                 comprobantesDeIngresosGarantesComprobanteDeIngreso = em.merge(comprobantesDeIngresosGarantesComprobanteDeIngreso);
+                if (oldUnGaranteOfComprobantesDeIngresosGarantesComprobanteDeIngreso != null) {
+                    oldUnGaranteOfComprobantesDeIngresosGarantesComprobanteDeIngreso.getComprobantesDeIngresosGarantes().remove(comprobantesDeIngresosGarantesComprobanteDeIngreso);
+                    oldUnGaranteOfComprobantesDeIngresosGarantesComprobanteDeIngreso = em.merge(oldUnGaranteOfComprobantesDeIngresosGarantesComprobanteDeIngreso);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -170,14 +175,19 @@ public class GaranteIndependienteJpaController implements Serializable {
             }
             for (ComprobanteDeIngreso comprobantesDeIngresosGarantesOldComprobanteDeIngreso : comprobantesDeIngresosGarantesOld) {
                 if (!comprobantesDeIngresosGarantesNew.contains(comprobantesDeIngresosGarantesOldComprobanteDeIngreso)) {
-                    comprobantesDeIngresosGarantesOldComprobanteDeIngreso.getGarantes().remove(garanteIndependiente);
+                    comprobantesDeIngresosGarantesOldComprobanteDeIngreso.setUnGarante(null);
                     comprobantesDeIngresosGarantesOldComprobanteDeIngreso = em.merge(comprobantesDeIngresosGarantesOldComprobanteDeIngreso);
                 }
             }
             for (ComprobanteDeIngreso comprobantesDeIngresosGarantesNewComprobanteDeIngreso : comprobantesDeIngresosGarantesNew) {
                 if (!comprobantesDeIngresosGarantesOld.contains(comprobantesDeIngresosGarantesNewComprobanteDeIngreso)) {
-                    comprobantesDeIngresosGarantesNewComprobanteDeIngreso.getGarantes().add(garanteIndependiente);
+                    GaranteIndependiente oldUnGaranteOfComprobantesDeIngresosGarantesNewComprobanteDeIngreso = (GaranteIndependiente) comprobantesDeIngresosGarantesNewComprobanteDeIngreso.getUnGarante();
+                    comprobantesDeIngresosGarantesNewComprobanteDeIngreso.setUnGarante(garanteIndependiente);
                     comprobantesDeIngresosGarantesNewComprobanteDeIngreso = em.merge(comprobantesDeIngresosGarantesNewComprobanteDeIngreso);
+                    if (oldUnGaranteOfComprobantesDeIngresosGarantesNewComprobanteDeIngreso != null && !oldUnGaranteOfComprobantesDeIngresosGarantesNewComprobanteDeIngreso.equals(garanteIndependiente)) {
+                        oldUnGaranteOfComprobantesDeIngresosGarantesNewComprobanteDeIngreso.getComprobantesDeIngresosGarantes().remove(comprobantesDeIngresosGarantesNewComprobanteDeIngreso);
+                        oldUnGaranteOfComprobantesDeIngresosGarantesNewComprobanteDeIngreso = em.merge(oldUnGaranteOfComprobantesDeIngresosGarantesNewComprobanteDeIngreso);
+                    }
                 }
             }
             em.getTransaction().commit();
@@ -226,7 +236,7 @@ public class GaranteIndependienteJpaController implements Serializable {
             }
             List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes = garanteIndependiente.getComprobantesDeIngresosGarantes();
             for (ComprobanteDeIngreso comprobantesDeIngresosGarantesComprobanteDeIngreso : comprobantesDeIngresosGarantes) {
-                comprobantesDeIngresosGarantesComprobanteDeIngreso.getGarantes().remove(garanteIndependiente);
+                comprobantesDeIngresosGarantesComprobanteDeIngreso.setUnGarante(null);
                 comprobantesDeIngresosGarantesComprobanteDeIngreso = em.merge(comprobantesDeIngresosGarantesComprobanteDeIngreso);
             }
             em.remove(garanteIndependiente);

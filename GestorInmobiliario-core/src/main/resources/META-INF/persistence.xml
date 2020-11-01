@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="com.betancur_GestorInmobiliario_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="com.betancur_GestorInmobiliario-core_jar_1.0PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>model.entity.UsuarioEmpresa</class>
-    <class>model.entity.ReciboDeSueldo</class>
-    <class>model.entity.ContratoAlquiler</class>
-    <class>model.entity.ComprobanteDeIngreso</class>
-    <class>model.entity.DocumentoDeIngreso</class>
-    <class>model.entity.Departamento</class>
+    <class>model.entity.Actividad</class>
     <class>model.entity.Alquiler</class>
-    <class>model.entity.ContratoVenta</class>
-    <class>model.entity.ArancelEspecialServicio</class>
-    <class>model.entity.Terreno</class>
     <class>model.entity.ArancelEspecial</class>
+    <class>model.entity.ArancelEspecialExpensa</class>
+    <class>model.entity.ArancelEspecialServicio</class>
+    <class>model.entity.Barrio</class>
+    <class>model.entity.BoletaDePago</class>
+    <class>model.entity.Casa</class>
+    <class>model.entity.Cliente</class>
+    <class>model.entity.Comision</class>
+    <class>model.entity.ComprobanteDeIngreso</class>
+    <class>model.entity.ComprobanteMonotributo</class>
+    <class>model.entity.Contrato</class>
+    <class>model.entity.ContratoAlquiler</class>
+    <class>model.entity.ContratoVenta</class>
+    <class>model.entity.CuotaVenta</class>
+    <class>model.entity.Departamento</class>
+    <class>model.entity.DocumentoDeIngreso</class>
+    <class>model.entity.EstadoCivil</class>
+    <class>model.entity.Garante</class>
+    <class>model.entity.GaranteDependiente</class>
+    <class>model.entity.GaranteIndependiente</class>
+    <class>model.entity.Inmobiliaria</class>
+    <class>model.entity.Inmueble</class>
     <class>model.entity.LineaDeComision</class>
     <class>model.entity.Locador</class>
     <class>model.entity.LocalComercial</class>
-    <class>model.entity.Actividad</class>
-    <class>model.entity.TipoUsuario</class>
-    <class>model.entity.CuotaVenta</class>
-    <class>model.entity.Barrio</class>
-    <class>model.entity.Cliente</class>
-    <class>model.entity.Locatario</class>
-    <class>model.entity.ArancelEspecialExpensa</class>
-    <class>model.entity.TipoDNI</class>
-    <class>model.entity.BoletaDePago</class>
-    <class>model.entity.Comision</class>
-    <class>model.entity.LocatarioDependiente</class>
-    <class>model.entity.RecargoPorMora</class>
-    <class>model.entity.GaranteDependiente</class>
-    <class>model.entity.Inmobiliaria</class>
-    <class>model.entity.Garante</class>
-    <class>model.entity.Usuario</class>
-    <class>model.entity.UsuarioCliente</class>
-    <class>model.entity.EstadoCivil</class>
-    <class>model.entity.GaranteIndependiente</class>
-    <class>model.entity.Casa</class>
-    <class>model.entity.ComprobanteMonotributo</class>
-    <class>model.entity.Venta</class>
     <class>model.entity.Localidad</class>
+    <class>model.entity.Locatario</class>
+    <class>model.entity.LocatarioDependiente</class>
     <class>model.entity.LocatarioEstudiante</class>
     <class>model.entity.LocatarioIndependiente</class>
-    <class>model.entity.Contrato</class>
-    <class>model.entity.Inmueble</class>
     <class>model.entity.Provincia</class>
+    <class>model.entity.RecargoPorMora</class>
+    <class>model.entity.ReciboDeSueldo</class>
+    <class>model.entity.Terreno</class>
+    <class>model.entity.TipoDNI</class>
+    <class>model.entity.TipoUsuario</class>
+    <class>model.entity.Usuario</class>
+    <class>model.entity.UsuarioCliente</class>
+    <class>model.entity.UsuarioEmpresa</class>
+    <class>model.entity.Venta</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/inmobiliaria?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

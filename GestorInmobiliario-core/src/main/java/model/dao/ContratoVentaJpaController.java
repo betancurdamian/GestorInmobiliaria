@@ -5,8 +5,6 @@
  */
 package model.dao;
 
-import model.dao.exceptions.IllegalOrphanException;
-import model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -17,10 +15,12 @@ import model.entity.Comision;
 import model.entity.CuotaVenta;
 import java.util.ArrayList;
 import java.util.List;
-import model.entity.BoletaDePago;
-import model.entity.ContratoVenta;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import model.dao.exceptions.IllegalOrphanException;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.BoletaDePago;
+import model.entity.ContratoVenta;
 
 /**
  *

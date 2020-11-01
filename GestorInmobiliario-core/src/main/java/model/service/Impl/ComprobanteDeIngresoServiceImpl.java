@@ -5,29 +5,32 @@
  */
 package model.service.Impl;
 
-import dto.ContratoVentaDTO;
-import model.dao.Conexion;
-import model.service.IContratoVentaService;
+import dto.ComprobanteDeIngresoDTO;
 import java.util.List;
+import model.dao.Conexion;
+import model.service.IComprobanteDeIngresoService;
 
 /**
  *
  * @author Ariel
  */
-public class ContratoVentaServiceImpl implements IContratoVentaService{
+public class ComprobanteDeIngresoServiceImpl implements IComprobanteDeIngresoService{
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public ContratoVentaServiceImpl() {
+    public ComprobanteDeIngresoServiceImpl() {
         new Conexion();
     }
 
+    
+    
+    
     @Override
-    public ContratoVentaDTO crear(ContratoVentaDTO dto) {
+    public ComprobanteDeIngresoDTO crear(ComprobanteDeIngresoDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ContratoVentaDTO modificar(ContratoVentaDTO dto) {
+    public ComprobanteDeIngresoDTO modificar(ComprobanteDeIngresoDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -37,12 +40,12 @@ public class ContratoVentaServiceImpl implements IContratoVentaService{
     }
 
     @Override
-    public ContratoVentaDTO listarID(Long id) {
+    public ComprobanteDeIngresoDTO listarID(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ContratoVentaDTO> listarTodos() {
+    public List<ComprobanteDeIngresoDTO> listarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -45,17 +45,17 @@ public class Comision implements Serializable {
 
     @OneToMany(mappedBy = "unaComision", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
         CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<LineaDeComision> linesasDecomisiones;
+    private List<LineaDeComision> linesasDeComisiones;
 
     public Comision() {
-        this.linesasDecomisiones = new ArrayList<>();
+        this.linesasDeComisiones = new ArrayList<>();
     }
 
     public Comision(Contrato unContrato, Integer cantidadDeCuotas, Float montoTotal) {
         this.unContrato = unContrato;
         this.cantidadDeCuotas = cantidadDeCuotas;
         this.montoTotal = montoTotal;
-        this.linesasDecomisiones = new ArrayList<>();
+        this.linesasDeComisiones = new ArrayList<>();
     }
 
     public Long getId() {
@@ -90,12 +90,12 @@ public class Comision implements Serializable {
         this.montoTotal = montoTotal;
     }
 
-    public List<LineaDeComision> getLinesasDecomisiones() {
-        return linesasDecomisiones;
+    public List<LineaDeComision> getLinesasDeComisiones() {
+        return linesasDeComisiones;
     }
 
-    public void setLinesasDecomisiones(List<LineaDeComision> linesasDecomisiones) {
-        this.linesasDecomisiones = linesasDecomisiones;
+    public void setLinesasDeComisiones(List<LineaDeComision> linesasDeComisiones) {
+        this.linesasDeComisiones = linesasDeComisiones;
     }
     
 

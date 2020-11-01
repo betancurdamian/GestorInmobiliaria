@@ -20,6 +20,7 @@ import model.service.IArancelEspecialService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.entity.ArancelEspecial;
 
 /**
  *
@@ -44,60 +45,80 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
 
     @Override
     public ArancelEspecialDTO crear(ArancelEspecialDTO dto) {
-        if (dto instanceof ArancelEspecialExpensaDTO) {
-            ArancelEspecialExpensa entity = (ArancelEspecialExpensa) this.converter.fromDto(dto);
-            this.arancelEspecialExpensaDAO.create(entity);
-            dto.setId(entity.getId());
+        if (dto != null) {
+            if (dto instanceof ArancelEspecialExpensaDTO) {
+                ArancelEspecialExpensa entity = (ArancelEspecialExpensa) this.converter.fromDto(dto);
+                this.arancelEspecialExpensaDAO.create(entity);
+                dto.setId(entity.getId());
+            }
+            if (dto instanceof ArancelEspecialServicioDTO) {
+                ArancelEspecialServicio entity = (ArancelEspecialServicio) this.converter.fromDto(dto);
+                this.arancelEspecialServicioDAO.create(entity);
+                dto.setId(entity.getId());
+            }
+        } else {
+            System.out.println("El DTO es null");
         }
-        if (dto instanceof ArancelEspecialServicioDTO) {
-            ArancelEspecialServicio entity = (ArancelEspecialServicio) this.converter.fromDto(dto);
-            this.arancelEspecialServicioDAO.create(entity);
-            dto.setId(entity.getId());
-        }
-
         return dto;
     }
 
     @Override
     public ArancelEspecialDTO modificar(ArancelEspecialDTO dto) {
-        if (dto instanceof ArancelEspecialExpensaDTO) {
-            ArancelEspecialExpensa entity = (ArancelEspecialExpensa) this.converter.fromDto(dto);
-            try {
-                this.arancelEspecialExpensaDAO.edit(entity);
-            } catch (Exception ex) {
-                Logger.getLogger(ArancelEspecialServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (dto != null) {
+            if (dto.getId() != null) {
+                if (dto instanceof ArancelEspecialExpensaDTO) {
+                    ArancelEspecialExpensa entity = (ArancelEspecialExpensa) this.converter.fromDto(dto);
+                    try {
+                        this.arancelEspecialExpensaDAO.edit(entity);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ArancelEspecialServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    dto.setId(entity.getId());
+                }
+                if (dto instanceof ArancelEspecialServicioDTO) {
+                    ArancelEspecialServicio entity = (ArancelEspecialServicio) this.converter.fromDto(dto);
+                    try {
+                        this.arancelEspecialServicioDAO.edit(entity);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ArancelEspecialServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    dto.setId(entity.getId());
+                }
+            } else {
+                System.out.println("ID  DTO is null");
             }
-            dto.setId(entity.getId());
-        }
-        if (dto instanceof ArancelEspecialServicioDTO) {
-            ArancelEspecialServicio entity = (ArancelEspecialServicio) this.converter.fromDto(dto);
-            try {
-                this.arancelEspecialServicioDAO.edit(entity);
-            } catch (Exception ex) {
-                Logger.getLogger(ArancelEspecialServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            dto.setId(entity.getId());
+        } else {
+            System.out.println("DTO is null");
         }
         return dto;
     }
 
     @Override
     public void eliminar(Long id) {
-        try {
-            arancelEspecialDAO.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (id != null) {
+            if (arancelEspecialDAO.findArancelEspecial(id) != null) {
+                try {
+                    arancelEspecialDAO.destroy(id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("NO EXIST Entity to Delete");
+            }
+        } else {
+            System.out.println("ID is null");
         }
     }
 
     @Override
     public ArancelEspecialDTO listarID(Long id) {
-        return this.converter.fromEntity(arancelEspecialDAO.findArancelEspecial(id));
+        ArancelEspecial entity = arancelEspecialDAO.findArancelEspecial(id);
+        return this.converter.fromEntity(entity);
     }
 
     @Override
     public List<ArancelEspecialDTO> listarTodos() {
-        return converter.fromEntity(arancelEspecialDAO.findArancelEspecialEntities());
+        List<ArancelEspecial> entities = arancelEspecialDAO.findArancelEspecialEntities();
+        return this.converter.fromEntity(entities);
     }
-
 }

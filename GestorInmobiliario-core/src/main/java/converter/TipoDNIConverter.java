@@ -17,15 +17,16 @@ public class TipoDNIConverter extends AbstractConverter<TipoDNI, TipoDNIDTO> {
 
     @Override
     public TipoDNI fromDto(TipoDNIDTO dto) {
+        TipoDNI entity = null;
         if (dto != null) {
-            TipoDNI entity = new TipoDNI();
+            entity = new TipoDNI();
 
             if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
-
-            entity.setDescripcion(dto.getDescripcion());
-
+            if (dto.getDescripcion() != null) {
+                entity.setDescripcion(dto.getDescripcion());
+            }
             return entity;
         } else {
             return null;
@@ -34,11 +35,16 @@ public class TipoDNIConverter extends AbstractConverter<TipoDNI, TipoDNIDTO> {
 
     @Override
     public TipoDNIDTO fromEntity(TipoDNI entity) {
+        TipoDNIDTO dto = null;
         if (entity != null) {
-            TipoDNIDTO dto = new TipoDNIDTO();
+            dto = new TipoDNIDTO();
 
-            dto.setId(entity.getId());
-            dto.setDescripcion(entity.getDescripcion());
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
+            }
+            if (entity.getDescripcion() != null) {
+                dto.setDescripcion(entity.getDescripcion());
+            }
             return dto;
         } else {
             return null;

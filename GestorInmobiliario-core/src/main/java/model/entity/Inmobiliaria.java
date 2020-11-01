@@ -106,24 +106,19 @@ public class Inmobiliaria implements Serializable {
         this.usuarios = new ArrayList<>();
     }
 
-    public Inmobiliaria(String razonSocial, String cuit, String direccionCalle, String direccionNumero, Barrio direccionBarrio, String telefono, String correoElectronico) {
+    public Inmobiliaria(String razonSocial, String cuit, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
         this.razonSocial = razonSocial;
         this.cuit = cuit;
         this.direccionCalle = direccionCalle;
         this.direccionNumero = direccionNumero;
-        this.setDireccionBarrio(direccionBarrio);
+        this.direccionProvincia = direccionProvincia;
+        this.direccionLocalidad = direccionLocalidad;
+        this.direccionBarrio = direccionBarrio;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
-        this.garantes = new ArrayList<>();
-        this.clientes = new ArrayList<>();
-        this.inmuebles = new ArrayList<>();
-        this.alquileres = new ArrayList<>();
-        this.ventas = new ArrayList<>();
-        this.recargosPorMoras = new ArrayList<>();
-        this.arancelesEspeciales = new ArrayList<>();
-        this.usuarios = new ArrayList<>();
-
     }
+
+    
 
     public Long getId() {
         return id;
@@ -156,6 +151,18 @@ public class Inmobiliaria implements Serializable {
     @Override
     public String toString() {
         return "com.betancur.gestorinmobiliario.dao.Inmobiliaria[ id=" + id + " ]";
+    }
+
+    
+    
+    public boolean verificarUsuario(Usuario unUsuario){
+    
+        for (Usuario usuarioR : usuarios) {
+            if (usuarioR.getUserName().equals(unUsuario.getUserName())) {
+                
+            }
+        }
+        return false;
     }
 
     public String getRazonSocial() {
@@ -194,8 +201,16 @@ public class Inmobiliaria implements Serializable {
         return direccionProvincia;
     }
 
+    public void setDireccionProvincia(Provincia direccionProvincia) {
+        this.direccionProvincia = direccionProvincia;
+    }
+
     public Localidad getDireccionLocalidad() {
         return direccionLocalidad;
+    }
+
+    public void setDireccionLocalidad(Localidad direccionLocalidad) {
+        this.direccionLocalidad = direccionLocalidad;
     }
 
     public Barrio getDireccionBarrio() {
@@ -204,9 +219,6 @@ public class Inmobiliaria implements Serializable {
 
     public void setDireccionBarrio(Barrio direccionBarrio) {
         this.direccionBarrio = direccionBarrio;
-        this.direccionLocalidad = direccionBarrio.getUnaLocalidad();
-        this.direccionProvincia = direccionBarrio.getUnaLocalidad().getUnaProvincia();
-
     }
 
     public String getTelefono() {
@@ -223,6 +235,22 @@ public class Inmobiliaria implements Serializable {
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public List<Garante> getGarantes() {
+        return garantes;
+    }
+
+    public void setGarantes(List<Garante> garantes) {
+        this.garantes = garantes;
     }
 
     public List<Inmueble> getInmuebles() {
@@ -249,22 +277,6 @@ public class Inmobiliaria implements Serializable {
         this.ventas = ventas;
     }
 
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(List<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
-    public List<Garante> getGarantes() {
-        return garantes;
-    }
-
-    public void setGarantes(List<Garante> garantes) {
-        this.garantes = garantes;
-    }
-
     public List<RecargoPorMora> getRecargosPorMoras() {
         return recargosPorMoras;
     }
@@ -287,15 +299,5 @@ public class Inmobiliaria implements Serializable {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
-    }
-
-    public boolean verificarUsuario(Usuario unUsuario){
-    
-        for (Usuario usuarioR : usuarios) {
-            if (usuarioR.getUserName().equals(unUsuario.getUserName())) {
-                
-            }
-        }
-        return false;
     }
 }

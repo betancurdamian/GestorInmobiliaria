@@ -31,7 +31,7 @@ public class ArancelEspecialConverter extends AbstractConverter<ArancelEspecial,
                 }
                 if (dto.getUnaFechaDeRecargo() != null) {
                     entity.setUnaFechaDeRecargo(Converter.converterStringToLocalDate(dto.getUnaFechaDeRecargo()));
-                }                
+                }
                 if (dto.getDescripcion() != null) {
                     entity.setDescripcion(dto.getDescripcion());
                 }
@@ -51,7 +51,7 @@ public class ArancelEspecialConverter extends AbstractConverter<ArancelEspecial,
                 }
                 if (dto.getUnaFechaDeRecargo() != null) {
                     entity.setUnaFechaDeRecargo(Converter.converterStringToLocalDate(dto.getUnaFechaDeRecargo()));
-                }                
+                }
                 if (dto.getDescripcion() != null) {
                     entity.setDescripcion(dto.getDescripcion());
                 }
@@ -81,7 +81,7 @@ public class ArancelEspecialConverter extends AbstractConverter<ArancelEspecial,
                 }
                 if (entity.getUnaFechaDeRecargo() != null) {
                     dto.setUnaFechaDeRecargo(Converter.converterLocalDateToString(entity.getUnaFechaDeRecargo()));
-                }                
+                }
                 if (entity.getDescripcion() != null) {
                     dto.setDescripcion(entity.getDescripcion());
                 }
@@ -99,10 +99,10 @@ public class ArancelEspecialConverter extends AbstractConverter<ArancelEspecial,
                 if (entity.getId() != null) {
                     dto.setId(entity.getId());
                 }
-                
+
                 if (entity.getUnaFechaDeRecargo() != null) {
                     dto.setUnaFechaDeRecargo(Converter.converterLocalDateToString(entity.getUnaFechaDeRecargo()));
-                }                
+                }
                 if (entity.getDescripcion() != null) {
                     dto.setDescripcion(entity.getDescripcion());
                 }

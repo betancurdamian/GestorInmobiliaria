@@ -18,8 +18,9 @@ public class BoletaDePagoConverter extends AbstractConverter<BoletaDePago, Bolet
 
     @Override
     public BoletaDePago fromDto(BoletaDePagoDTO dto) {
+        BoletaDePago entity = null;
         if (dto != null) {
-            BoletaDePago entity = new BoletaDePago();
+            entity = new BoletaDePago();
             if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
@@ -50,8 +51,9 @@ public class BoletaDePagoConverter extends AbstractConverter<BoletaDePago, Bolet
 
     @Override
     public BoletaDePagoDTO fromEntity(BoletaDePago entity) {
+        BoletaDePagoDTO dto = null;
         if (entity != null) {
-            BoletaDePagoDTO dto = new BoletaDePagoDTO();
+            dto = new BoletaDePagoDTO();
             if (entity.getId() != null) {
                 dto.setId(entity.getId());
             }

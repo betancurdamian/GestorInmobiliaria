@@ -5,9 +5,6 @@
  */
 package model.dao;
 
-import model.dao.exceptions.IllegalOrphanException;
-import model.dao.exceptions.NonexistentEntityException;
-import model.entity.Cliente;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -19,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import model.dao.exceptions.IllegalOrphanException;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.Cliente;
 
 /**
  *

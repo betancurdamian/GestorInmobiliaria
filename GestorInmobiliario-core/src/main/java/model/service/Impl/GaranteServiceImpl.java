@@ -5,29 +5,33 @@
  */
 package model.service.Impl;
 
-import dto.ContratoAlquilerDTO;
-import model.dao.Conexion;
-import model.service.IContratoAlquilerService;
+import dto.GaranteDTO;
 import java.util.List;
+import model.dao.Conexion;
+import model.service.IGaranteService;
 
 /**
  *
  * @author Ariel
  */
-public class ContratoAlquilerServiceImpl implements IContratoAlquilerService {
+public class GaranteServiceImpl implements IGaranteService{
 
+    
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public ContratoAlquilerServiceImpl() {
+    public GaranteServiceImpl() {
         new Conexion();
     }
 
+    
+    
+    
     @Override
-    public ContratoAlquilerDTO crear(ContratoAlquilerDTO dto) {
+    public GaranteDTO crear(GaranteDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ContratoAlquilerDTO modificar(ContratoAlquilerDTO dto) {
+    public GaranteDTO modificar(GaranteDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -37,12 +41,12 @@ public class ContratoAlquilerServiceImpl implements IContratoAlquilerService {
     }
 
     @Override
-    public ContratoAlquilerDTO listarID(Long id) {
+    public GaranteDTO listarID(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ContratoAlquilerDTO> listarTodos() {
+    public List<GaranteDTO> listarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

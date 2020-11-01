@@ -20,12 +20,11 @@ import java.util.logging.Logger;
  *
  * @author Ariel
  */
-public class ProvinciaServiceImpl implements IProvinciaService{
+public class ProvinciaServiceImpl implements IProvinciaService {
 
     private final ProvinciaJpaController provinciaDAO;
-    
     private final ProvinciaConverter converter;
-    
+
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ProvinciaServiceImpl() {
         new Conexion();
@@ -33,34 +32,52 @@ public class ProvinciaServiceImpl implements IProvinciaService{
         this.converter = new ProvinciaConverter();
     }
 
-    
-    
     @Override
     public ProvinciaDTO crear(ProvinciaDTO dto) {
-        Provincia entity = this.converter.fromDto(dto);
-        this.provinciaDAO.create(entity);
-        dto.setId(entity.getId());
+        if (dto != null) {
+            Provincia entity = this.converter.fromDto(dto);
+            this.provinciaDAO.create(entity);
+            dto.setId(entity.getId());
+        } else {
+            System.out.println("El DTO es null");
+        }
         return dto;
     }
 
     @Override
     public ProvinciaDTO modificar(ProvinciaDTO dto) {
-        Provincia entity = this.converter.fromDto(dto);
-        try {
-            provinciaDAO.edit(entity);
-        } catch (Exception ex) {
-            Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (dto != null) {
+            if (dto.getId() != null) {
+                Provincia entity = this.converter.fromDto(dto);
+                try {
+                    provinciaDAO.edit(entity);
+                } catch (Exception ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("ID  DTO is null");
+            }
+        } else {
+            System.out.println("DTO is null");
         }
         return dto;
     }
 
     @Override
     public void eliminar(Long id) {
-        try {
-            provinciaDAO.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        if (id != null) {
+            if (provinciaDAO.findProvincia(id) != null) {
+                try {
+                    provinciaDAO.destroy(id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("NO EXIST Entity to Delete");
+            }
+        } else {
+            System.out.println("ID is null");
+        }
     }
 
     @Override
@@ -74,5 +91,5 @@ public class ProvinciaServiceImpl implements IProvinciaService{
         List<Provincia> entities = provinciaDAO.findProvinciaEntities();
         return this.converter.fromEntity(entities);
     }
-    
+
 }

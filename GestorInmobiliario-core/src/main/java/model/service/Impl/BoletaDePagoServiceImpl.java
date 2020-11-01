@@ -5,46 +5,90 @@
  */
 package model.service.Impl;
 
+import converter.BoletaDePagoConverter;
 import dto.BoletaDePagoDTO;
 import model.dao.Conexion;
 import model.service.IBoletaDePagoService;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.dao.BoletaDePagoJpaController;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.BoletaDePago;
 
 /**
  *
  * @author Ariel
  */
-public class BoletaDePagoServiceImpl implements IBoletaDePagoService{
+public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
+
+    private final BoletaDePagoJpaController boletaDePagoDAO;
+    private final BoletaDePagoConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public BoletaDePagoServiceImpl() {
         new Conexion();
+        this.boletaDePagoDAO = new BoletaDePagoJpaController(Conexion.getEmf());
+        this.converter = new BoletaDePagoConverter();
     }
 
-    
     @Override
     public BoletaDePagoDTO crear(BoletaDePagoDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (dto != null) {
+            BoletaDePago entity = this.converter.fromDto(dto);
+            this.boletaDePagoDAO.create(entity);
+            dto.setId(entity.getId());
+        } else {
+            System.out.println("El DTO es null");
+        }
+        return dto;
     }
 
     @Override
     public BoletaDePagoDTO modificar(BoletaDePagoDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (dto != null) {
+            if (dto.getId() != null) {
+                BoletaDePago entity = this.converter.fromDto(dto);
+                try {
+                    boletaDePagoDAO.edit(entity);
+                } catch (Exception ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("ID  DTO is null");
+            }
+        } else {
+            System.out.println("DTO is null");
+        }
+        return dto;
     }
 
     @Override
     public void eliminar(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (id != null) {
+            if (boletaDePagoDAO.findBoletaDePago(id) != null) {
+                try {
+                    boletaDePagoDAO.destroy(id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("NO EXIST Entity to Delete");
+            }
+        } else {
+            System.out.println("ID is null");
+        }
     }
 
     @Override
     public BoletaDePagoDTO listarID(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BoletaDePago entity = boletaDePagoDAO.findBoletaDePago(id);
+        return this.converter.fromEntity(entity);
     }
 
     @Override
     public List<BoletaDePagoDTO> listarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<BoletaDePago> entities = boletaDePagoDAO.findBoletaDePagoEntities();
+        return this.converter.fromEntity(entities);
     }
-    
 }

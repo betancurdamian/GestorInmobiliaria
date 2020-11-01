@@ -17,8 +17,10 @@ public class BarrioConverter extends AbstractConverter<Barrio, BarrioDTO> {
 
     @Override
     public Barrio fromDto(BarrioDTO dto) {
+        Barrio entity = null;
         if (dto != null) {
-            Barrio entity = new Barrio();
+            entity = new Barrio();
+
             if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
@@ -40,8 +42,10 @@ public class BarrioConverter extends AbstractConverter<Barrio, BarrioDTO> {
 
     @Override
     public BarrioDTO fromEntity(Barrio entity) {
+        BarrioDTO dto = null;
         if (entity != null) {
-            BarrioDTO dto = new BarrioDTO();
+            dto = new BarrioDTO();
+
             if (entity.getId() != null) {
                 dto.setId(entity.getId());
             }

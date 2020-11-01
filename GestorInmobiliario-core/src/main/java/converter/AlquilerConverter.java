@@ -20,8 +20,9 @@ public class AlquilerConverter extends AbstractConverter<Alquiler, AlquilerDTO> 
 
     @Override
     public Alquiler fromDto(AlquilerDTO dto) {
+        Alquiler entity = null;
         if (dto != null) {
-            Alquiler entity = new Alquiler();
+            entity = new Alquiler();
             if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
@@ -43,8 +44,8 @@ public class AlquilerConverter extends AbstractConverter<Alquiler, AlquilerDTO> 
                 InmobiliariaConverter converter = new InmobiliariaConverter();
                 entity.setUnaInmobiliariaAlquiler(converter.fromDto(dto.getUnaInmobiliariaAlquilerDTO()));
             }
-            if (dto.isDisponible() != null) {
-                entity.setDisponible(dto.isDisponible());
+            if (dto.getDisponible() != null) {
+                entity.setDisponible(dto.getDisponible());
             }
             return entity;
         } else {
@@ -54,8 +55,9 @@ public class AlquilerConverter extends AbstractConverter<Alquiler, AlquilerDTO> 
 
     @Override
     public AlquilerDTO fromEntity(Alquiler entity) {
+        AlquilerDTO dto = null;
         if (entity != null) {
-            AlquilerDTO dto = new AlquilerDTO();
+            dto = new AlquilerDTO();
             if (entity.getId() != null) {
                 dto.setId(entity.getId());
             }

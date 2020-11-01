@@ -17,8 +17,9 @@ public class ActividadConverter extends AbstractConverter<Actividad, ActividadDT
 
     @Override
     public Actividad fromDto(ActividadDTO dto) {
+        Actividad entity = null;
         if (dto != null) {
-            Actividad entity = new Actividad();
+            entity = new Actividad();
             if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
@@ -33,8 +34,9 @@ public class ActividadConverter extends AbstractConverter<Actividad, ActividadDT
 
     @Override
     public ActividadDTO fromEntity(Actividad entity) {
+        ActividadDTO dto = null;
         if (entity != null) {
-            ActividadDTO dto = new ActividadDTO();
+            dto = new ActividadDTO();
             if (entity.getId() != null) {
                 dto.setId(entity.getId());
             }

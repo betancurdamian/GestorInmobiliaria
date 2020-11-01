@@ -31,11 +31,13 @@ public class ComprobanteMonotributo extends ComprobanteDeIngreso {
         this.estadoMonotributo = estadoMonotributo;
     }
 
-    public ComprobanteMonotributo(String cuit, Boolean estadoMonotributo, Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
-        super(mes, anio, importeBruto, importeNeto);
+    public ComprobanteMonotributo(String cuit, Boolean estadoMonotributo, Integer mes, Integer anio, Float importeBruto, Float importeNeto, Locatario unLocatario, Garante unGarante) {
+        super(mes, anio, importeBruto, importeNeto, unLocatario, unGarante);
         this.cuit = cuit;
         this.estadoMonotributo = estadoMonotributo;
     }
+
+    
 
     public String getCuit() {
         return cuit;

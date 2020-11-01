@@ -32,7 +32,7 @@ public class AlquilerServiceImpl implements IAlquilerService {
     private final InmobiliariaJpaController inmobiliariaDAO;
     private final InmuebleJpaController inmuebleDAO;
     private final ContratoAlquilerJpaController contratoAlquilerDAO;
-    
+
     private final AlquilerConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -42,51 +42,69 @@ public class AlquilerServiceImpl implements IAlquilerService {
         this.inmobiliariaDAO = new InmobiliariaJpaController(Conexion.getEmf());
         this.inmuebleDAO = new InmuebleJpaController(Conexion.getEmf());
         this.contratoAlquilerDAO = new ContratoAlquilerJpaController(Conexion.getEmf());
-        
+
         this.converter = new AlquilerConverter();
     }
 
     @Override
     public AlquilerDTO crear(AlquilerDTO dto) {
-        Alquiler entity = this.converter.fromDto(dto);
+        if (dto != null) {
+            Alquiler entity = this.converter.fromDto(dto);
 
-        if (dto.getUnInmuebleDTO()!= null) {
-            InmuebleConverter converterInmueble = new InmuebleConverter();            
-            entity.setUnInmuebleAlquiler(inmuebleDAO.findInmueble(converterInmueble.fromDto(dto.getUnInmuebleDTO()).getId()));
+            if (dto.getUnInmuebleDTO() != null) {
+                InmuebleConverter converterInmueble = new InmuebleConverter();
+                entity.setUnInmuebleAlquiler(inmuebleDAO.findInmueble(converterInmueble.fromDto(dto.getUnInmuebleDTO()).getId()));
+            }
+            if (dto.getUnaInmobiliariaAlquilerDTO() != null) {
+                InmobiliariaConverter converterInmobiliaria = new InmobiliariaConverter();
+                entity.setUnaInmobiliariaAlquiler(inmobiliariaDAO.findInmobiliaria(converterInmobiliaria.fromDto(dto.getUnaInmobiliariaAlquilerDTO()).getId()));
+            }
+
+            if (dto.getUnContratoAlquilerDTO() != null) {
+                ContratoConverter converterContratoAlquiler = new ContratoConverter();
+                entity.setUnContratoAlquiler(contratoAlquilerDAO.findContratoAlquiler(converterContratoAlquiler.fromDto(dto.getUnContratoAlquilerDTO()).getId()));
+            }
+            this.alquilerDAO.create(entity);
+            dto.setId(entity.getId());
+        } else {
+            System.out.println("El DTO es null");
         }
-        if (dto.getUnaInmobiliariaAlquilerDTO() != null) {
-            InmobiliariaConverter converterInmobiliaria = new InmobiliariaConverter();            
-            entity.setUnaInmobiliariaAlquiler(inmobiliariaDAO.findInmobiliaria(converterInmobiliaria.fromDto(dto.getUnaInmobiliariaAlquilerDTO()).getId()));
-        }
-        
-        if (dto.getUnContratoAlquilerDTO()!= null) {
-            ContratoConverter converterContratoAlquiler = new ContratoConverter();            
-            entity.setUnContratoAlquiler(contratoAlquilerDAO.findContratoAlquiler(converterContratoAlquiler.fromDto(dto.getUnContratoAlquilerDTO()).getId()));
-        }
-        
-        this.alquilerDAO.create(entity);
-        dto.setId(entity.getId());
         return dto;
     }
 
     @Override
     public AlquilerDTO modificar(AlquilerDTO dto) {
-        Alquiler entity = this.converter.fromDto(dto);
-
-        try {
-            alquilerDAO.edit(entity);
-        } catch (Exception ex) {
-            Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (dto != null) {
+            if (dto.getId() != null) {
+                Alquiler entity = this.converter.fromDto(dto);
+                try {
+                    alquilerDAO.edit(entity);
+                } catch (Exception ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("ID  DTO is null");
+            }
+        } else {
+            System.out.println("DTO is null");
         }
         return dto;
     }
 
     @Override
     public void eliminar(Long id) {
-        try {
-            alquilerDAO.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (id != null) {
+            if (alquilerDAO.findAlquiler(id) != null) {
+                try {
+                    alquilerDAO.destroy(id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("NO EXIST Entity to Delete");
+            }
+        } else {
+            System.out.println("ID is null");
         }
     }
 

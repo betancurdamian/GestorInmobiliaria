@@ -5,29 +5,32 @@
  */
 package model.service.Impl;
 
-import dto.ReciboDeSueldoDTO;
-import model.dao.Conexion;
-import model.service.IReciboDeSueldoService;
+import dto.UsuarioDTO;
 import java.util.List;
+import model.dao.Conexion;
+import model.service.IUsuarioService;
 
 /**
  *
  * @author Ariel
  */
-public class ReciboDeSueldoServiceImpl implements IReciboDeSueldoService{
+public class UsuarioServiceImpl implements IUsuarioService{
 
+    
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public ReciboDeSueldoServiceImpl() {
+    public UsuarioServiceImpl() {
         new Conexion();
     }
 
+    
+    
     @Override
-    public ReciboDeSueldoDTO crear(ReciboDeSueldoDTO dto) {
+    public UsuarioDTO crear(UsuarioDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ReciboDeSueldoDTO modificar(ReciboDeSueldoDTO dto) {
+    public UsuarioDTO modificar(UsuarioDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -37,12 +40,12 @@ public class ReciboDeSueldoServiceImpl implements IReciboDeSueldoService{
     }
 
     @Override
-    public ReciboDeSueldoDTO listarID(Long id) {
+    public UsuarioDTO listarID(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ReciboDeSueldoDTO> listarTodos() {
+    public List<UsuarioDTO> listarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

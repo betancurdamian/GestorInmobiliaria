@@ -71,7 +71,6 @@ public class InmuebleConverter extends AbstractConverter<Inmueble, InmuebleDTO> 
                     ((Terreno) entity).setLargo(((TerrenoDTO) dto).getLargo());
                 }
             }
-
             if (dto instanceof CasaDTO) {
                 entity = new Casa();
 
@@ -168,7 +167,6 @@ public class InmuebleConverter extends AbstractConverter<Inmueble, InmuebleDTO> 
                 if (((DepartamentoDTO) dto).getCantidadDeBanio() != null) {
                     ((Departamento) entity).setCantidadDeBanio(((DepartamentoDTO) dto).getCantidadDeBanio());
                 }
-
                 if (((DepartamentoDTO) dto).getBalcon() != null) {
                     ((Departamento) entity).setBalcon(((DepartamentoDTO) dto).getBalcon());
                 }
@@ -213,7 +211,6 @@ public class InmuebleConverter extends AbstractConverter<Inmueble, InmuebleDTO> 
                 if (((LocalComercialDTO) dto).getCantidadDeBanio() != null) {
                     ((LocalComercial) entity).setCantidadDeBanio(((LocalComercialDTO) dto).getCantidadDeBanio());
                 }
-
                 if (((LocalComercialDTO) dto).getCochera() != null) {
                     ((LocalComercial) entity).setCochera(((LocalComercialDTO) dto).getCochera());
                 }
@@ -325,7 +322,6 @@ public class InmuebleConverter extends AbstractConverter<Inmueble, InmuebleDTO> 
                     ((CasaDTO) dto).setJardin(((Casa) entity).getJardin());
                 }
             }
-
             if (entity instanceof Departamento) {
                 dto = new DepartamentoDTO();
 
@@ -411,16 +407,13 @@ public class InmuebleConverter extends AbstractConverter<Inmueble, InmuebleDTO> 
                     InmobiliariaConverter converter = new InmobiliariaConverter();
                     dto.setUnaInmobiliariaInmuebleDTO(converter.fromEntity(entity.getUnaInmobiliariaInmueble()));
                 }
-
                 if (((LocalComercial) entity).getCantidadDeBanio() != null) {
                     ((LocalComercialDTO) dto).setCantidadDeBanio(((LocalComercial) entity).getCantidadDeBanio());
                 }
-
                 if (((LocalComercial) entity).getCochera() != null) {
                     ((LocalComercialDTO) dto).setCochera(((LocalComercial) entity).getCochera());
                 }
             }
-
             return dto;
         } else {
             return dto;

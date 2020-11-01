@@ -11,7 +11,7 @@ package dto;
  */
 public class ComprobanteMonotributoDTO extends ComprobanteDeIngresoDTO{
     private String cuit;
-    private boolean estadoMonotributo;
+    private Boolean estadoMonotributo;
 
     public String getCuit() {
         return cuit;
@@ -21,12 +21,14 @@ public class ComprobanteMonotributoDTO extends ComprobanteDeIngresoDTO{
         this.cuit = cuit;
     }
 
-    public boolean isEstadoMonotributo() {
+    public Boolean getEstadoMonotributo() {
         return estadoMonotributo;
     }
 
-    public void setEstadoMonotributo(boolean estadoMonotributo) {
+    public void setEstadoMonotributo(Boolean estadoMonotributo) {
         this.estadoMonotributo = estadoMonotributo;
     }
+
+    
     
 }

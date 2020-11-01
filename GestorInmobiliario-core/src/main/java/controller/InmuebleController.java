@@ -10,10 +10,6 @@ import dto.DepartamentoDTO;
 import dto.InmuebleDTO;
 import dto.LocalComercialDTO;
 import dto.TerrenoDTO;
-import model.entity.Casa;
-import model.entity.Departamento;
-import model.entity.LocalComercial;
-import model.entity.Terreno;
 import model.service.IInmuebleService;
 import model.service.Impl.InmuebleServiceImpl;
 

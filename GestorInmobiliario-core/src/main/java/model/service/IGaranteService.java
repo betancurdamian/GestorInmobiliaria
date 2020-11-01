@@ -5,12 +5,12 @@
  */
 package model.service;
 
-import dto.GaranteIndependienteDTO;
+import dto.GaranteDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IGaranteIndependienteService extends ICRUD<GaranteIndependienteDTO>{
+public interface IGaranteService extends ICRUD<GaranteDTO>{
     
 }

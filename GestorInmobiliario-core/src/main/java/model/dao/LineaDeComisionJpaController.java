@@ -5,17 +5,17 @@
  */
 package model.dao;
 
-import model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Comision;
 import model.entity.LineaDeComision;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -44,7 +44,7 @@ public class LineaDeComisionJpaController implements Serializable {
             }
             em.persist(lineaDeComision);
             if (unaComision != null) {
-                unaComision.getLinesasDecomisiones().add(lineaDeComision);
+                unaComision.getLinesasDeComisiones().add(lineaDeComision);
                 unaComision = em.merge(unaComision);
             }
             em.getTransaction().commit();
@@ -69,11 +69,11 @@ public class LineaDeComisionJpaController implements Serializable {
             }
             lineaDeComision = em.merge(lineaDeComision);
             if (unaComisionOld != null && !unaComisionOld.equals(unaComisionNew)) {
-                unaComisionOld.getLinesasDecomisiones().remove(lineaDeComision);
+                unaComisionOld.getLinesasDeComisiones().remove(lineaDeComision);
                 unaComisionOld = em.merge(unaComisionOld);
             }
             if (unaComisionNew != null && !unaComisionNew.equals(unaComisionOld)) {
-                unaComisionNew.getLinesasDecomisiones().add(lineaDeComision);
+                unaComisionNew.getLinesasDeComisiones().add(lineaDeComision);
                 unaComisionNew = em.merge(unaComisionNew);
             }
             em.getTransaction().commit();
@@ -107,7 +107,7 @@ public class LineaDeComisionJpaController implements Serializable {
             }
             Comision unaComision = lineaDeComision.getUnaComision();
             if (unaComision != null) {
-                unaComision.getLinesasDecomisiones().remove(lineaDeComision);
+                unaComision.getLinesasDeComisiones().remove(lineaDeComision);
                 unaComision = em.merge(unaComision);
             }
             em.remove(lineaDeComision);

@@ -5,9 +5,11 @@
  */
 package converter;
 
+import dto.ContratoVentaDTO;
 import dto.CuotaVentaDTO;
 import model.entity.CuotaVenta;
 import java.util.List;
+import model.entity.ContratoVenta;
 
 /**
  *
@@ -17,12 +19,51 @@ public class CuotaVentaConverter extends AbstractConverter<CuotaVenta, CuotaVent
 
     @Override
     public CuotaVenta fromDto(CuotaVentaDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CuotaVenta entity = null;
+        if (dto != null) {
+            entity = new CuotaVenta();
+            if (dto.getId() != null) {
+                entity.setId(dto.getId());
+            }
+            if (dto.getNumeroCuota() != null) {
+                entity.setNumeroCuota(dto.getNumeroCuota());
+            }
+            if (dto.getMontoCuota() != null) {
+                entity.setMontoCuota(dto.getMontoCuota());
+            }
+            if (dto.getUnContratoVentaDTO() != null) {
+                ContratoConverter converter = new ContratoConverter();
+                entity.setUnContratoVenta((ContratoVenta) converter.fromDto(dto.getUnContratoVentaDTO()));
+            }
+            return entity;
+        } else {
+            return entity;
+        }
     }
 
     @Override
     public CuotaVentaDTO fromEntity(CuotaVenta entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CuotaVentaDTO dto = null;
+        if (entity != null) {
+            dto = new CuotaVentaDTO();
+            
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
+            }
+            if (entity.getNumeroCuota() != null) {
+                dto.setNumeroCuota(entity.getNumeroCuota());
+            }
+            if (entity.getMontoCuota() != null) {
+                dto.setMontoCuota(entity.getMontoCuota());
+            }
+            if (entity.getUnContratoVenta() != null) {
+                ContratoConverter converter = new ContratoConverter();
+                dto.setUnContratoVentaDTO((ContratoVentaDTO) converter.fromEntity(entity.getUnContratoVenta()));
+            }
+            return dto;
+        } else {
+            return dto;
+        }
     }
 
     @Override

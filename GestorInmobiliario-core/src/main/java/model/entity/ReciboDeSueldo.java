@@ -31,11 +31,13 @@ public class ReciboDeSueldo extends ComprobanteDeIngreso {
         this.antiguedad = antiguedad;
     }
 
-    public ReciboDeSueldo(String nombreEmpresa, Integer antiguedad, Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
-        super(mes, anio, importeBruto, importeNeto);
+    public ReciboDeSueldo(String nombreEmpresa, Integer antiguedad, Integer mes, Integer anio, Float importeBruto, Float importeNeto, Locatario unLocatario, Garante unGarante) {
+        super(mes, anio, importeBruto, importeNeto, unLocatario, unGarante);
         this.nombreEmpresa = nombreEmpresa;
         this.antiguedad = antiguedad;
     }
+
+    
 
     public String getNombreEmpresa() {
         return nombreEmpresa;

@@ -7,14 +7,17 @@ package model.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,10 +38,8 @@ public abstract class Locatario extends Cliente {
     @OneToOne(mappedBy = "unLocatario")
     private Garante unGarante;
 
-    @ManyToMany
-    @JoinTable(name = "rel_locatario_comprobante_ingreso",
-            joinColumns = @JoinColumn(name = "id_locatario"),
-            inverseJoinColumns = @JoinColumn(name = "id_comprobante_ingreso"))
+    @OneToMany(mappedBy = "unLocatario", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ComprobanteDeIngreso> comprobantesDeIngresosLocatarios;
 
     public Locatario() {

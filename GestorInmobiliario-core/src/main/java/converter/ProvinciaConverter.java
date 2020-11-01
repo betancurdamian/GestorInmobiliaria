@@ -13,24 +13,27 @@ import java.util.List;
  *
  * @author Ariel
  */
-public class ProvinciaConverter extends AbstractConverter<Provincia, ProvinciaDTO>{
+public class ProvinciaConverter extends AbstractConverter<Provincia, ProvinciaDTO> {
 
     @Override
     public Provincia fromDto(ProvinciaDTO dto) {
+        Provincia entity = null;
         if (dto != null) {
-            Provincia entity = new Provincia();
-            
-            if (dto.getId()!=null) {
+            entity = new Provincia();
+
+            if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
-            entity.setNombre(dto.getNombre());
-            entity.setCodigoPostal(dto.getCodigoPostal());
-            
+            if (dto.getNombre() != null) {
+                entity.setNombre(dto.getNombre());
+            }
+            if (dto.getCodigoPostal() != null) {
+                entity.setCodigoPostal(dto.getCodigoPostal());
+            }
             if (!dto.getLocalidades().isEmpty()) {
                 LocalidadConverter converter = new LocalidadConverter();
                 entity.setLocalidades(converter.fromDto(dto.getLocalidades()));
             }
-            
             return entity;
         } else {
             return null;
@@ -39,18 +42,23 @@ public class ProvinciaConverter extends AbstractConverter<Provincia, ProvinciaDT
 
     @Override
     public ProvinciaDTO fromEntity(Provincia entity) {
+        ProvinciaDTO dto = null;
         if (entity != null) {
-            ProvinciaDTO dto = new ProvinciaDTO();
-            
-            dto.setId(entity.getId());
-            dto.setNombre(entity.getNombre());
-            dto.setCodigoPostal(entity.getCodigoPostal());           
-            
+            dto = new ProvinciaDTO();
+
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
+            }
+            if (entity.getNombre() != null) {
+                dto.setNombre(entity.getNombre());
+            }
+            if (entity.getCodigoPostal() != null) {
+                dto.setCodigoPostal(entity.getCodigoPostal());
+            }
             if (!entity.getLocalidades().isEmpty()) {
                 LocalidadConverter converter = new LocalidadConverter();
                 dto.setLocalidades(converter.fromEntity(entity.getLocalidades()));
             }
-            
             return dto;
         } else {
             return null;
@@ -66,6 +74,5 @@ public class ProvinciaConverter extends AbstractConverter<Provincia, ProvinciaDT
     public List<Provincia> fromDto(List<ProvinciaDTO> dtos) {
         return super.fromDto(dtos); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

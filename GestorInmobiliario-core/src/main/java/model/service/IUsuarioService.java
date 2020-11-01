@@ -5,12 +5,12 @@
  */
 package model.service;
 
-import dto.LocatarioEstudianteDTO;
+import dto.UsuarioDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface ILocatarioEstudianteService extends ICRUD<LocatarioEstudianteDTO>{
+public interface IUsuarioService extends ICRUD<UsuarioDTO>{
     
 }

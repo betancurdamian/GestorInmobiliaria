@@ -25,7 +25,7 @@ public class Conexion {
 
     private static void conectar() {
         if (em == null) {
-            Conexion.emf = Persistence.createEntityManagerFactory("com.betancur_GestorInmobiliario_jar_1.0PU");
+            Conexion.emf = Persistence.createEntityManagerFactory("com.betancur_GestorInmobiliario-core_jar_1.0PU");
             Conexion.em = Conexion.emf.createEntityManager();
         }
     }

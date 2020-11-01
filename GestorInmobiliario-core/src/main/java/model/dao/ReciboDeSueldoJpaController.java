@@ -5,19 +5,18 @@
  */
 package model.dao;
 
-import model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Locatario;
-import java.util.ArrayList;
-import java.util.List;
 import model.entity.Garante;
 import model.entity.ReciboDeSueldo;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -35,36 +34,28 @@ public class ReciboDeSueldoJpaController implements Serializable {
     }
 
     public void create(ReciboDeSueldo reciboDeSueldo) {
-        if (reciboDeSueldo.getLocatarios() == null) {
-            reciboDeSueldo.setLocatarios(new ArrayList<Locatario>());
-        }
-        if (reciboDeSueldo.getGarantes() == null) {
-            reciboDeSueldo.setGarantes(new ArrayList<Garante>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Locatario> attachedLocatarios = new ArrayList<Locatario>();
-            for (Locatario locatariosLocatarioToAttach : reciboDeSueldo.getLocatarios()) {
-                locatariosLocatarioToAttach = em.getReference(locatariosLocatarioToAttach.getClass(), locatariosLocatarioToAttach.getId());
-                attachedLocatarios.add(locatariosLocatarioToAttach);
+            Locatario unLocatario = reciboDeSueldo.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario = em.getReference(unLocatario.getClass(), unLocatario.getId());
+                reciboDeSueldo.setUnLocatario(unLocatario);
             }
-            reciboDeSueldo.setLocatarios(attachedLocatarios);
-            List<Garante> attachedGarantes = new ArrayList<Garante>();
-            for (Garante garantesGaranteToAttach : reciboDeSueldo.getGarantes()) {
-                garantesGaranteToAttach = em.getReference(garantesGaranteToAttach.getClass(), garantesGaranteToAttach.getId());
-                attachedGarantes.add(garantesGaranteToAttach);
+            Garante unGarante = reciboDeSueldo.getUnGarante();
+            if (unGarante != null) {
+                unGarante = em.getReference(unGarante.getClass(), unGarante.getId());
+                reciboDeSueldo.setUnGarante(unGarante);
             }
-            reciboDeSueldo.setGarantes(attachedGarantes);
             em.persist(reciboDeSueldo);
-            for (Locatario locatariosLocatario : reciboDeSueldo.getLocatarios()) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().add(reciboDeSueldo);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().add(reciboDeSueldo);
+                unLocatario = em.merge(unLocatario);
             }
-            for (Garante garantesGarante : reciboDeSueldo.getGarantes()) {
-                garantesGarante.getComprobantesDeIngresosGarantes().add(reciboDeSueldo);
-                garantesGarante = em.merge(garantesGarante);
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().add(reciboDeSueldo);
+                unGarante = em.merge(unGarante);
             }
             em.getTransaction().commit();
         } finally {
@@ -80,48 +71,34 @@ public class ReciboDeSueldoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             ReciboDeSueldo persistentReciboDeSueldo = em.find(ReciboDeSueldo.class, reciboDeSueldo.getId());
-            List<Locatario> locatariosOld = persistentReciboDeSueldo.getLocatarios();
-            List<Locatario> locatariosNew = reciboDeSueldo.getLocatarios();
-            List<Garante> garantesOld = persistentReciboDeSueldo.getGarantes();
-            List<Garante> garantesNew = reciboDeSueldo.getGarantes();
-            List<Locatario> attachedLocatariosNew = new ArrayList<Locatario>();
-            for (Locatario locatariosNewLocatarioToAttach : locatariosNew) {
-                locatariosNewLocatarioToAttach = em.getReference(locatariosNewLocatarioToAttach.getClass(), locatariosNewLocatarioToAttach.getId());
-                attachedLocatariosNew.add(locatariosNewLocatarioToAttach);
+            Locatario unLocatarioOld = persistentReciboDeSueldo.getUnLocatario();
+            Locatario unLocatarioNew = reciboDeSueldo.getUnLocatario();
+            Garante unGaranteOld = persistentReciboDeSueldo.getUnGarante();
+            Garante unGaranteNew = reciboDeSueldo.getUnGarante();
+            if (unLocatarioNew != null) {
+                unLocatarioNew = em.getReference(unLocatarioNew.getClass(), unLocatarioNew.getId());
+                reciboDeSueldo.setUnLocatario(unLocatarioNew);
             }
-            locatariosNew = attachedLocatariosNew;
-            reciboDeSueldo.setLocatarios(locatariosNew);
-            List<Garante> attachedGarantesNew = new ArrayList<Garante>();
-            for (Garante garantesNewGaranteToAttach : garantesNew) {
-                garantesNewGaranteToAttach = em.getReference(garantesNewGaranteToAttach.getClass(), garantesNewGaranteToAttach.getId());
-                attachedGarantesNew.add(garantesNewGaranteToAttach);
+            if (unGaranteNew != null) {
+                unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
+                reciboDeSueldo.setUnGarante(unGaranteNew);
             }
-            garantesNew = attachedGarantesNew;
-            reciboDeSueldo.setGarantes(garantesNew);
             reciboDeSueldo = em.merge(reciboDeSueldo);
-            for (Locatario locatariosOldLocatario : locatariosOld) {
-                if (!locatariosNew.contains(locatariosOldLocatario)) {
-                    locatariosOldLocatario.getComprobantesDeIngresosLocatarios().remove(reciboDeSueldo);
-                    locatariosOldLocatario = em.merge(locatariosOldLocatario);
-                }
+            if (unLocatarioOld != null && !unLocatarioOld.equals(unLocatarioNew)) {
+                unLocatarioOld.getComprobantesDeIngresosLocatarios().remove(reciboDeSueldo);
+                unLocatarioOld = em.merge(unLocatarioOld);
             }
-            for (Locatario locatariosNewLocatario : locatariosNew) {
-                if (!locatariosOld.contains(locatariosNewLocatario)) {
-                    locatariosNewLocatario.getComprobantesDeIngresosLocatarios().add(reciboDeSueldo);
-                    locatariosNewLocatario = em.merge(locatariosNewLocatario);
-                }
+            if (unLocatarioNew != null && !unLocatarioNew.equals(unLocatarioOld)) {
+                unLocatarioNew.getComprobantesDeIngresosLocatarios().add(reciboDeSueldo);
+                unLocatarioNew = em.merge(unLocatarioNew);
             }
-            for (Garante garantesOldGarante : garantesOld) {
-                if (!garantesNew.contains(garantesOldGarante)) {
-                    garantesOldGarante.getComprobantesDeIngresosGarantes().remove(reciboDeSueldo);
-                    garantesOldGarante = em.merge(garantesOldGarante);
-                }
+            if (unGaranteOld != null && !unGaranteOld.equals(unGaranteNew)) {
+                unGaranteOld.getComprobantesDeIngresosGarantes().remove(reciboDeSueldo);
+                unGaranteOld = em.merge(unGaranteOld);
             }
-            for (Garante garantesNewGarante : garantesNew) {
-                if (!garantesOld.contains(garantesNewGarante)) {
-                    garantesNewGarante.getComprobantesDeIngresosGarantes().add(reciboDeSueldo);
-                    garantesNewGarante = em.merge(garantesNewGarante);
-                }
+            if (unGaranteNew != null && !unGaranteNew.equals(unGaranteOld)) {
+                unGaranteNew.getComprobantesDeIngresosGarantes().add(reciboDeSueldo);
+                unGaranteNew = em.merge(unGaranteNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -152,15 +129,15 @@ public class ReciboDeSueldoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The reciboDeSueldo with id " + id + " no longer exists.", enfe);
             }
-            List<Locatario> locatarios = reciboDeSueldo.getLocatarios();
-            for (Locatario locatariosLocatario : locatarios) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().remove(reciboDeSueldo);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            Locatario unLocatario = reciboDeSueldo.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().remove(reciboDeSueldo);
+                unLocatario = em.merge(unLocatario);
             }
-            List<Garante> garantes = reciboDeSueldo.getGarantes();
-            for (Garante garantesGarante : garantes) {
-                garantesGarante.getComprobantesDeIngresosGarantes().remove(reciboDeSueldo);
-                garantesGarante = em.merge(garantesGarante);
+            Garante unGarante = reciboDeSueldo.getUnGarante();
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().remove(reciboDeSueldo);
+                unGarante = em.merge(unGarante);
             }
             em.remove(reciboDeSueldo);
             em.getTransaction().commit();

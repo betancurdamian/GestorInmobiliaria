@@ -17,12 +17,38 @@ public class TipoUsuarioConverter extends AbstractConverter<TipoUsuario, TipoUsu
 
     @Override
     public TipoUsuario fromDto(TipoUsuarioDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TipoUsuario entity = null;
+        if (dto != null) {
+            entity = new TipoUsuario();
+
+            if (dto.getId() != null) {
+                entity.setId(dto.getId());
+            }
+            if (dto.getDescripcion() != null) {
+                entity.setDescripcion(dto.getDescripcion());
+            }
+            return entity;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public TipoUsuarioDTO fromEntity(TipoUsuario entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TipoUsuarioDTO dto = null;
+        if (entity != null) {
+            dto = new TipoUsuarioDTO();
+
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
+            }
+            if (entity.getDescripcion() != null) {
+                dto.setDescripcion(entity.getDescripcion());
+            }
+            return dto;
+        } else {
+            return null;
+        }
     }
 
     @Override

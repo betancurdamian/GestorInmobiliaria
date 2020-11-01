@@ -11,14 +11,14 @@ package dto;
  */
 public abstract class ComprobanteDeIngresoDTO {
     private Long id;
-    private int mes;
-    private int anio;
-    private float importeBruto;
-    private float importeNeto;
+    private Integer mes;
+    private Integer anio;
+    private Float importeBruto;
+    private Float importeNeto;
 
     //Puede ser locatario o garante el comprobante de ingreso
-    private LocatarioDTO locatarioDTO;
-    private GaranteDTO garanteDTo;
+    private LocatarioDTO unLocatarioDTO;
+    private GaranteDTO unGaranteDTo;
 
     public Long getId() {
         return id;
@@ -28,53 +28,53 @@ public abstract class ComprobanteDeIngresoDTO {
         this.id = id;
     }
 
-    public int getMes() {
+    public Integer getMes() {
         return mes;
     }
 
-    public void setMes(int mes) {
+    public void setMes(Integer mes) {
         this.mes = mes;
     }
 
-    public int getAnio() {
+    public Integer getAnio() {
         return anio;
     }
 
-    public void setAnio(int anio) {
+    public void setAnio(Integer anio) {
         this.anio = anio;
     }
 
-    public float getImporteBruto() {
+    public Float getImporteBruto() {
         return importeBruto;
     }
 
-    public void setImporteBruto(float importeBruto) {
+    public void setImporteBruto(Float importeBruto) {
         this.importeBruto = importeBruto;
     }
 
-    public float getImporteNeto() {
+    public Float getImporteNeto() {
         return importeNeto;
     }
 
-    public void setImporteNeto(float importeNeto) {
+    public void setImporteNeto(Float importeNeto) {
         this.importeNeto = importeNeto;
     }
 
-    public LocatarioDTO getLocatarioDTO() {
-        return locatarioDTO;
+    public LocatarioDTO getUnLocatarioDTO() {
+        return unLocatarioDTO;
     }
 
-    public void setLocatarioDTO(LocatarioDTO locatarioDTO) {
-        this.locatarioDTO = locatarioDTO;
+    public void setUnLocatarioDTO(LocatarioDTO unLocatarioDTO) {
+        this.unLocatarioDTO = unLocatarioDTO;
     }
 
-    public GaranteDTO getGaranteDTo() {
-        return garanteDTo;
+    public GaranteDTO getUnGaranteDTo() {
+        return unGaranteDTo;
     }
 
-    public void setGaranteDTo(GaranteDTO garanteDTo) {
-        this.garanteDTo = garanteDTo;
+    public void setUnGaranteDTo(GaranteDTO unGaranteDTo) {
+        this.unGaranteDTo = unGaranteDTo;
     }
-    
+
     
 }

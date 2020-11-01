@@ -5,19 +5,18 @@
  */
 package model.dao;
 
-import model.dao.exceptions.NonexistentEntityException;
-import model.entity.ComprobanteDeIngreso;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.ComprobanteDeIngreso;
 import model.entity.Locatario;
-import java.util.ArrayList;
-import java.util.List;
 import model.entity.Garante;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -35,36 +34,28 @@ public class ComprobanteDeIngresoJpaController implements Serializable {
     }
 
     public void create(ComprobanteDeIngreso comprobanteDeIngreso) {
-        if (comprobanteDeIngreso.getLocatarios() == null) {
-            comprobanteDeIngreso.setLocatarios(new ArrayList<Locatario>());
-        }
-        if (comprobanteDeIngreso.getGarantes() == null) {
-            comprobanteDeIngreso.setGarantes(new ArrayList<Garante>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Locatario> attachedLocatarios = new ArrayList<Locatario>();
-            for (Locatario locatariosLocatarioToAttach : comprobanteDeIngreso.getLocatarios()) {
-                locatariosLocatarioToAttach = em.getReference(locatariosLocatarioToAttach.getClass(), locatariosLocatarioToAttach.getId());
-                attachedLocatarios.add(locatariosLocatarioToAttach);
+            Locatario unLocatario = comprobanteDeIngreso.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario = em.getReference(unLocatario.getClass(), unLocatario.getId());
+                comprobanteDeIngreso.setUnLocatario(unLocatario);
             }
-            comprobanteDeIngreso.setLocatarios(attachedLocatarios);
-            List<Garante> attachedGarantes = new ArrayList<Garante>();
-            for (Garante garantesGaranteToAttach : comprobanteDeIngreso.getGarantes()) {
-                garantesGaranteToAttach = em.getReference(garantesGaranteToAttach.getClass(), garantesGaranteToAttach.getId());
-                attachedGarantes.add(garantesGaranteToAttach);
+            Garante unGarante = comprobanteDeIngreso.getUnGarante();
+            if (unGarante != null) {
+                unGarante = em.getReference(unGarante.getClass(), unGarante.getId());
+                comprobanteDeIngreso.setUnGarante(unGarante);
             }
-            comprobanteDeIngreso.setGarantes(attachedGarantes);
             em.persist(comprobanteDeIngreso);
-            for (Locatario locatariosLocatario : comprobanteDeIngreso.getLocatarios()) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().add(comprobanteDeIngreso);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().add(comprobanteDeIngreso);
+                unLocatario = em.merge(unLocatario);
             }
-            for (Garante garantesGarante : comprobanteDeIngreso.getGarantes()) {
-                garantesGarante.getComprobantesDeIngresosGarantes().add(comprobanteDeIngreso);
-                garantesGarante = em.merge(garantesGarante);
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().add(comprobanteDeIngreso);
+                unGarante = em.merge(unGarante);
             }
             em.getTransaction().commit();
         } finally {
@@ -80,48 +71,34 @@ public class ComprobanteDeIngresoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             ComprobanteDeIngreso persistentComprobanteDeIngreso = em.find(ComprobanteDeIngreso.class, comprobanteDeIngreso.getId());
-            List<Locatario> locatariosOld = persistentComprobanteDeIngreso.getLocatarios();
-            List<Locatario> locatariosNew = comprobanteDeIngreso.getLocatarios();
-            List<Garante> garantesOld = persistentComprobanteDeIngreso.getGarantes();
-            List<Garante> garantesNew = comprobanteDeIngreso.getGarantes();
-            List<Locatario> attachedLocatariosNew = new ArrayList<Locatario>();
-            for (Locatario locatariosNewLocatarioToAttach : locatariosNew) {
-                locatariosNewLocatarioToAttach = em.getReference(locatariosNewLocatarioToAttach.getClass(), locatariosNewLocatarioToAttach.getId());
-                attachedLocatariosNew.add(locatariosNewLocatarioToAttach);
+            Locatario unLocatarioOld = persistentComprobanteDeIngreso.getUnLocatario();
+            Locatario unLocatarioNew = comprobanteDeIngreso.getUnLocatario();
+            Garante unGaranteOld = persistentComprobanteDeIngreso.getUnGarante();
+            Garante unGaranteNew = comprobanteDeIngreso.getUnGarante();
+            if (unLocatarioNew != null) {
+                unLocatarioNew = em.getReference(unLocatarioNew.getClass(), unLocatarioNew.getId());
+                comprobanteDeIngreso.setUnLocatario(unLocatarioNew);
             }
-            locatariosNew = attachedLocatariosNew;
-            comprobanteDeIngreso.setLocatarios(locatariosNew);
-            List<Garante> attachedGarantesNew = new ArrayList<Garante>();
-            for (Garante garantesNewGaranteToAttach : garantesNew) {
-                garantesNewGaranteToAttach = em.getReference(garantesNewGaranteToAttach.getClass(), garantesNewGaranteToAttach.getId());
-                attachedGarantesNew.add(garantesNewGaranteToAttach);
+            if (unGaranteNew != null) {
+                unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
+                comprobanteDeIngreso.setUnGarante(unGaranteNew);
             }
-            garantesNew = attachedGarantesNew;
-            comprobanteDeIngreso.setGarantes(garantesNew);
             comprobanteDeIngreso = em.merge(comprobanteDeIngreso);
-            for (Locatario locatariosOldLocatario : locatariosOld) {
-                if (!locatariosNew.contains(locatariosOldLocatario)) {
-                    locatariosOldLocatario.getComprobantesDeIngresosLocatarios().remove(comprobanteDeIngreso);
-                    locatariosOldLocatario = em.merge(locatariosOldLocatario);
-                }
+            if (unLocatarioOld != null && !unLocatarioOld.equals(unLocatarioNew)) {
+                unLocatarioOld.getComprobantesDeIngresosLocatarios().remove(comprobanteDeIngreso);
+                unLocatarioOld = em.merge(unLocatarioOld);
             }
-            for (Locatario locatariosNewLocatario : locatariosNew) {
-                if (!locatariosOld.contains(locatariosNewLocatario)) {
-                    locatariosNewLocatario.getComprobantesDeIngresosLocatarios().add(comprobanteDeIngreso);
-                    locatariosNewLocatario = em.merge(locatariosNewLocatario);
-                }
+            if (unLocatarioNew != null && !unLocatarioNew.equals(unLocatarioOld)) {
+                unLocatarioNew.getComprobantesDeIngresosLocatarios().add(comprobanteDeIngreso);
+                unLocatarioNew = em.merge(unLocatarioNew);
             }
-            for (Garante garantesOldGarante : garantesOld) {
-                if (!garantesNew.contains(garantesOldGarante)) {
-                    garantesOldGarante.getComprobantesDeIngresosGarantes().remove(comprobanteDeIngreso);
-                    garantesOldGarante = em.merge(garantesOldGarante);
-                }
+            if (unGaranteOld != null && !unGaranteOld.equals(unGaranteNew)) {
+                unGaranteOld.getComprobantesDeIngresosGarantes().remove(comprobanteDeIngreso);
+                unGaranteOld = em.merge(unGaranteOld);
             }
-            for (Garante garantesNewGarante : garantesNew) {
-                if (!garantesOld.contains(garantesNewGarante)) {
-                    garantesNewGarante.getComprobantesDeIngresosGarantes().add(comprobanteDeIngreso);
-                    garantesNewGarante = em.merge(garantesNewGarante);
-                }
+            if (unGaranteNew != null && !unGaranteNew.equals(unGaranteOld)) {
+                unGaranteNew.getComprobantesDeIngresosGarantes().add(comprobanteDeIngreso);
+                unGaranteNew = em.merge(unGaranteNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -152,15 +129,15 @@ public class ComprobanteDeIngresoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The comprobanteDeIngreso with id " + id + " no longer exists.", enfe);
             }
-            List<Locatario> locatarios = comprobanteDeIngreso.getLocatarios();
-            for (Locatario locatariosLocatario : locatarios) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().remove(comprobanteDeIngreso);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            Locatario unLocatario = comprobanteDeIngreso.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().remove(comprobanteDeIngreso);
+                unLocatario = em.merge(unLocatario);
             }
-            List<Garante> garantes = comprobanteDeIngreso.getGarantes();
-            for (Garante garantesGarante : garantes) {
-                garantesGarante.getComprobantesDeIngresosGarantes().remove(comprobanteDeIngreso);
-                garantesGarante = em.merge(garantesGarante);
+            Garante unGarante = comprobanteDeIngreso.getUnGarante();
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().remove(comprobanteDeIngreso);
+                unGarante = em.merge(unGarante);
             }
             em.remove(comprobanteDeIngreso);
             em.getTransaction().commit();

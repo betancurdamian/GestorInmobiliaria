@@ -5,29 +5,32 @@
  */
 package model.service.Impl;
 
-import dto.LocatarioIndependienteDTO;
-import model.dao.Conexion;
-import model.service.ILocatarioIndependienteService;
+import dto.ContratoDTO;
 import java.util.List;
+import model.dao.Conexion;
+import model.service.IContratoService;
 
 /**
  *
  * @author Ariel
  */
-public class LocatarioIndependienteServiceImpl implements ILocatarioIndependienteService{
+public class ContratoServiceImpl implements IContratoService{
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public LocatarioIndependienteServiceImpl() {
+    public ContratoServiceImpl() {
         new Conexion();
     }
 
+    
+    
+    
     @Override
-    public LocatarioIndependienteDTO crear(LocatarioIndependienteDTO dto) {
+    public ContratoDTO crear(ContratoDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public LocatarioIndependienteDTO modificar(LocatarioIndependienteDTO dto) {
+    public ContratoDTO modificar(ContratoDTO dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -37,12 +40,12 @@ public class LocatarioIndependienteServiceImpl implements ILocatarioIndependient
     }
 
     @Override
-    public LocatarioIndependienteDTO listarID(Long id) {
+    public ContratoDTO listarID(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<LocatarioIndependienteDTO> listarTodos() {
+    public List<ContratoDTO> listarTodos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

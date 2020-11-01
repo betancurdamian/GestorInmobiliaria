@@ -10,15 +10,15 @@ package dto;
  * @author Ariel
  */
 public class DocumentoDeIngresoDTO extends ComprobanteDeIngresoDTO{
-    private boolean validado;
+    private Boolean validado;
 
-    public boolean isValidado() {
+    public Boolean getValidado() {
         return validado;
     }
 
-    public void setValidado(boolean validado) {
+    public void setValidado(Boolean validado) {
         this.validado = validado;
     }
-    
-    
+
+   
 }

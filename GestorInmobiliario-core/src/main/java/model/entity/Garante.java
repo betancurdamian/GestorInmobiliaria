@@ -5,16 +5,18 @@
  */
 package model.entity;
 
-import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -43,10 +45,8 @@ public abstract class Garante extends Persona {
     @OneToOne(mappedBy = "unGarante")
     private ContratoAlquiler unContratoAlquiler;
 
-    @ManyToMany
-    @JoinTable(name = "rel_garante_comprobante_ingreso",
-            joinColumns = @JoinColumn(name = "id_garante"),
-            inverseJoinColumns = @JoinColumn(name = "id_comprobante_ingreso"))
+    @OneToMany(mappedBy = "unGarante", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes;
 
     public Garante() {

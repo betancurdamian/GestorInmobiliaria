@@ -5,8 +5,6 @@
  */
 package model.dao;
 
-import model.dao.exceptions.IllegalOrphanException;
-import model.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -16,11 +14,13 @@ import model.entity.Garante;
 import model.entity.Inmobiliaria;
 import model.entity.UsuarioCliente;
 import model.entity.ComprobanteDeIngreso;
-import model.entity.Locatario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import model.dao.exceptions.IllegalOrphanException;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.Locatario;
 
 /**
  *
@@ -90,8 +90,13 @@ public class LocatarioJpaController implements Serializable {
                 unUsuarioCliente = em.merge(unUsuarioCliente);
             }
             for (ComprobanteDeIngreso comprobantesDeIngresosLocatariosComprobanteDeIngreso : locatario.getComprobantesDeIngresosLocatarios()) {
-                comprobantesDeIngresosLocatariosComprobanteDeIngreso.getLocatarios().add(locatario);
+                Locatario oldUnLocatarioOfComprobantesDeIngresosLocatariosComprobanteDeIngreso = comprobantesDeIngresosLocatariosComprobanteDeIngreso.getUnLocatario();
+                comprobantesDeIngresosLocatariosComprobanteDeIngreso.setUnLocatario(locatario);
                 comprobantesDeIngresosLocatariosComprobanteDeIngreso = em.merge(comprobantesDeIngresosLocatariosComprobanteDeIngreso);
+                if (oldUnLocatarioOfComprobantesDeIngresosLocatariosComprobanteDeIngreso != null) {
+                    oldUnLocatarioOfComprobantesDeIngresosLocatariosComprobanteDeIngreso.getComprobantesDeIngresosLocatarios().remove(comprobantesDeIngresosLocatariosComprobanteDeIngreso);
+                    oldUnLocatarioOfComprobantesDeIngresosLocatariosComprobanteDeIngreso = em.merge(oldUnLocatarioOfComprobantesDeIngresosLocatariosComprobanteDeIngreso);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -177,14 +182,19 @@ public class LocatarioJpaController implements Serializable {
             }
             for (ComprobanteDeIngreso comprobantesDeIngresosLocatariosOldComprobanteDeIngreso : comprobantesDeIngresosLocatariosOld) {
                 if (!comprobantesDeIngresosLocatariosNew.contains(comprobantesDeIngresosLocatariosOldComprobanteDeIngreso)) {
-                    comprobantesDeIngresosLocatariosOldComprobanteDeIngreso.getLocatarios().remove(locatario);
+                    comprobantesDeIngresosLocatariosOldComprobanteDeIngreso.setUnLocatario(null);
                     comprobantesDeIngresosLocatariosOldComprobanteDeIngreso = em.merge(comprobantesDeIngresosLocatariosOldComprobanteDeIngreso);
                 }
             }
             for (ComprobanteDeIngreso comprobantesDeIngresosLocatariosNewComprobanteDeIngreso : comprobantesDeIngresosLocatariosNew) {
                 if (!comprobantesDeIngresosLocatariosOld.contains(comprobantesDeIngresosLocatariosNewComprobanteDeIngreso)) {
-                    comprobantesDeIngresosLocatariosNewComprobanteDeIngreso.getLocatarios().add(locatario);
+                    Locatario oldUnLocatarioOfComprobantesDeIngresosLocatariosNewComprobanteDeIngreso = comprobantesDeIngresosLocatariosNewComprobanteDeIngreso.getUnLocatario();
+                    comprobantesDeIngresosLocatariosNewComprobanteDeIngreso.setUnLocatario(locatario);
                     comprobantesDeIngresosLocatariosNewComprobanteDeIngreso = em.merge(comprobantesDeIngresosLocatariosNewComprobanteDeIngreso);
+                    if (oldUnLocatarioOfComprobantesDeIngresosLocatariosNewComprobanteDeIngreso != null && !oldUnLocatarioOfComprobantesDeIngresosLocatariosNewComprobanteDeIngreso.equals(locatario)) {
+                        oldUnLocatarioOfComprobantesDeIngresosLocatariosNewComprobanteDeIngreso.getComprobantesDeIngresosLocatarios().remove(comprobantesDeIngresosLocatariosNewComprobanteDeIngreso);
+                        oldUnLocatarioOfComprobantesDeIngresosLocatariosNewComprobanteDeIngreso = em.merge(oldUnLocatarioOfComprobantesDeIngresosLocatariosNewComprobanteDeIngreso);
+                    }
                 }
             }
             em.getTransaction().commit();
@@ -239,7 +249,7 @@ public class LocatarioJpaController implements Serializable {
             }
             List<ComprobanteDeIngreso> comprobantesDeIngresosLocatarios = locatario.getComprobantesDeIngresosLocatarios();
             for (ComprobanteDeIngreso comprobantesDeIngresosLocatariosComprobanteDeIngreso : comprobantesDeIngresosLocatarios) {
-                comprobantesDeIngresosLocatariosComprobanteDeIngreso.getLocatarios().remove(locatario);
+                comprobantesDeIngresosLocatariosComprobanteDeIngreso.setUnLocatario(null);
                 comprobantesDeIngresosLocatariosComprobanteDeIngreso = em.merge(comprobantesDeIngresosLocatariosComprobanteDeIngreso);
             }
             em.remove(locatario);

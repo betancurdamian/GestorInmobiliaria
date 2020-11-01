@@ -8,6 +8,7 @@ package converter;
 import dto.RecargoPorMoraDTO;
 import model.entity.RecargoPorMora;
 import java.util.List;
+import util.Converter;
 
 /**
  *
@@ -17,12 +18,52 @@ public class RecargoPorMoraConverter extends AbstractConverter<RecargoPorMora, R
 
     @Override
     public RecargoPorMora fromDto(RecargoPorMoraDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RecargoPorMora entity = null;
+        if (dto != null) {
+            entity = new RecargoPorMora();
+            if (dto.getId() != null) {
+                entity.setId(dto.getId());
+            }
+            if (dto.getUnaFechaDeRecargo() != null) {
+                entity.setUnaFechaDeRecargo(Converter.converterStringToLocalDate(dto.getUnaFechaDeRecargo()));
+            }
+            if (dto.getMonto() != null) {
+                entity.setMonto(dto.getMonto());
+            }
+            if (dto.getUnaInmobiliariaRecargoPorMoraDTO() != null) {
+                InmobiliariaConverter converter = new InmobiliariaConverter();
+                entity.setUnaInmobiliariaRecargoPorMora(converter.fromDto(dto.getUnaInmobiliariaRecargoPorMoraDTO()));
+            }
+            return entity;
+        } else {
+            return entity;
+        }
     }
 
     @Override
     public RecargoPorMoraDTO fromEntity(RecargoPorMora entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RecargoPorMoraDTO dto = null;
+        if (entity != null) {
+
+            dto = new RecargoPorMoraDTO();
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
+            }
+            if (entity.getUnaFechaDeRecargo() != null) {
+                dto.setUnaFechaDeRecargo(Converter.converterLocalDateToString(entity.getUnaFechaDeRecargo()));
+            }
+            if (entity.getMonto() != null) {
+                dto.setMonto(entity.getMonto());
+            }
+            if (entity.getUnaInmobiliariaRecargoPorMora() != null) {
+                InmobiliariaConverter converter = new InmobiliariaConverter();
+                dto.setUnaInmobiliariaRecargoPorMoraDTO(converter.fromEntity(entity.getUnaInmobiliariaRecargoPorMora()));
+            }
+
+            return dto;
+        } else {
+            return dto;
+        }
     }
 
     @Override

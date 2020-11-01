@@ -5,19 +5,18 @@
  */
 package model.dao;
 
-import model.dao.exceptions.NonexistentEntityException;
-import model.entity.DocumentoDeIngreso;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.DocumentoDeIngreso;
 import model.entity.Locatario;
-import java.util.ArrayList;
-import java.util.List;
 import model.entity.Garante;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -35,36 +34,28 @@ public class DocumentoDeIngresoJpaController implements Serializable {
     }
 
     public void create(DocumentoDeIngreso documentoDeIngreso) {
-        if (documentoDeIngreso.getLocatarios() == null) {
-            documentoDeIngreso.setLocatarios(new ArrayList<Locatario>());
-        }
-        if (documentoDeIngreso.getGarantes() == null) {
-            documentoDeIngreso.setGarantes(new ArrayList<Garante>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Locatario> attachedLocatarios = new ArrayList<Locatario>();
-            for (Locatario locatariosLocatarioToAttach : documentoDeIngreso.getLocatarios()) {
-                locatariosLocatarioToAttach = em.getReference(locatariosLocatarioToAttach.getClass(), locatariosLocatarioToAttach.getId());
-                attachedLocatarios.add(locatariosLocatarioToAttach);
+            Locatario unLocatario = documentoDeIngreso.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario = em.getReference(unLocatario.getClass(), unLocatario.getId());
+                documentoDeIngreso.setUnLocatario(unLocatario);
             }
-            documentoDeIngreso.setLocatarios(attachedLocatarios);
-            List<Garante> attachedGarantes = new ArrayList<Garante>();
-            for (Garante garantesGaranteToAttach : documentoDeIngreso.getGarantes()) {
-                garantesGaranteToAttach = em.getReference(garantesGaranteToAttach.getClass(), garantesGaranteToAttach.getId());
-                attachedGarantes.add(garantesGaranteToAttach);
+            Garante unGarante = documentoDeIngreso.getUnGarante();
+            if (unGarante != null) {
+                unGarante = em.getReference(unGarante.getClass(), unGarante.getId());
+                documentoDeIngreso.setUnGarante(unGarante);
             }
-            documentoDeIngreso.setGarantes(attachedGarantes);
             em.persist(documentoDeIngreso);
-            for (Locatario locatariosLocatario : documentoDeIngreso.getLocatarios()) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().add(documentoDeIngreso);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().add(documentoDeIngreso);
+                unLocatario = em.merge(unLocatario);
             }
-            for (Garante garantesGarante : documentoDeIngreso.getGarantes()) {
-                garantesGarante.getComprobantesDeIngresosGarantes().add(documentoDeIngreso);
-                garantesGarante = em.merge(garantesGarante);
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().add(documentoDeIngreso);
+                unGarante = em.merge(unGarante);
             }
             em.getTransaction().commit();
         } finally {
@@ -80,48 +71,34 @@ public class DocumentoDeIngresoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             DocumentoDeIngreso persistentDocumentoDeIngreso = em.find(DocumentoDeIngreso.class, documentoDeIngreso.getId());
-            List<Locatario> locatariosOld = persistentDocumentoDeIngreso.getLocatarios();
-            List<Locatario> locatariosNew = documentoDeIngreso.getLocatarios();
-            List<Garante> garantesOld = persistentDocumentoDeIngreso.getGarantes();
-            List<Garante> garantesNew = documentoDeIngreso.getGarantes();
-            List<Locatario> attachedLocatariosNew = new ArrayList<Locatario>();
-            for (Locatario locatariosNewLocatarioToAttach : locatariosNew) {
-                locatariosNewLocatarioToAttach = em.getReference(locatariosNewLocatarioToAttach.getClass(), locatariosNewLocatarioToAttach.getId());
-                attachedLocatariosNew.add(locatariosNewLocatarioToAttach);
+            Locatario unLocatarioOld = persistentDocumentoDeIngreso.getUnLocatario();
+            Locatario unLocatarioNew = documentoDeIngreso.getUnLocatario();
+            Garante unGaranteOld = persistentDocumentoDeIngreso.getUnGarante();
+            Garante unGaranteNew = documentoDeIngreso.getUnGarante();
+            if (unLocatarioNew != null) {
+                unLocatarioNew = em.getReference(unLocatarioNew.getClass(), unLocatarioNew.getId());
+                documentoDeIngreso.setUnLocatario(unLocatarioNew);
             }
-            locatariosNew = attachedLocatariosNew;
-            documentoDeIngreso.setLocatarios(locatariosNew);
-            List<Garante> attachedGarantesNew = new ArrayList<Garante>();
-            for (Garante garantesNewGaranteToAttach : garantesNew) {
-                garantesNewGaranteToAttach = em.getReference(garantesNewGaranteToAttach.getClass(), garantesNewGaranteToAttach.getId());
-                attachedGarantesNew.add(garantesNewGaranteToAttach);
+            if (unGaranteNew != null) {
+                unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
+                documentoDeIngreso.setUnGarante(unGaranteNew);
             }
-            garantesNew = attachedGarantesNew;
-            documentoDeIngreso.setGarantes(garantesNew);
             documentoDeIngreso = em.merge(documentoDeIngreso);
-            for (Locatario locatariosOldLocatario : locatariosOld) {
-                if (!locatariosNew.contains(locatariosOldLocatario)) {
-                    locatariosOldLocatario.getComprobantesDeIngresosLocatarios().remove(documentoDeIngreso);
-                    locatariosOldLocatario = em.merge(locatariosOldLocatario);
-                }
+            if (unLocatarioOld != null && !unLocatarioOld.equals(unLocatarioNew)) {
+                unLocatarioOld.getComprobantesDeIngresosLocatarios().remove(documentoDeIngreso);
+                unLocatarioOld = em.merge(unLocatarioOld);
             }
-            for (Locatario locatariosNewLocatario : locatariosNew) {
-                if (!locatariosOld.contains(locatariosNewLocatario)) {
-                    locatariosNewLocatario.getComprobantesDeIngresosLocatarios().add(documentoDeIngreso);
-                    locatariosNewLocatario = em.merge(locatariosNewLocatario);
-                }
+            if (unLocatarioNew != null && !unLocatarioNew.equals(unLocatarioOld)) {
+                unLocatarioNew.getComprobantesDeIngresosLocatarios().add(documentoDeIngreso);
+                unLocatarioNew = em.merge(unLocatarioNew);
             }
-            for (Garante garantesOldGarante : garantesOld) {
-                if (!garantesNew.contains(garantesOldGarante)) {
-                    garantesOldGarante.getComprobantesDeIngresosGarantes().remove(documentoDeIngreso);
-                    garantesOldGarante = em.merge(garantesOldGarante);
-                }
+            if (unGaranteOld != null && !unGaranteOld.equals(unGaranteNew)) {
+                unGaranteOld.getComprobantesDeIngresosGarantes().remove(documentoDeIngreso);
+                unGaranteOld = em.merge(unGaranteOld);
             }
-            for (Garante garantesNewGarante : garantesNew) {
-                if (!garantesOld.contains(garantesNewGarante)) {
-                    garantesNewGarante.getComprobantesDeIngresosGarantes().add(documentoDeIngreso);
-                    garantesNewGarante = em.merge(garantesNewGarante);
-                }
+            if (unGaranteNew != null && !unGaranteNew.equals(unGaranteOld)) {
+                unGaranteNew.getComprobantesDeIngresosGarantes().add(documentoDeIngreso);
+                unGaranteNew = em.merge(unGaranteNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -152,15 +129,15 @@ public class DocumentoDeIngresoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The documentoDeIngreso with id " + id + " no longer exists.", enfe);
             }
-            List<Locatario> locatarios = documentoDeIngreso.getLocatarios();
-            for (Locatario locatariosLocatario : locatarios) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().remove(documentoDeIngreso);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            Locatario unLocatario = documentoDeIngreso.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().remove(documentoDeIngreso);
+                unLocatario = em.merge(unLocatario);
             }
-            List<Garante> garantes = documentoDeIngreso.getGarantes();
-            for (Garante garantesGarante : garantes) {
-                garantesGarante.getComprobantesDeIngresosGarantes().remove(documentoDeIngreso);
-                garantesGarante = em.merge(garantesGarante);
+            Garante unGarante = documentoDeIngreso.getUnGarante();
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().remove(documentoDeIngreso);
+                unGarante = em.merge(unGarante);
             }
             em.remove(documentoDeIngreso);
             em.getTransaction().commit();

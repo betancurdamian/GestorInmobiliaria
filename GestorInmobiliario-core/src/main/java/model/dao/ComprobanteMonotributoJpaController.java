@@ -5,19 +5,18 @@
  */
 package model.dao;
 
-import model.dao.exceptions.NonexistentEntityException;
-import model.entity.ComprobanteMonotributo;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.ComprobanteMonotributo;
 import model.entity.Locatario;
-import java.util.ArrayList;
-import java.util.List;
 import model.entity.Garante;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -35,36 +34,28 @@ public class ComprobanteMonotributoJpaController implements Serializable {
     }
 
     public void create(ComprobanteMonotributo comprobanteMonotributo) {
-        if (comprobanteMonotributo.getLocatarios() == null) {
-            comprobanteMonotributo.setLocatarios(new ArrayList<Locatario>());
-        }
-        if (comprobanteMonotributo.getGarantes() == null) {
-            comprobanteMonotributo.setGarantes(new ArrayList<Garante>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Locatario> attachedLocatarios = new ArrayList<Locatario>();
-            for (Locatario locatariosLocatarioToAttach : comprobanteMonotributo.getLocatarios()) {
-                locatariosLocatarioToAttach = em.getReference(locatariosLocatarioToAttach.getClass(), locatariosLocatarioToAttach.getId());
-                attachedLocatarios.add(locatariosLocatarioToAttach);
+            Locatario unLocatario = comprobanteMonotributo.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario = em.getReference(unLocatario.getClass(), unLocatario.getId());
+                comprobanteMonotributo.setUnLocatario(unLocatario);
             }
-            comprobanteMonotributo.setLocatarios(attachedLocatarios);
-            List<Garante> attachedGarantes = new ArrayList<Garante>();
-            for (Garante garantesGaranteToAttach : comprobanteMonotributo.getGarantes()) {
-                garantesGaranteToAttach = em.getReference(garantesGaranteToAttach.getClass(), garantesGaranteToAttach.getId());
-                attachedGarantes.add(garantesGaranteToAttach);
+            Garante unGarante = comprobanteMonotributo.getUnGarante();
+            if (unGarante != null) {
+                unGarante = em.getReference(unGarante.getClass(), unGarante.getId());
+                comprobanteMonotributo.setUnGarante(unGarante);
             }
-            comprobanteMonotributo.setGarantes(attachedGarantes);
             em.persist(comprobanteMonotributo);
-            for (Locatario locatariosLocatario : comprobanteMonotributo.getLocatarios()) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().add(comprobanteMonotributo);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().add(comprobanteMonotributo);
+                unLocatario = em.merge(unLocatario);
             }
-            for (Garante garantesGarante : comprobanteMonotributo.getGarantes()) {
-                garantesGarante.getComprobantesDeIngresosGarantes().add(comprobanteMonotributo);
-                garantesGarante = em.merge(garantesGarante);
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().add(comprobanteMonotributo);
+                unGarante = em.merge(unGarante);
             }
             em.getTransaction().commit();
         } finally {
@@ -80,48 +71,34 @@ public class ComprobanteMonotributoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             ComprobanteMonotributo persistentComprobanteMonotributo = em.find(ComprobanteMonotributo.class, comprobanteMonotributo.getId());
-            List<Locatario> locatariosOld = persistentComprobanteMonotributo.getLocatarios();
-            List<Locatario> locatariosNew = comprobanteMonotributo.getLocatarios();
-            List<Garante> garantesOld = persistentComprobanteMonotributo.getGarantes();
-            List<Garante> garantesNew = comprobanteMonotributo.getGarantes();
-            List<Locatario> attachedLocatariosNew = new ArrayList<Locatario>();
-            for (Locatario locatariosNewLocatarioToAttach : locatariosNew) {
-                locatariosNewLocatarioToAttach = em.getReference(locatariosNewLocatarioToAttach.getClass(), locatariosNewLocatarioToAttach.getId());
-                attachedLocatariosNew.add(locatariosNewLocatarioToAttach);
+            Locatario unLocatarioOld = persistentComprobanteMonotributo.getUnLocatario();
+            Locatario unLocatarioNew = comprobanteMonotributo.getUnLocatario();
+            Garante unGaranteOld = persistentComprobanteMonotributo.getUnGarante();
+            Garante unGaranteNew = comprobanteMonotributo.getUnGarante();
+            if (unLocatarioNew != null) {
+                unLocatarioNew = em.getReference(unLocatarioNew.getClass(), unLocatarioNew.getId());
+                comprobanteMonotributo.setUnLocatario(unLocatarioNew);
             }
-            locatariosNew = attachedLocatariosNew;
-            comprobanteMonotributo.setLocatarios(locatariosNew);
-            List<Garante> attachedGarantesNew = new ArrayList<Garante>();
-            for (Garante garantesNewGaranteToAttach : garantesNew) {
-                garantesNewGaranteToAttach = em.getReference(garantesNewGaranteToAttach.getClass(), garantesNewGaranteToAttach.getId());
-                attachedGarantesNew.add(garantesNewGaranteToAttach);
+            if (unGaranteNew != null) {
+                unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
+                comprobanteMonotributo.setUnGarante(unGaranteNew);
             }
-            garantesNew = attachedGarantesNew;
-            comprobanteMonotributo.setGarantes(garantesNew);
             comprobanteMonotributo = em.merge(comprobanteMonotributo);
-            for (Locatario locatariosOldLocatario : locatariosOld) {
-                if (!locatariosNew.contains(locatariosOldLocatario)) {
-                    locatariosOldLocatario.getComprobantesDeIngresosLocatarios().remove(comprobanteMonotributo);
-                    locatariosOldLocatario = em.merge(locatariosOldLocatario);
-                }
+            if (unLocatarioOld != null && !unLocatarioOld.equals(unLocatarioNew)) {
+                unLocatarioOld.getComprobantesDeIngresosLocatarios().remove(comprobanteMonotributo);
+                unLocatarioOld = em.merge(unLocatarioOld);
             }
-            for (Locatario locatariosNewLocatario : locatariosNew) {
-                if (!locatariosOld.contains(locatariosNewLocatario)) {
-                    locatariosNewLocatario.getComprobantesDeIngresosLocatarios().add(comprobanteMonotributo);
-                    locatariosNewLocatario = em.merge(locatariosNewLocatario);
-                }
+            if (unLocatarioNew != null && !unLocatarioNew.equals(unLocatarioOld)) {
+                unLocatarioNew.getComprobantesDeIngresosLocatarios().add(comprobanteMonotributo);
+                unLocatarioNew = em.merge(unLocatarioNew);
             }
-            for (Garante garantesOldGarante : garantesOld) {
-                if (!garantesNew.contains(garantesOldGarante)) {
-                    garantesOldGarante.getComprobantesDeIngresosGarantes().remove(comprobanteMonotributo);
-                    garantesOldGarante = em.merge(garantesOldGarante);
-                }
+            if (unGaranteOld != null && !unGaranteOld.equals(unGaranteNew)) {
+                unGaranteOld.getComprobantesDeIngresosGarantes().remove(comprobanteMonotributo);
+                unGaranteOld = em.merge(unGaranteOld);
             }
-            for (Garante garantesNewGarante : garantesNew) {
-                if (!garantesOld.contains(garantesNewGarante)) {
-                    garantesNewGarante.getComprobantesDeIngresosGarantes().add(comprobanteMonotributo);
-                    garantesNewGarante = em.merge(garantesNewGarante);
-                }
+            if (unGaranteNew != null && !unGaranteNew.equals(unGaranteOld)) {
+                unGaranteNew.getComprobantesDeIngresosGarantes().add(comprobanteMonotributo);
+                unGaranteNew = em.merge(unGaranteNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -152,15 +129,15 @@ public class ComprobanteMonotributoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The comprobanteMonotributo with id " + id + " no longer exists.", enfe);
             }
-            List<Locatario> locatarios = comprobanteMonotributo.getLocatarios();
-            for (Locatario locatariosLocatario : locatarios) {
-                locatariosLocatario.getComprobantesDeIngresosLocatarios().remove(comprobanteMonotributo);
-                locatariosLocatario = em.merge(locatariosLocatario);
+            Locatario unLocatario = comprobanteMonotributo.getUnLocatario();
+            if (unLocatario != null) {
+                unLocatario.getComprobantesDeIngresosLocatarios().remove(comprobanteMonotributo);
+                unLocatario = em.merge(unLocatario);
             }
-            List<Garante> garantes = comprobanteMonotributo.getGarantes();
-            for (Garante garantesGarante : garantes) {
-                garantesGarante.getComprobantesDeIngresosGarantes().remove(comprobanteMonotributo);
-                garantesGarante = em.merge(garantesGarante);
+            Garante unGarante = comprobanteMonotributo.getUnGarante();
+            if (unGarante != null) {
+                unGarante.getComprobantesDeIngresosGarantes().remove(comprobanteMonotributo);
+                unGarante = em.merge(unGarante);
             }
             em.remove(comprobanteMonotributo);
             em.getTransaction().commit();

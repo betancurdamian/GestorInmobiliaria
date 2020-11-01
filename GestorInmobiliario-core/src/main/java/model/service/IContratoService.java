@@ -5,12 +5,12 @@
  */
 package model.service;
 
-import dto.UsuarioEmpresaDTO;
+import dto.ContratoDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IUsuarioEmpresaService extends ICRUD<UsuarioEmpresaDTO>{
+public interface IContratoService extends ICRUD<ContratoDTO>{
     
 }

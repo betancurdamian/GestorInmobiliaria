@@ -9,10 +9,14 @@ import util.Converter;
 import dto.ContratoAlquilerDTO;
 import dto.ContratoDTO;
 import dto.ContratoVentaDTO;
+import dto.LocadorDTO;
+import dto.LocatarioDTO;
 import model.entity.Contrato;
 import model.entity.ContratoAlquiler;
 import model.entity.ContratoVenta;
 import java.util.List;
+import model.entity.Locador;
+import model.entity.Locatario;
 
 /**
  *
@@ -47,12 +51,12 @@ public class ContratoConverter extends AbstractConverter<Contrato, ContratoDTO> 
                     entity.setUnRecargoPorMora(converter.fromDto(dto.getUnRecargoPorMoraDTO()));
                 }
                 if (dto.getUnLocadorDTO() != null) {
-                    LocadorConverter converter = new LocadorConverter();
-                    entity.setUnLocador(converter.fromDto(dto.getUnLocadorDTO()));
+                    ClienteConverter converter = new ClienteConverter();
+                    entity.setUnLocador((Locador) converter.fromDto(dto.getUnLocadorDTO()));
                 }
                 if (dto.getUnLocatarioDTO() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    entity.setUnLocatario(converter.fromDto(dto.getUnLocatarioDTO()));
+                    ClienteConverter converter = new ClienteConverter();
+                    entity.setUnLocatario((Locatario) converter.fromDto(dto.getUnLocatarioDTO()));
                 }
                 if (dto.getUnaComisionDTO() != null) {
                     ComisionConverter converter = new ComisionConverter();
@@ -70,9 +74,7 @@ public class ContratoConverter extends AbstractConverter<Contrato, ContratoDTO> 
                     GaranteConverter converter = new GaranteConverter();
                     ((ContratoAlquiler) entity).setUnGarante(converter.fromDto((((ContratoAlquilerDTO) dto).getUnGaranteDTO())));
                 }
-
             }
-
             if (dto instanceof ContratoVentaDTO) {
                 entity = new ContratoVenta();
 
@@ -96,12 +98,12 @@ public class ContratoConverter extends AbstractConverter<Contrato, ContratoDTO> 
                     entity.setUnRecargoPorMora(converter.fromDto(dto.getUnRecargoPorMoraDTO()));
                 }
                 if (dto.getUnLocadorDTO() != null) {
-                    LocadorConverter converter = new LocadorConverter();
-                    entity.setUnLocador(converter.fromDto(dto.getUnLocadorDTO()));
+                    ClienteConverter converter = new ClienteConverter();
+                    entity.setUnLocador((Locador) converter.fromDto(dto.getUnLocadorDTO()));
                 }
                 if (dto.getUnLocatarioDTO() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    entity.setUnLocatario(converter.fromDto(dto.getUnLocatarioDTO()));
+                    ClienteConverter converter = new ClienteConverter();
+                    entity.setUnLocatario((Locatario) converter.fromDto(dto.getUnLocatarioDTO()));
                 }
                 if (dto.getUnaComisionDTO() != null) {
                     ComisionConverter converter = new ComisionConverter();
@@ -153,12 +155,12 @@ public class ContratoConverter extends AbstractConverter<Contrato, ContratoDTO> 
                     dto.setUnRecargoPorMoraDTO(converter.fromEntity(entity.getUnRecargoPorMora()));
                 }
                 if (entity.getUnLocador() != null) {
-                    LocadorConverter converter = new LocadorConverter();
-                    dto.setUnLocadorDTO(converter.fromEntity(entity.getUnLocador()));
+                    ClienteConverter converter = new ClienteConverter();
+                    dto.setUnLocadorDTO((LocadorDTO) converter.fromEntity(entity.getUnLocador()));
                 }
                 if (entity.getUnLocatario() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    dto.setUnLocatarioDTO(converter.fromEntity(entity.getUnLocatario()));
+                    ClienteConverter converter = new ClienteConverter();
+                    dto.setUnLocatarioDTO((LocatarioDTO) converter.fromEntity(entity.getUnLocatario()));
                 }
                 if (entity.getUnaComision() != null) {
                     ComisionConverter converter = new ComisionConverter();
@@ -176,11 +178,8 @@ public class ContratoConverter extends AbstractConverter<Contrato, ContratoDTO> 
                     GaranteConverter converter = new GaranteConverter();
                     ((ContratoAlquilerDTO) dto).setUnGaranteDTO(converter.fromEntity(((ContratoAlquiler) entity).getUnGarante()));
                 }
-
             }
-
             if (dto instanceof ContratoVentaDTO) {
-
                 dto = new ContratoVentaDTO();
 
                 if (entity.getId() != null) {
@@ -203,12 +202,12 @@ public class ContratoConverter extends AbstractConverter<Contrato, ContratoDTO> 
                     dto.setUnRecargoPorMoraDTO(converter.fromEntity(entity.getUnRecargoPorMora()));
                 }
                 if (entity.getUnLocador() != null) {
-                    LocadorConverter converter = new LocadorConverter();
-                    dto.setUnLocadorDTO(converter.fromEntity(entity.getUnLocador()));
+                    ClienteConverter converter = new ClienteConverter();
+                    dto.setUnLocadorDTO((LocadorDTO) converter.fromEntity(entity.getUnLocador()));
                 }
                 if (entity.getUnLocatario() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    dto.setUnLocatarioDTO(converter.fromEntity(entity.getUnLocatario()));
+                    ClienteConverter converter = new ClienteConverter();
+                    dto.setUnLocatarioDTO((LocatarioDTO) converter.fromEntity(entity.getUnLocatario()));
                 }
                 if (entity.getUnaComision() != null) {
                     ComisionConverter converter = new ComisionConverter();

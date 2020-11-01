@@ -5,12 +5,15 @@
  */
 package model.service;
 
-import dto.ArancelEspecialServicioDTO;
+import dto.ClienteDTO;
+import dto.LocadorDTO;
+import java.util.List;
 
 /**
  *
  * @author Ariel
  */
-public interface IArancelEspecialServicioService extends ICRUD<ArancelEspecialServicioDTO>{
-    
+public interface IClienteService extends ICRUD<ClienteDTO>{
+    LocadorDTO listarLocadorID(Long id);
+    public List<LocadorDTO> listarTodosLocadores();
 }

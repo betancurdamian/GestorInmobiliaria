@@ -5,9 +5,6 @@
  */
 package dto;
 
-
-
-
 /**
  *
  * @author Ariel
@@ -70,14 +67,12 @@ public class AlquilerDTO {
         this.unaInmobiliariaAlquilerDTO = unaInmobiliariaAlquilerDTO;
     }
 
-    public Boolean isDisponible() {
+    public Boolean getDisponible() {
         return disponible;
     }
 
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
-    
-    
 
 }

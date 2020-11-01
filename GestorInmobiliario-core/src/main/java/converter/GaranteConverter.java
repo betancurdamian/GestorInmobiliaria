@@ -8,10 +8,12 @@ package converter;
 import dto.GaranteDTO;
 import dto.GaranteDependienteDTO;
 import dto.GaranteIndependienteDTO;
+import dto.LocatarioDTO;
 import model.entity.Garante;
 import model.entity.GaranteDependiente;
 import model.entity.GaranteIndependiente;
 import java.util.List;
+import model.entity.Locatario;
 
 /**
  *
@@ -75,16 +77,14 @@ public class GaranteConverter extends AbstractConverter<Garante, GaranteDTO> {
                     ((GaranteDependiente) entity).setUnaActividad(converter.fromDto(((GaranteDependienteDTO) dto).getUnaActividadDTO()));
                 }
                 if (((GaranteDependienteDTO) dto).getUnLocatarioDTO() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    ((GaranteDependiente) entity).setUnLocatario(converter.fromDto(((GaranteDependienteDTO) dto).getUnLocatarioDTO()));
+                    ClienteConverter converter = new ClienteConverter();
+                    ((GaranteDependiente) entity).setUnLocatario((Locatario) converter.fromDto(((GaranteDependienteDTO) dto).getUnLocatarioDTO()));
                 }
                 if (((GaranteDependienteDTO) dto).getComprobantesDeIngresosGarantesDTO() != null) {
                     ComprobanteDeIngresoConverter converter = new ComprobanteDeIngresoConverter();
                     ((GaranteDependiente) entity).setComprobantesDeIngresosGarantes(converter.fromDto(((GaranteDependienteDTO) dto).getComprobantesDeIngresosGarantesDTO()));
                 }
-
             }
-
             if (dto instanceof GaranteIndependienteDTO) {
                 entity = new GaranteIndependiente();
                 if (dto.getId() != null) {
@@ -131,14 +131,13 @@ public class GaranteConverter extends AbstractConverter<Garante, GaranteDTO> {
                 if (dto.getCorreoElectronico() != null) {
                     entity.setCorreoElectronico(dto.getCorreoElectronico());
                 }
-
                 if (((GaranteIndependienteDTO) dto).getUnaActividadDTO() != null) {
                     ActividadConverter converter = new ActividadConverter();
                     ((GaranteIndependiente) entity).setUnaActividad(converter.fromDto(((GaranteIndependienteDTO) dto).getUnaActividadDTO()));
                 }
                 if (((GaranteIndependienteDTO) dto).getUnLocatarioDTO() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    ((GaranteIndependiente) entity).setUnLocatario(converter.fromDto(((GaranteIndependienteDTO) dto).getUnLocatarioDTO()));
+                    ClienteConverter converter = new ClienteConverter();
+                    ((GaranteIndependiente) entity).setUnLocatario((Locatario) converter.fromDto(((GaranteIndependienteDTO) dto).getUnLocatarioDTO()));
                 }
                 if (((GaranteIndependienteDTO) dto).getComprobantesDeIngresosGarantesDTO() != null) {
                     ComprobanteDeIngresoConverter converter = new ComprobanteDeIngresoConverter();
@@ -208,16 +207,14 @@ public class GaranteConverter extends AbstractConverter<Garante, GaranteDTO> {
                     ((GaranteDependienteDTO) dto).setUnaActividadDTO(converter.fromEntity(((GaranteDependiente) entity).getUnaActividad()));
                 }
                 if (((GaranteDependiente) entity).getUnLocatario() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    ((GaranteDependienteDTO) dto).setUnLocatarioDTO(converter.fromEntity(((GaranteDependiente) entity).getUnLocatario()));
+                    ClienteConverter converter = new ClienteConverter();
+                    ((GaranteDependienteDTO) dto).setUnLocatarioDTO((LocatarioDTO) converter.fromEntity(((GaranteDependiente) entity).getUnLocatario()));
                 }
                 if (((GaranteDependiente) entity).getComprobantesDeIngresosGarantes() != null) {
                     ComprobanteDeIngresoConverter converter = new ComprobanteDeIngresoConverter();
                     ((GaranteDependienteDTO) dto).setComprobantesDeIngresosGarantesDTO(converter.fromEntity(((GaranteDependiente) entity).getComprobantesDeIngresosGarantes()));
                 }
-
             }
-
             if (entity instanceof GaranteIndependiente) {
                 dto = new GaranteIndependienteDTO();
                 if (entity.getId() != null) {
@@ -269,14 +266,13 @@ public class GaranteConverter extends AbstractConverter<Garante, GaranteDTO> {
                     ((GaranteIndependienteDTO) dto).setUnaActividadDTO(converter.fromEntity(((GaranteIndependiente) entity).getUnaActividad()));
                 }
                 if (((GaranteIndependiente) entity).getUnLocatario() != null) {
-                    LocatarioConverter converter = new LocatarioConverter();
-                    ((GaranteIndependienteDTO) dto).setUnLocatarioDTO(converter.fromEntity(((GaranteIndependiente) entity).getUnLocatario()));
+                    ClienteConverter converter = new ClienteConverter();
+                    ((GaranteIndependienteDTO) dto).setUnLocatarioDTO((LocatarioDTO) converter.fromEntity(((GaranteIndependiente) entity).getUnLocatario()));
                 }
                 if (((GaranteIndependiente) entity).getComprobantesDeIngresosGarantes() != null) {
                     ComprobanteDeIngresoConverter converter = new ComprobanteDeIngresoConverter();
                     ((GaranteIndependienteDTO) dto).setComprobantesDeIngresosGarantesDTO(converter.fromEntity(((GaranteIndependiente) entity).getComprobantesDeIngresosGarantes()));
                 }
-
             }
             return dto;
         } else {

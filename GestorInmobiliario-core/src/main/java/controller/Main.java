@@ -5,9 +5,22 @@
  */
 package controller;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import dto.LocadorDTO;
+import dto.LocatarioDependienteDTO;
+import dto.LocatarioEstudianteDTO;
+import dto.LocatarioIndependienteDTO;
 import util.ExportImpl;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
+import model.dao.Conexion;
+import model.entity.Locador;
+import model.service.Impl.ClienteServiceImpl;
 import net.sf.jasperreports.engine.JRException;
 
 /**
@@ -15,12 +28,13 @@ import net.sf.jasperreports.engine.JRException;
  * @author Ariel
  */
 public class Main {
+    
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    public static void main(String[] args) throws SQLException, JRException, JRException, FileNotFoundException{
 
-    public static void main(String[] args) throws SQLException, JRException, JRException, FileNotFoundException {
-
-        //new Conexion();
-//        InmuebleController inmuebleController = new InmuebleController();
-//        
+        new Conexion();
+        InmuebleController inmuebleController = new InmuebleController();
+        inmuebleController.listarInmuebles();
 //        TerrenoDTO t1 = new TerrenoDTO();
 //        
 //        CasaDTO c1 = new CasaDTO();
@@ -68,11 +82,29 @@ public class Main {
 //        barrio.listarBarrios();
 // creo la conexión a la BBDD
         //ConexionBBDD conn = new ConexionBBDD();
-      
+
         ExportImpl ex = new ExportImpl();
         ex.guardarBoletaDePagoPDF();
         
         ex.verBoletaDePagoPDF();
         ex.exportarBoletaDePagoPDF();
+        
+        ClienteServiceImpl serviceCliente = new ClienteServiceImpl();
+        
+        LocadorDTO l = new LocadorDTO();
+        LocatarioDependienteDTO ld = new LocatarioDependienteDTO();
+        LocatarioIndependienteDTO lind = new LocatarioIndependienteDTO();
+        LocatarioEstudianteDTO le = new LocatarioEstudianteDTO();
+        
+        serviceCliente.crear(l);
+        serviceCliente.crear(ld);
+        serviceCliente.crear(lind);
+        serviceCliente.crear(le);
+        
+        for (LocadorDTO ll : serviceCliente.listarTodosLocadores()) {
+            System.out.println("" + ll.getId());
+        }
+        
     }
+    
 }

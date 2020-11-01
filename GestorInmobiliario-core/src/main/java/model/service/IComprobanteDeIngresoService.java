@@ -5,12 +5,12 @@
  */
 package model.service;
 
-import dto.ContratoVentaDTO;
+import dto.ComprobanteDeIngresoDTO;
 
 /**
  *
  * @author Ariel
  */
-public interface IContratoVentaService extends ICRUD<ContratoVentaDTO>{
+public interface IComprobanteDeIngresoService extends ICRUD<ComprobanteDeIngresoDTO>{
     
 }

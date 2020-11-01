@@ -18,6 +18,8 @@ import model.entity.LocatarioDependiente;
 import model.entity.LocatarioEstudiante;
 import model.entity.LocatarioIndependiente;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -77,7 +79,6 @@ public class ClienteConverter extends AbstractConverter<Cliente, ClienteDTO> {
                 }
 
             }
-
             if (dto instanceof LocatarioDTO) {
                 if (dto instanceof LocatarioDependienteDTO) {
                     entity = new LocatarioDependiente();
@@ -184,7 +185,7 @@ public class ClienteConverter extends AbstractConverter<Cliente, ClienteDTO> {
                         ActividadConverter converter = new ActividadConverter();
                         ((LocatarioIndependiente) entity).setUnaActividad(converter.fromDto(((LocatarioIndependienteDTO) dto).getUnaActividadDTO()));
                     }
-                    if (((LocatarioDependienteDTO) dto).getComprobantesDeIngresosLocatariosDTO() != null) {
+                    if (((LocatarioIndependienteDTO) dto).getComprobantesDeIngresosLocatariosDTO() != null) {
                         ComprobanteDeIngresoConverter converter = new ComprobanteDeIngresoConverter();
                         ((LocatarioIndependiente) entity).setComprobantesDeIngresosLocatarios(converter.fromDto(((LocatarioIndependienteDTO) dto).getComprobantesDeIngresosLocatariosDTO()));
                     }
@@ -239,7 +240,7 @@ public class ClienteConverter extends AbstractConverter<Cliente, ClienteDTO> {
                         ActividadConverter converter = new ActividadConverter();
                         ((LocatarioEstudiante) entity).setUnaActividad(converter.fromDto(((LocatarioEstudianteDTO) dto).getUnaActividadDTO()));
                     }
-                    if (((LocatarioDependienteDTO) dto).getComprobantesDeIngresosLocatariosDTO() != null) {
+                    if (((LocatarioEstudianteDTO) dto).getComprobantesDeIngresosLocatariosDTO() != null) {
                         ComprobanteDeIngresoConverter converter = new ComprobanteDeIngresoConverter();
                         ((LocatarioEstudiante) entity).setComprobantesDeIngresosLocatarios(converter.fromDto(((LocatarioEstudianteDTO) dto).getComprobantesDeIngresosLocatariosDTO()));
                     }
@@ -302,7 +303,6 @@ public class ClienteConverter extends AbstractConverter<Cliente, ClienteDTO> {
                     dto.setCorreoElectronico(entity.getCorreoElectronico());
                 }
             }
-
             if (entity instanceof Locatario) {
                 if (entity instanceof LocatarioDependiente) {
                     dto = new LocatarioDependienteDTO();
@@ -464,12 +464,11 @@ public class ClienteConverter extends AbstractConverter<Cliente, ClienteDTO> {
                         ActividadConverter converter = new ActividadConverter();
                         ((LocatarioEstudianteDTO) dto).setUnaActividadDTO(converter.fromEntity(((LocatarioEstudiante) entity).getUnaActividad()));
                     }
-                    if (((LocatarioIndependiente) entity).getComprobantesDeIngresosLocatarios() != null) {
+                    if (((LocatarioEstudiante) entity).getComprobantesDeIngresosLocatarios() != null) {
                         ComprobanteDeIngresoConverter converter = new ComprobanteDeIngresoConverter();
                         ((LocatarioEstudianteDTO) dto).setComprobantesDeIngresosLocatariosDTO(converter.fromEntity(((LocatarioEstudiante) entity).getComprobantesDeIngresosLocatarios()));
                     }
                 }
-
             }
             return dto;
         } else {

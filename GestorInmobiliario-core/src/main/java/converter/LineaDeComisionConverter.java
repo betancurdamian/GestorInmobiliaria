@@ -17,12 +17,50 @@ public class LineaDeComisionConverter extends AbstractConverter<LineaDeComision,
 
     @Override
     public LineaDeComision fromDto(LineaDeComisionDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LineaDeComision entity = null;
+        if (dto != null) {
+            entity = new LineaDeComision();
+            if (dto.getId() != null) {
+                entity.setId(dto.getId());
+            }
+            if (dto.getNumeroCuota() != null) {
+                entity.setNumeroCuota(dto.getNumeroCuota());
+            }
+            if (dto.getMonto() != null) {
+                entity.setMonto(dto.getMonto());
+            }
+            if (dto.getUnaComisionDTO() != null) {
+                ComisionConverter converter = new ComisionConverter();
+                entity.setUnaComision(converter.fromDto(dto.getUnaComisionDTO()));
+            }
+            return entity;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public LineaDeComisionDTO fromEntity(LineaDeComision entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LineaDeComisionDTO dto = null;
+        if (entity != null) {
+            dto = new LineaDeComisionDTO();
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
+            }
+            if (entity.getNumeroCuota() != null) {
+                dto.setNumeroCuota(entity.getNumeroCuota());
+            }
+            if (entity.getMonto() != null) {
+                dto.setMonto(entity.getMonto());
+            }
+            if (entity.getUnaComision() != null) {
+                ComisionConverter converter = new ComisionConverter();
+                dto.setUnaComisionDTO(converter.fromEntity(entity.getUnaComision()));
+            }
+            return dto;
+        } else {
+            return null;
+        }
     }
 
     @Override

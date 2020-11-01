@@ -27,10 +27,12 @@ public class DocumentoDeIngreso extends ComprobanteDeIngreso {
         this.validado = validado;
     }
 
-    public DocumentoDeIngreso(Boolean validado, Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
-        super(mes, anio, importeBruto, importeNeto);
+    public DocumentoDeIngreso(Boolean validado, Integer mes, Integer anio, Float importeBruto, Float importeNeto, Locatario unLocatario, Garante unGarante) {
+        super(mes, anio, importeBruto, importeNeto, unLocatario, unGarante);
         this.validado = validado;
     }
+
+    
 
     public Boolean getValidado() {
         return validado;

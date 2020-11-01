@@ -13,19 +13,20 @@ import java.util.List;
  *
  * @author Ariel
  */
-public class EstadoCivilConverter extends AbstractConverter<EstadoCivil, EstadoCivilDTO>{
+public class EstadoCivilConverter extends AbstractConverter<EstadoCivil, EstadoCivilDTO> {
 
     @Override
     public EstadoCivil fromDto(EstadoCivilDTO dto) {
+        EstadoCivil entity = null;
         if (dto != null) {
-            EstadoCivil entity = new EstadoCivil();
+            entity = new EstadoCivil();
 
-            if (dto.getId()!=null) {
+            if (dto.getId() != null) {
                 entity.setId(dto.getId());
             }
-            
-            entity.setDescripcion(dto.getDescripcion());
-            
+            if (dto.getDescripcion() != null) {
+                entity.setDescripcion(dto.getDescripcion());
+            }
             return entity;
         } else {
             return null;
@@ -34,11 +35,16 @@ public class EstadoCivilConverter extends AbstractConverter<EstadoCivil, EstadoC
 
     @Override
     public EstadoCivilDTO fromEntity(EstadoCivil entity) {
+        EstadoCivilDTO dto = null;
         if (entity != null) {
-            EstadoCivilDTO dto = new EstadoCivilDTO();
-            
-            dto.setId(entity.getId());
-            dto.setDescripcion(entity.getDescripcion());
+            dto = new EstadoCivilDTO();
+
+            if (entity.getId() != null) {
+                dto.setId(entity.getId());
+            }
+            if (entity.getDescripcion() != null) {
+                dto.setDescripcion(entity.getDescripcion());
+            }
             return dto;
         } else {
             return null;
@@ -54,5 +60,5 @@ public class EstadoCivilConverter extends AbstractConverter<EstadoCivil, EstadoC
     public List<EstadoCivil> fromDto(List<EstadoCivilDTO> dtos) {
         return super.fromDto(dtos); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

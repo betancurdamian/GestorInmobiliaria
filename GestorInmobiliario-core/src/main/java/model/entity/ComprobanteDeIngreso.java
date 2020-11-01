@@ -6,8 +6,6 @@
 package model.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -16,7 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -33,7 +32,7 @@ public abstract class ComprobanteDeIngreso implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
     @Column(name = "mes")
     private Integer mes;
 
@@ -46,23 +45,25 @@ public abstract class ComprobanteDeIngreso implements Serializable {
     @Column(name = "importe_neto")
     private Float importeNeto;
 
-    @ManyToMany(mappedBy = "comprobantesDeIngresosLocatarios")
-    private List<Locatario> locatarios;
+    @ManyToOne
+    @JoinColumn(name = "fk_locatario")
+    private Locatario unLocatario;
 
-    @ManyToMany(mappedBy = "comprobantesDeIngresosGarantes")
-    private List<Garante> garantes;
+    @ManyToOne
+    @JoinColumn(name = "fk_garante")
+    private Garante unGarante;
 
     public ComprobanteDeIngreso() {
-        this.locatarios = new ArrayList<>();
-        this.garantes = new ArrayList<>();
-    }
+    }   
 
-    public ComprobanteDeIngreso(Integer mes, Integer anio, Float importeBruto, Float importeNeto) {
+    public ComprobanteDeIngreso(Integer mes, Integer anio, Float importeBruto, Float importeNeto, Locatario unLocatario, Garante unGarante) {
         this.mes = mes;
         this.anio = anio;
         this.importeBruto = importeBruto;
         this.importeNeto = importeNeto;
-    }
+        this.unLocatario = unLocatario;
+        this.unGarante = unGarante;
+    }    
 
     public Long getId() {
         return id;
@@ -70,6 +71,31 @@ public abstract class ComprobanteDeIngreso implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof ComprobanteDeIngreso)) {
+            return false;
+        }
+        ComprobanteDeIngreso other = (ComprobanteDeIngreso) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "model.entity.ComprobanteDeIngreso_1[ id=" + id + " ]";
     }
 
     public Integer getMes() {
@@ -104,20 +130,20 @@ public abstract class ComprobanteDeIngreso implements Serializable {
         this.importeNeto = importeNeto;
     }
 
-    public List<Locatario> getLocatarios() {
-        return locatarios;
+    public Locatario getUnLocatario() {
+        return unLocatario;
     }
 
-    public void setLocatarios(List<Locatario> locatarios) {
-        this.locatarios = locatarios;
+    public void setUnLocatario(Locatario unLocatario) {
+        this.unLocatario = unLocatario;
     }
 
-    public List<Garante> getGarantes() {
-        return garantes;
+    public Garante getUnGarante() {
+        return unGarante;
     }
 
-    public void setGarantes(List<Garante> garantes) {
-        this.garantes = garantes;
+    public void setUnGarante(Garante unGarante) {
+        this.unGarante = unGarante;
     }
-
+    
 }

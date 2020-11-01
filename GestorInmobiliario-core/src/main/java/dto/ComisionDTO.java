@@ -12,12 +12,12 @@ import java.util.List;
  * @author Ariel
  */
 public class ComisionDTO {
-    
+
     private Long id;
     private ContratoDTO unContratoDTO;
     private Integer cantidadDeCuotas;
     private Float montoTotal;
-    private List<LineaDeComisionDTO> linesasDecomisionesDTO;
+    private List<LineaDeComisionDTO> linesasDeComisionesDTO;
 
     public Long getId() {
         return id;
@@ -51,13 +51,12 @@ public class ComisionDTO {
         this.montoTotal = montoTotal;
     }
 
-    public List<LineaDeComisionDTO> getLinesasDecomisionesDTO() {
-        return linesasDecomisionesDTO;
+    public List<LineaDeComisionDTO> getLinesasDeComisionesDTO() {
+        return linesasDeComisionesDTO;
     }
 
-    public void setLinesasDecomisionesDTO(List<LineaDeComisionDTO> linesasDecomisionesDTO) {
-        this.linesasDecomisionesDTO = linesasDecomisionesDTO;
+    public void setLinesasDeComisionesDTO(List<LineaDeComisionDTO> linesasDeComisionesDTO) {
+        this.linesasDeComisionesDTO = linesasDeComisionesDTO;
     }
-    
-    
+
 }

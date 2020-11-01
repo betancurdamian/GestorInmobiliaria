@@ -12,8 +12,9 @@ package dto;
 public class VentaDTO {
     private Long id;
     private String unaFechaVenta;
-    private boolean completa;
+    private Boolean completa;
     private ContratoVentaDTO unContratoVentaDTO;
+    private InmuebleDTO unInmuebleDTO;
     private InmobiliariaDTO unaInmobiliariaVentaDTO;
 
     public Long getId() {
@@ -32,11 +33,11 @@ public class VentaDTO {
         this.unaFechaVenta = unaFechaVenta;
     }
 
-    public boolean isCompleta() {
+    public Boolean getCompleta() {
         return completa;
     }
 
-    public void setCompleta(boolean completa) {
+    public void setCompleta(Boolean completa) {
         this.completa = completa;
     }
 
@@ -48,6 +49,14 @@ public class VentaDTO {
         this.unContratoVentaDTO = unContratoVentaDTO;
     }
 
+    public InmuebleDTO getUnInmuebleDTO() {
+        return unInmuebleDTO;
+    }
+
+    public void setUnInmuebleDTO(InmuebleDTO unInmuebleDTO) {
+        this.unInmuebleDTO = unInmuebleDTO;
+    }
+
     public InmobiliariaDTO getUnaInmobiliariaVentaDTO() {
         return unaInmobiliariaVentaDTO;
     }
@@ -55,6 +64,6 @@ public class VentaDTO {
     public void setUnaInmobiliariaVentaDTO(InmobiliariaDTO unaInmobiliariaVentaDTO) {
         this.unaInmobiliariaVentaDTO = unaInmobiliariaVentaDTO;
     }
-    
+
     
 }
