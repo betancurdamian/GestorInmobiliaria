@@ -7,6 +7,10 @@ package model.service;
 
 import dto.ClienteDTO;
 import dto.LocadorDTO;
+import dto.LocatarioDTO;
+import dto.LocatarioDependienteDTO;
+import dto.LocatarioEstudianteDTO;
+import dto.LocatarioIndependienteDTO;
 import java.util.List;
 
 /**
@@ -15,5 +19,17 @@ import java.util.List;
  */
 public interface IClienteService extends ICRUD<ClienteDTO>{
     LocadorDTO listarLocadorID(Long id);
-    public List<LocadorDTO> listarTodosLocadores();
+    List<LocadorDTO> listarTodosLocadores();
+    
+    LocatarioDTO listarLocatarioID(Long id);
+    List<LocatarioDTO> listarTodosLocatarios();
+    
+    LocatarioDependienteDTO listarLocatarioDependienteID(Long id);
+    List<LocatarioDependienteDTO> listarTodosLocatariosDependientes();
+    
+    LocatarioIndependienteDTO listarLocatarioIndependienteID(Long id);
+    List<LocatarioIndependienteDTO> listarTodosLocatariosIndependientes();
+    
+    LocatarioEstudianteDTO listarLocatarioEstudianteID(Long id);
+    List<LocatarioEstudianteDTO> listarTodosLocatariosEstudiantes();
 }

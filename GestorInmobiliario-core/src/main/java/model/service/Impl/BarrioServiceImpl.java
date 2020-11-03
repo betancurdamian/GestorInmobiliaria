@@ -5,8 +5,8 @@
  */
 package model.service.Impl;
 
-import converter.BarrioConverter;
 import dto.BarrioDTO;
+import java.util.ArrayList;
 import model.dao.BarrioJpaController;
 import model.dao.Conexion;
 import model.dao.exceptions.NonexistentEntityException;
@@ -15,6 +15,7 @@ import model.service.IBarrioService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -23,19 +24,18 @@ import java.util.logging.Logger;
 public class BarrioServiceImpl implements IBarrioService {
 
     private final BarrioJpaController barrioDAO;
-    private final BarrioConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public BarrioServiceImpl() {
         new Conexion();
         this.barrioDAO = new BarrioJpaController(Conexion.getEmf());
-        this.converter = new BarrioConverter();
     }
 
     @Override
     public BarrioDTO crear(BarrioDTO dto) {
         if (dto != null) {
-            Barrio entity = this.converter.fromDto(dto);
+            ModelMapper modelMapper = new ModelMapper();
+            Barrio entity = modelMapper.map(dto, Barrio.class);
             this.barrioDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -48,9 +48,12 @@ public class BarrioServiceImpl implements IBarrioService {
     public BarrioDTO modificar(BarrioDTO dto) {
         if (dto != null) {
             if (dto.getId() != null) {
-                Barrio entity = this.converter.fromDto(dto);
                 try {
+                    ModelMapper modelMapper = new ModelMapper();
+                    Barrio entity = modelMapper.map(dto, Barrio.class);
+
                     barrioDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
                     Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -83,14 +86,25 @@ public class BarrioServiceImpl implements IBarrioService {
 
     @Override
     public BarrioDTO listarID(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
         Barrio entity = barrioDAO.findBarrio(id);
-        return this.converter.fromEntity(entity);
+        BarrioDTO dto = modelMapper.map(entity, BarrioDTO.class);
+
+        return dto;
     }
 
     @Override
     public List<BarrioDTO> listarTodos() {
-        List<Barrio> entities = barrioDAO.findBarrioEntities();
-        return this.converter.fromEntity(entities);
+        ModelMapper modelMapper = new ModelMapper();
+        BarrioDTO dtoAux = null;
+        List<BarrioDTO> dtos = new ArrayList<>();
+
+        for (Barrio entitiy : barrioDAO.findBarrioEntities()) {
+            dtoAux = modelMapper.map(entitiy, BarrioDTO.class);
+            dtos.add(dtoAux);
+        }
+
+        return dtos;
     }
 
 }

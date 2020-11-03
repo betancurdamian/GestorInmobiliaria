@@ -11,13 +11,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -25,37 +24,36 @@ import javax.persistence.Table;
  * @author Ariel
  */
 @Entity
-@Table(name="comisiones")
+@Table(name = "comisiones")
 public class Comision implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @OneToOne(cascade=CascadeType.ALL)
+
+    @ManyToOne
     @JoinColumn(name = "fk_contrato")
     private Contrato unContrato;
-    
+
     @Column(name = "cantidad_cuota")
     private Integer cantidadDeCuotas;
-    
+
     @Column(name = "montoTotal")
     private Float montoTotal;
 
-    @OneToMany(mappedBy = "unaComision", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<LineaDeComision> linesasDeComisiones;
+    @OneToMany(mappedBy = "unaComision", cascade = CascadeType.ALL)
+    private List<LineaDeComision> lineasDeComisiones;
 
     public Comision() {
-        this.linesasDeComisiones = new ArrayList<>();
+        this.lineasDeComisiones = new ArrayList<>();
     }
 
     public Comision(Contrato unContrato, Integer cantidadDeCuotas, Float montoTotal) {
         this.unContrato = unContrato;
         this.cantidadDeCuotas = cantidadDeCuotas;
         this.montoTotal = montoTotal;
-        this.linesasDeComisiones = new ArrayList<>();
+        this.lineasDeComisiones = new ArrayList<>();
     }
 
     public Long getId() {
@@ -90,14 +88,24 @@ public class Comision implements Serializable {
         this.montoTotal = montoTotal;
     }
 
-    public List<LineaDeComision> getLinesasDeComisiones() {
-        return linesasDeComisiones;
+    public List<LineaDeComision> getLineasDeComisiones() {
+        return lineasDeComisiones;
     }
 
-    public void setLinesasDeComisiones(List<LineaDeComision> linesasDeComisiones) {
-        this.linesasDeComisiones = linesasDeComisiones;
+    public void setLineasDeComisiones(List<LineaDeComision> lineasDeComisiones) {
+        this.lineasDeComisiones = lineasDeComisiones;        
     }
-    
+    public void addLineaDeComision(LineaDeComision unaLineaDeComision){
+        if (!lineasDeComisiones.contains(unaLineaDeComision)) {
+            lineasDeComisiones.add(unaLineaDeComision);
+            unaLineaDeComision.setUnaComision(this);
+        }
+    }
+    public void removeLineaDeComision(LineaDeComision unaLineaDeComision){
+        if (lineasDeComisiones.contains(unaLineaDeComision)) {
+            lineasDeComisiones.remove(unaLineaDeComision);
+            unaLineaDeComision.setUnaComision(null);
+        }
+    }
 
-    
 }

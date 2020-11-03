@@ -14,9 +14,9 @@ public class AlquilerDTO {
     private Long id;
     private String unaFechaInicio;
     private String unaFechaFin;
-    private ContratoAlquilerDTO unContratoAlquilerDTO;
-    private InmuebleDTO unInmuebleDTO;
-    private InmobiliariaDTO unaInmobiliariaAlquilerDTO;
+    private ContratoAlquilerDTO unContratoAlquiler;
+    private InmuebleDTO unInmueble;
+    private InmobiliariaDTO unaInmobiliariaAlquiler;
     private Boolean disponible;
 
     public Long getId() {
@@ -43,28 +43,28 @@ public class AlquilerDTO {
         this.unaFechaFin = unaFechaFin;
     }
 
-    public ContratoAlquilerDTO getUnContratoAlquilerDTO() {
-        return unContratoAlquilerDTO;
+    public ContratoAlquilerDTO getUnContratoAlquiler() {
+        return unContratoAlquiler;
     }
 
-    public void setUnContratoAlquilerDTO(ContratoAlquilerDTO unContratoAlquilerDTO) {
-        this.unContratoAlquilerDTO = unContratoAlquilerDTO;
+    public void setUnContratoAlquiler(ContratoAlquilerDTO unContratoAlquiler) {
+        this.unContratoAlquiler = unContratoAlquiler;
     }
 
-    public InmuebleDTO getUnInmuebleDTO() {
-        return unInmuebleDTO;
+    public InmuebleDTO getUnInmueble() {
+        return unInmueble;
     }
 
-    public void setUnInmuebleDTO(InmuebleDTO unInmuebleDTO) {
-        this.unInmuebleDTO = unInmuebleDTO;
+    public void setUnInmueble(InmuebleDTO unInmueble) {
+        this.unInmueble = unInmueble;
     }
 
-    public InmobiliariaDTO getUnaInmobiliariaAlquilerDTO() {
-        return unaInmobiliariaAlquilerDTO;
+    public InmobiliariaDTO getUnaInmobiliariaAlquiler() {
+        return unaInmobiliariaAlquiler;
     }
 
-    public void setUnaInmobiliariaAlquilerDTO(InmobiliariaDTO unaInmobiliariaAlquilerDTO) {
-        this.unaInmobiliariaAlquilerDTO = unaInmobiliariaAlquilerDTO;
+    public void setUnaInmobiliariaAlquiler(InmobiliariaDTO unaInmobiliariaAlquiler) {
+        this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
     }
 
     public Boolean getDisponible() {

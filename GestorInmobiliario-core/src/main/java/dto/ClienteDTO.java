@@ -11,23 +11,23 @@ package dto;
  */
 public abstract class ClienteDTO extends PersonaDTO{
     
-    private InmobiliariaDTO unaInmobiliariaClienteDTO;
-    private UsuarioClienteDTO unUsuarioClienteDTO;
+    private InmobiliariaDTO unaInmobiliariaCliente;
+    private UsuarioClienteDTO unUsuarioCliente;
 
-    public InmobiliariaDTO getUnaInmobiliariaClienteDTO() {
-        return unaInmobiliariaClienteDTO;
+    public InmobiliariaDTO getUnaInmobiliariaCliente() {
+        return unaInmobiliariaCliente;
     }
 
-    public void setUnaInmobiliariaClienteDTO(InmobiliariaDTO unaInmobiliariaClienteDTO) {
-        this.unaInmobiliariaClienteDTO = unaInmobiliariaClienteDTO;
+    public void setUnaInmobiliariaCliente(InmobiliariaDTO unaInmobiliariaCliente) {
+        this.unaInmobiliariaCliente = unaInmobiliariaCliente;
     }
 
-    public UsuarioClienteDTO getUnUsuarioClienteDTO() {
-        return unUsuarioClienteDTO;
+    public UsuarioClienteDTO getUnUsuarioCliente() {
+        return unUsuarioCliente;
     }
 
-    public void setUnUsuarioClienteDTO(UsuarioClienteDTO unUsuarioClienteDTO) {
-        this.unUsuarioClienteDTO = unUsuarioClienteDTO;
+    public void setUnUsuarioCliente(UsuarioClienteDTO unUsuarioCliente) {
+        this.unUsuarioCliente = unUsuarioCliente;
     }
     
     

@@ -10,23 +10,23 @@ package dto;
  * @author Ariel
  */
 public class ContratoAlquilerDTO extends ContratoDTO{
-    private GaranteDTO unGaranteDTO;
-    private AlquilerDTO unAlquilerDTO;
+    private GaranteDTO unGarante;
+    private AlquilerDTO unAlquiler;
 
-    public GaranteDTO getUnGaranteDTO() {
-        return unGaranteDTO;
+    public GaranteDTO getUnGarante() {
+        return unGarante;
     }
 
-    public void setUnGaranteDTO(GaranteDTO unGaranteDTO) {
-        this.unGaranteDTO = unGaranteDTO;
+    public void setUnGarante(GaranteDTO unGarante) {
+        this.unGarante = unGarante;
     }
 
-    public AlquilerDTO getUnAlquilerDTO() {
-        return unAlquilerDTO;
+    public AlquilerDTO getUnAlquiler() {
+        return unAlquiler;
     }
 
-    public void setUnAlquilerDTO(AlquilerDTO unAlquilerDTO) {
-        this.unAlquilerDTO = unAlquilerDTO;
+    public void setUnAlquiler(AlquilerDTO unAlquiler) {
+        this.unAlquiler = unAlquiler;
     }
     
     

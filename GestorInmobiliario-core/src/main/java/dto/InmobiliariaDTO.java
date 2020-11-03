@@ -17,19 +17,19 @@ public class InmobiliariaDTO {
     private String cuit;
     private String direccionCalle;
     private String direccionNumero;
-    private ProvinciaDTO direccionProvinciaDTO;
-    private LocalidadDTO direccionLocalidadDTO;
-    private BarrioDTO direccionBarrioDTO;
+    private ProvinciaDTO direccionProvincia;
+    private LocalidadDTO direccionLocalidad;
+    private BarrioDTO direccionBarrio;
     private String telefono;
     private String correoElectronico;
-    private List<ClienteDTO> clientesDTO;
-    private List<GaranteDTO> garantesDTO;
-    private List<InmuebleDTO> inmueblesDTO;
-    private List<AlquilerDTO> alquileresDTO;
-    private List<VentaDTO> ventasDTO;
-    private List<RecargoPorMoraDTO> recargosPorMorasDTO;    
-    private List<ArancelEspecialDTO> arancelesEspecialesDTO;    
-    private List<UsuarioDTO> usuariosDTO;
+    private List<ClienteDTO> clientes;
+    private List<GaranteDTO> garantes;
+    private List<InmuebleDTO> inmuebles;
+    private List<AlquilerDTO> alquileres;
+    private List<VentaDTO> ventas;
+    private List<RecargoPorMoraDTO> recargosPorMoras;    
+    private List<ArancelEspecialDTO> arancelesEspeciales;    
+    private List<UsuarioDTO> usuarios;
 
     public Long getId() {
         return id;
@@ -71,28 +71,28 @@ public class InmobiliariaDTO {
         this.direccionNumero = direccionNumero;
     }
 
-    public ProvinciaDTO getDireccionProvinciaDTO() {
-        return direccionProvinciaDTO;
+    public ProvinciaDTO getDireccionProvincia() {
+        return direccionProvincia;
     }
 
-    public void setDireccionProvinciaDTO(ProvinciaDTO direccionProvinciaDTO) {
-        this.direccionProvinciaDTO = direccionProvinciaDTO;
+    public void setDireccionProvincia(ProvinciaDTO direccionProvincia) {
+        this.direccionProvincia = direccionProvincia;
     }
 
-    public LocalidadDTO getDireccionLocalidadDTO() {
-        return direccionLocalidadDTO;
+    public LocalidadDTO getDireccionLocalidad() {
+        return direccionLocalidad;
     }
 
-    public void setDireccionLocalidadDTO(LocalidadDTO direccionLocalidadDTO) {
-        this.direccionLocalidadDTO = direccionLocalidadDTO;
+    public void setDireccionLocalidad(LocalidadDTO direccionLocalidad) {
+        this.direccionLocalidad = direccionLocalidad;
     }
 
-    public BarrioDTO getDireccionBarrioDTO() {
-        return direccionBarrioDTO;
+    public BarrioDTO getDireccionBarrio() {
+        return direccionBarrio;
     }
 
-    public void setDireccionBarrioDTO(BarrioDTO direccionBarrioDTO) {
-        this.direccionBarrioDTO = direccionBarrioDTO;
+    public void setDireccionBarrio(BarrioDTO direccionBarrio) {
+        this.direccionBarrio = direccionBarrio;
     }
 
     public String getTelefono() {
@@ -111,68 +111,68 @@ public class InmobiliariaDTO {
         this.correoElectronico = correoElectronico;
     }
 
-    public List<ClienteDTO> getClientesDTO() {
-        return clientesDTO;
+    public List<ClienteDTO> getClientes() {
+        return clientes;
     }
 
-    public void setClientesDTO(List<ClienteDTO> clientesDTO) {
-        this.clientesDTO = clientesDTO;
+    public void setClientes(List<ClienteDTO> clientes) {
+        this.clientes = clientes;
     }
 
-    public List<GaranteDTO> getGarantesDTO() {
-        return garantesDTO;
+    public List<GaranteDTO> getGarantes() {
+        return garantes;
     }
 
-    public void setGarantesDTO(List<GaranteDTO> garantesDTO) {
-        this.garantesDTO = garantesDTO;
+    public void setGarantes(List<GaranteDTO> garantes) {
+        this.garantes = garantes;
     }
 
-    public List<InmuebleDTO> getInmueblesDTO() {
-        return inmueblesDTO;
+    public List<InmuebleDTO> getInmuebles() {
+        return inmuebles;
     }
 
-    public void setInmueblesDTO(List<InmuebleDTO> inmueblesDTO) {
-        this.inmueblesDTO = inmueblesDTO;
+    public void setInmuebles(List<InmuebleDTO> inmuebles) {
+        this.inmuebles = inmuebles;
     }
 
-    public List<AlquilerDTO> getAlquileresDTO() {
-        return alquileresDTO;
+    public List<AlquilerDTO> getAlquileres() {
+        return alquileres;
     }
 
-    public void setAlquileresDTO(List<AlquilerDTO> alquileresDTO) {
-        this.alquileresDTO = alquileresDTO;
+    public void setAlquileres(List<AlquilerDTO> alquileres) {
+        this.alquileres = alquileres;
     }
 
-    public List<VentaDTO> getVentasDTO() {
-        return ventasDTO;
+    public List<VentaDTO> getVentas() {
+        return ventas;
     }
 
-    public void setVentasDTO(List<VentaDTO> ventasDTO) {
-        this.ventasDTO = ventasDTO;
+    public void setVentas(List<VentaDTO> ventas) {
+        this.ventas = ventas;
     }
 
-    public List<RecargoPorMoraDTO> getRecargosPorMorasDTO() {
-        return recargosPorMorasDTO;
+    public List<RecargoPorMoraDTO> getRecargosPorMoras() {
+        return recargosPorMoras;
     }
 
-    public void setRecargosPorMorasDTO(List<RecargoPorMoraDTO> recargosPorMorasDTO) {
-        this.recargosPorMorasDTO = recargosPorMorasDTO;
+    public void setRecargosPorMoras(List<RecargoPorMoraDTO> recargosPorMoras) {
+        this.recargosPorMoras = recargosPorMoras;
     }
 
-    public List<ArancelEspecialDTO> getArancelesEspecialesDTO() {
-        return arancelesEspecialesDTO;
+    public List<ArancelEspecialDTO> getArancelesEspeciales() {
+        return arancelesEspeciales;
     }
 
-    public void setArancelesEspecialesDTO(List<ArancelEspecialDTO> arancelesEspecialesDTO) {
-        this.arancelesEspecialesDTO = arancelesEspecialesDTO;
+    public void setArancelesEspeciales(List<ArancelEspecialDTO> arancelesEspeciales) {
+        this.arancelesEspeciales = arancelesEspeciales;
     }
 
-    public List<UsuarioDTO> getUsuariosDTO() {
-        return usuariosDTO;
+    public List<UsuarioDTO> getUsuarios() {
+        return usuarios;
     }
 
-    public void setUsuariosDTO(List<UsuarioDTO> usuariosDTO) {
-        this.usuariosDTO = usuariosDTO;
+    public void setUsuarios(List<UsuarioDTO> usuarios) {
+        this.usuarios = usuarios;
     }
     
     

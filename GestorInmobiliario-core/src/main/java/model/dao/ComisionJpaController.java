@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Comision;
 
@@ -36,8 +35,8 @@ public class ComisionJpaController implements Serializable {
     }
 
     public void create(Comision comision) {
-        if (comision.getLinesasDeComisiones() == null) {
-            comision.setLinesasDeComisiones(new ArrayList<LineaDeComision>());
+        if (comision.getLineasDeComisiones() == null) {
+            comision.setLineasDeComisiones(new ArrayList<LineaDeComision>());
         }
         EntityManager em = null;
         try {
@@ -48,12 +47,12 @@ public class ComisionJpaController implements Serializable {
                 unContrato = em.getReference(unContrato.getClass(), unContrato.getId());
                 comision.setUnContrato(unContrato);
             }
-            List<LineaDeComision> attachedLinesasDeComisiones = new ArrayList<LineaDeComision>();
-            for (LineaDeComision linesasDeComisionesLineaDeComisionToAttach : comision.getLinesasDeComisiones()) {
-                linesasDeComisionesLineaDeComisionToAttach = em.getReference(linesasDeComisionesLineaDeComisionToAttach.getClass(), linesasDeComisionesLineaDeComisionToAttach.getId());
-                attachedLinesasDeComisiones.add(linesasDeComisionesLineaDeComisionToAttach);
+            List<LineaDeComision> attachedLineasDeComisiones = new ArrayList<LineaDeComision>();
+            for (LineaDeComision lineasDeComisionesLineaDeComisionToAttach : comision.getLineasDeComisiones()) {
+                lineasDeComisionesLineaDeComisionToAttach = em.getReference(lineasDeComisionesLineaDeComisionToAttach.getClass(), lineasDeComisionesLineaDeComisionToAttach.getId());
+                attachedLineasDeComisiones.add(lineasDeComisionesLineaDeComisionToAttach);
             }
-            comision.setLinesasDeComisiones(attachedLinesasDeComisiones);
+            comision.setLineasDeComisiones(attachedLineasDeComisiones);
             em.persist(comision);
             if (unContrato != null) {
                 Comision oldUnaComisionOfUnContrato = unContrato.getUnaComision();
@@ -64,13 +63,13 @@ public class ComisionJpaController implements Serializable {
                 unContrato.setUnaComision(comision);
                 unContrato = em.merge(unContrato);
             }
-            for (LineaDeComision linesasDeComisionesLineaDeComision : comision.getLinesasDeComisiones()) {
-                Comision oldUnaComisionOfLinesasDeComisionesLineaDeComision = linesasDeComisionesLineaDeComision.getUnaComision();
-                linesasDeComisionesLineaDeComision.setUnaComision(comision);
-                linesasDeComisionesLineaDeComision = em.merge(linesasDeComisionesLineaDeComision);
-                if (oldUnaComisionOfLinesasDeComisionesLineaDeComision != null) {
-                    oldUnaComisionOfLinesasDeComisionesLineaDeComision.getLinesasDeComisiones().remove(linesasDeComisionesLineaDeComision);
-                    oldUnaComisionOfLinesasDeComisionesLineaDeComision = em.merge(oldUnaComisionOfLinesasDeComisionesLineaDeComision);
+            for (LineaDeComision lineasDeComisionesLineaDeComision : comision.getLineasDeComisiones()) {
+                Comision oldUnaComisionOfLineasDeComisionesLineaDeComision = lineasDeComisionesLineaDeComision.getUnaComision();
+                lineasDeComisionesLineaDeComision.setUnaComision(comision);
+                lineasDeComisionesLineaDeComision = em.merge(lineasDeComisionesLineaDeComision);
+                if (oldUnaComisionOfLineasDeComisionesLineaDeComision != null) {
+                    oldUnaComisionOfLineasDeComisionesLineaDeComision.getLineasDeComisiones().remove(lineasDeComisionesLineaDeComision);
+                    oldUnaComisionOfLineasDeComisionesLineaDeComision = em.merge(oldUnaComisionOfLineasDeComisionesLineaDeComision);
                 }
             }
             em.getTransaction().commit();
@@ -81,7 +80,7 @@ public class ComisionJpaController implements Serializable {
         }
     }
 
-    public void edit(Comision comision) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Comision comision) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -89,31 +88,19 @@ public class ComisionJpaController implements Serializable {
             Comision persistentComision = em.find(Comision.class, comision.getId());
             Contrato unContratoOld = persistentComision.getUnContrato();
             Contrato unContratoNew = comision.getUnContrato();
-            List<LineaDeComision> linesasDeComisionesOld = persistentComision.getLinesasDeComisiones();
-            List<LineaDeComision> linesasDeComisionesNew = comision.getLinesasDeComisiones();
-            List<String> illegalOrphanMessages = null;
-            for (LineaDeComision linesasDeComisionesOldLineaDeComision : linesasDeComisionesOld) {
-                if (!linesasDeComisionesNew.contains(linesasDeComisionesOldLineaDeComision)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain LineaDeComision " + linesasDeComisionesOldLineaDeComision + " since its unaComision field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
+            List<LineaDeComision> lineasDeComisionesOld = persistentComision.getLineasDeComisiones();
+            List<LineaDeComision> lineasDeComisionesNew = comision.getLineasDeComisiones();
             if (unContratoNew != null) {
                 unContratoNew = em.getReference(unContratoNew.getClass(), unContratoNew.getId());
                 comision.setUnContrato(unContratoNew);
             }
-            List<LineaDeComision> attachedLinesasDeComisionesNew = new ArrayList<LineaDeComision>();
-            for (LineaDeComision linesasDeComisionesNewLineaDeComisionToAttach : linesasDeComisionesNew) {
-                linesasDeComisionesNewLineaDeComisionToAttach = em.getReference(linesasDeComisionesNewLineaDeComisionToAttach.getClass(), linesasDeComisionesNewLineaDeComisionToAttach.getId());
-                attachedLinesasDeComisionesNew.add(linesasDeComisionesNewLineaDeComisionToAttach);
+            List<LineaDeComision> attachedLineasDeComisionesNew = new ArrayList<LineaDeComision>();
+            for (LineaDeComision lineasDeComisionesNewLineaDeComisionToAttach : lineasDeComisionesNew) {
+                lineasDeComisionesNewLineaDeComisionToAttach = em.getReference(lineasDeComisionesNewLineaDeComisionToAttach.getClass(), lineasDeComisionesNewLineaDeComisionToAttach.getId());
+                attachedLineasDeComisionesNew.add(lineasDeComisionesNewLineaDeComisionToAttach);
             }
-            linesasDeComisionesNew = attachedLinesasDeComisionesNew;
-            comision.setLinesasDeComisiones(linesasDeComisionesNew);
+            lineasDeComisionesNew = attachedLineasDeComisionesNew;
+            comision.setLineasDeComisiones(lineasDeComisionesNew);
             comision = em.merge(comision);
             if (unContratoOld != null && !unContratoOld.equals(unContratoNew)) {
                 unContratoOld.setUnaComision(null);
@@ -128,14 +115,20 @@ public class ComisionJpaController implements Serializable {
                 unContratoNew.setUnaComision(comision);
                 unContratoNew = em.merge(unContratoNew);
             }
-            for (LineaDeComision linesasDeComisionesNewLineaDeComision : linesasDeComisionesNew) {
-                if (!linesasDeComisionesOld.contains(linesasDeComisionesNewLineaDeComision)) {
-                    Comision oldUnaComisionOfLinesasDeComisionesNewLineaDeComision = linesasDeComisionesNewLineaDeComision.getUnaComision();
-                    linesasDeComisionesNewLineaDeComision.setUnaComision(comision);
-                    linesasDeComisionesNewLineaDeComision = em.merge(linesasDeComisionesNewLineaDeComision);
-                    if (oldUnaComisionOfLinesasDeComisionesNewLineaDeComision != null && !oldUnaComisionOfLinesasDeComisionesNewLineaDeComision.equals(comision)) {
-                        oldUnaComisionOfLinesasDeComisionesNewLineaDeComision.getLinesasDeComisiones().remove(linesasDeComisionesNewLineaDeComision);
-                        oldUnaComisionOfLinesasDeComisionesNewLineaDeComision = em.merge(oldUnaComisionOfLinesasDeComisionesNewLineaDeComision);
+            for (LineaDeComision lineasDeComisionesOldLineaDeComision : lineasDeComisionesOld) {
+                if (!lineasDeComisionesNew.contains(lineasDeComisionesOldLineaDeComision)) {
+                    lineasDeComisionesOldLineaDeComision.setUnaComision(null);
+                    lineasDeComisionesOldLineaDeComision = em.merge(lineasDeComisionesOldLineaDeComision);
+                }
+            }
+            for (LineaDeComision lineasDeComisionesNewLineaDeComision : lineasDeComisionesNew) {
+                if (!lineasDeComisionesOld.contains(lineasDeComisionesNewLineaDeComision)) {
+                    Comision oldUnaComisionOfLineasDeComisionesNewLineaDeComision = lineasDeComisionesNewLineaDeComision.getUnaComision();
+                    lineasDeComisionesNewLineaDeComision.setUnaComision(comision);
+                    lineasDeComisionesNewLineaDeComision = em.merge(lineasDeComisionesNewLineaDeComision);
+                    if (oldUnaComisionOfLineasDeComisionesNewLineaDeComision != null && !oldUnaComisionOfLineasDeComisionesNewLineaDeComision.equals(comision)) {
+                        oldUnaComisionOfLineasDeComisionesNewLineaDeComision.getLineasDeComisiones().remove(lineasDeComisionesNewLineaDeComision);
+                        oldUnaComisionOfLineasDeComisionesNewLineaDeComision = em.merge(oldUnaComisionOfLineasDeComisionesNewLineaDeComision);
                     }
                 }
             }
@@ -156,7 +149,7 @@ public class ComisionJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -168,21 +161,15 @@ public class ComisionJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The comision with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<LineaDeComision> linesasDeComisionesOrphanCheck = comision.getLinesasDeComisiones();
-            for (LineaDeComision linesasDeComisionesOrphanCheckLineaDeComision : linesasDeComisionesOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Comision (" + comision + ") cannot be destroyed since the LineaDeComision " + linesasDeComisionesOrphanCheckLineaDeComision + " in its linesasDeComisiones field has a non-nullable unaComision field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Contrato unContrato = comision.getUnContrato();
             if (unContrato != null) {
                 unContrato.setUnaComision(null);
                 unContrato = em.merge(unContrato);
+            }
+            List<LineaDeComision> lineasDeComisiones = comision.getLineasDeComisiones();
+            for (LineaDeComision lineasDeComisionesLineaDeComision : lineasDeComisiones) {
+                lineasDeComisionesLineaDeComision.setUnaComision(null);
+                lineasDeComisionesLineaDeComision = em.merge(lineasDeComisionesLineaDeComision);
             }
             em.remove(comision);
             em.getTransaction().commit();

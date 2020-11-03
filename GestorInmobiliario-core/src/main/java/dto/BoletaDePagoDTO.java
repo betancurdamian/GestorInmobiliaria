@@ -16,7 +16,7 @@ public class BoletaDePagoDTO {
     private Integer numeroCuota;
     private Float monto;
     private Boolean pagado;
-    private ContratoDTO unContratoDTO;
+    private ContratoDTO unContrato;
 
     public Long getId() {
         return id;
@@ -66,12 +66,12 @@ public class BoletaDePagoDTO {
         this.pagado = pagado;
     }
 
-    public ContratoDTO getUnContratoDTO() {
-        return unContratoDTO;
+    public ContratoDTO getUnContrato() {
+        return unContrato;
     }
 
-    public void setUnContratoDTO(ContratoDTO unContratoDTO) {
-        this.unContratoDTO = unContratoDTO;
+    public void setUnContrato(ContratoDTO unContrato) {
+        this.unContrato = unContrato;
     }
 
     

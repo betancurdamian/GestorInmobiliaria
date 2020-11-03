@@ -37,11 +37,11 @@ public class Alquiler implements Serializable {
     @Column(name = "fecha_fin")
     private LocalDate unaFechaFin;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "fk_contrato_alquiler")
     private ContratoAlquiler unContratoAlquiler;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_inmueble")
     private Inmueble unInmuebleAlquiler;
 

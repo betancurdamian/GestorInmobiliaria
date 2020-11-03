@@ -17,12 +17,12 @@ public class ContratoDTO {
     private String unaFechaSegundoVencimiento;
     private Float montoTotal;
     private Integer cantidadDeCuotas;
-    private RecargoPorMoraDTO unRecargoPorMoraDTO;
-    private LocadorDTO unLocadorDTO;
-    private LocatarioDTO unLocatarioDTO;
-    private ComisionDTO unaComisionDTO;
-    private List<ArancelEspecialDTO> arancelesEspecialesDTO;
-    private List<BoletaDePagoDTO> boletasDePagoDTO;
+    private RecargoPorMoraDTO unRecargoPorMora;
+    private LocadorDTO unLocador;
+    private LocatarioDTO unLocatario;
+    private ComisionDTO unaComision;
+    private List<ArancelEspecialDTO> arancelesEspeciales;
+    private List<BoletaDePagoDTO> boletasDePago;
 
     public Long getId() {
         return id;
@@ -64,52 +64,52 @@ public class ContratoDTO {
         this.cantidadDeCuotas = cantidadDeCuotas;
     }
 
-    public RecargoPorMoraDTO getUnRecargoPorMoraDTO() {
-        return unRecargoPorMoraDTO;
+    public RecargoPorMoraDTO getUnRecargoPorMora() {
+        return unRecargoPorMora;
     }
 
-    public void setUnRecargoPorMoraDTO(RecargoPorMoraDTO unRecargoPorMoraDTO) {
-        this.unRecargoPorMoraDTO = unRecargoPorMoraDTO;
+    public void setUnRecargoPorMora(RecargoPorMoraDTO unRecargoPorMora) {
+        this.unRecargoPorMora = unRecargoPorMora;
     }
 
-    public LocadorDTO getUnLocadorDTO() {
-        return unLocadorDTO;
+    public LocadorDTO getUnLocador() {
+        return unLocador;
     }
 
-    public void setUnLocadorDTO(LocadorDTO unLocadorDTO) {
-        this.unLocadorDTO = unLocadorDTO;
+    public void setUnLocador(LocadorDTO unLocador) {
+        this.unLocador = unLocador;
     }
 
-    public LocatarioDTO getUnLocatarioDTO() {
-        return unLocatarioDTO;
+    public LocatarioDTO getUnLocatario() {
+        return unLocatario;
     }
 
-    public void setUnLocatarioDTO(LocatarioDTO unLocatarioDTO) {
-        this.unLocatarioDTO = unLocatarioDTO;
+    public void setUnLocatario(LocatarioDTO unLocatario) {
+        this.unLocatario = unLocatario;
     }
 
-    public ComisionDTO getUnaComisionDTO() {
-        return unaComisionDTO;
+    public ComisionDTO getUnaComision() {
+        return unaComision;
     }
 
-    public void setUnaComisionDTO(ComisionDTO unaComisionDTO) {
-        this.unaComisionDTO = unaComisionDTO;
+    public void setUnaComision(ComisionDTO unaComision) {
+        this.unaComision = unaComision;
     }
 
-    public List<ArancelEspecialDTO> getArancelesEspecialesDTO() {
-        return arancelesEspecialesDTO;
+    public List<ArancelEspecialDTO> getArancelesEspeciales() {
+        return arancelesEspeciales;
     }
 
-    public void setArancelesEspecialesDTO(List<ArancelEspecialDTO> arancelesEspecialesDTO) {
-        this.arancelesEspecialesDTO = arancelesEspecialesDTO;
+    public void setArancelesEspeciales(List<ArancelEspecialDTO> arancelesEspeciales) {
+        this.arancelesEspeciales = arancelesEspeciales;
     }
 
-    public List<BoletaDePagoDTO> getBoletasDePagoDTO() {
-        return boletasDePagoDTO;
+    public List<BoletaDePagoDTO> getBoletasDePago() {
+        return boletasDePago;
     }
 
-    public void setBoletasDePagoDTO(List<BoletaDePagoDTO> boletasDePagoDTO) {
-        this.boletasDePagoDTO = boletasDePagoDTO;
+    public void setBoletasDePago(List<BoletaDePagoDTO> boletasDePago) {
+        this.boletasDePago = boletasDePago;
     }
     
     

@@ -5,8 +5,8 @@
  */
 package model.service.Impl;
 
-import converter.ProvinciaConverter;
 import dto.ProvinciaDTO;
+import java.util.ArrayList;
 import model.dao.Conexion;
 import model.dao.ProvinciaJpaController;
 import model.dao.exceptions.NonexistentEntityException;
@@ -15,6 +15,7 @@ import model.service.IProvinciaService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -23,34 +24,36 @@ import java.util.logging.Logger;
 public class ProvinciaServiceImpl implements IProvinciaService {
 
     private final ProvinciaJpaController provinciaDAO;
-    private final ProvinciaConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ProvinciaServiceImpl() {
         new Conexion();
-        this.provinciaDAO = new ProvinciaJpaController(Conexion.getEmf());
-        this.converter = new ProvinciaConverter();
+        this.provinciaDAO = new ProvinciaJpaController(Conexion.getEmf());        
     }
 
     @Override
     public ProvinciaDTO crear(ProvinciaDTO dto) {
         if (dto != null) {
-            Provincia entity = this.converter.fromDto(dto);
+            ModelMapper modelMapper = new ModelMapper();
+            Provincia entity = modelMapper.map(dto, Provincia.class);
             this.provinciaDAO.create(entity);
             dto.setId(entity.getId());
         } else {
             System.out.println("El DTO es null");
         }
-        return dto;
+        return dto;        
     }
 
     @Override
     public ProvinciaDTO modificar(ProvinciaDTO dto) {
         if (dto != null) {
             if (dto.getId() != null) {
-                Provincia entity = this.converter.fromDto(dto);
                 try {
+                    ModelMapper modelMapper = new ModelMapper();
+                    Provincia entity = modelMapper.map(dto, Provincia.class);
+
                     provinciaDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
                     Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -82,14 +85,25 @@ public class ProvinciaServiceImpl implements IProvinciaService {
 
     @Override
     public ProvinciaDTO listarID(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
         Provincia entity = provinciaDAO.findProvincia(id);
-        return this.converter.fromEntity(entity);
+        ProvinciaDTO dto = modelMapper.map(entity, ProvinciaDTO.class);
+
+        return dto;
     }
 
     @Override
     public List<ProvinciaDTO> listarTodos() {
-        List<Provincia> entities = provinciaDAO.findProvinciaEntities();
-        return this.converter.fromEntity(entities);
+        ModelMapper modelMapper = new ModelMapper();
+        ProvinciaDTO dtoAux = null;
+        List<ProvinciaDTO> dtos = new ArrayList<>();
+
+        for (Provincia entitiy : provinciaDAO.findProvinciaEntities()) {
+            dtoAux = modelMapper.map(entitiy, ProvinciaDTO.class);
+            dtos.add(dtoAux);
+        }
+
+        return dtos;
     }
 
 }

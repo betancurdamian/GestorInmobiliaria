@@ -5,8 +5,8 @@
  */
 package model.service.Impl;
 
-import converter.BoletaDePagoConverter;
 import dto.BoletaDePagoDTO;
+import java.util.ArrayList;
 import model.dao.Conexion;
 import model.service.IBoletaDePagoService;
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import model.dao.BoletaDePagoJpaController;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.BoletaDePago;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -23,19 +24,18 @@ import model.entity.BoletaDePago;
 public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
 
     private final BoletaDePagoJpaController boletaDePagoDAO;
-    private final BoletaDePagoConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public BoletaDePagoServiceImpl() {
         new Conexion();
         this.boletaDePagoDAO = new BoletaDePagoJpaController(Conexion.getEmf());
-        this.converter = new BoletaDePagoConverter();
     }
 
     @Override
     public BoletaDePagoDTO crear(BoletaDePagoDTO dto) {
         if (dto != null) {
-            BoletaDePago entity = this.converter.fromDto(dto);
+            ModelMapper modelMapper = new ModelMapper();
+            BoletaDePago entity = modelMapper.map(dto, BoletaDePago.class);
             this.boletaDePagoDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -48,9 +48,12 @@ public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
     public BoletaDePagoDTO modificar(BoletaDePagoDTO dto) {
         if (dto != null) {
             if (dto.getId() != null) {
-                BoletaDePago entity = this.converter.fromDto(dto);
                 try {
+                    ModelMapper modelMapper = new ModelMapper();
+                    BoletaDePago entity = modelMapper.map(dto, BoletaDePago.class);
+
                     boletaDePagoDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
                     Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -82,13 +85,24 @@ public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
 
     @Override
     public BoletaDePagoDTO listarID(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
         BoletaDePago entity = boletaDePagoDAO.findBoletaDePago(id);
-        return this.converter.fromEntity(entity);
+        BoletaDePagoDTO dto = modelMapper.map(entity, BoletaDePagoDTO.class);
+
+        return dto;
     }
 
     @Override
     public List<BoletaDePagoDTO> listarTodos() {
-        List<BoletaDePago> entities = boletaDePagoDAO.findBoletaDePagoEntities();
-        return this.converter.fromEntity(entities);
+        ModelMapper modelMapper = new ModelMapper();
+        BoletaDePagoDTO dtoAux = null;
+        List<BoletaDePagoDTO> dtos = new ArrayList<>();
+
+        for (BoletaDePago entitiy : boletaDePagoDAO.findBoletaDePagoEntities()) {
+            dtoAux = modelMapper.map(entitiy, BoletaDePagoDTO.class);
+            dtos.add(dtoAux);
+        }
+
+        return dtos;
     }
 }

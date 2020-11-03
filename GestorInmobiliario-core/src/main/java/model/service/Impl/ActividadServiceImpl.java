@@ -5,8 +5,8 @@
  */
 package model.service.Impl;
 
-import converter.ActividadConverter;
 import dto.ActividadDTO;
+import java.util.ArrayList;
 import model.dao.Conexion;
 import model.service.IActividadService;
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import model.dao.ActividadJpaController;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Actividad;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -23,19 +24,19 @@ import model.entity.Actividad;
 public class ActividadServiceImpl implements IActividadService {
 
     private final ActividadJpaController actividadDAO;
-    private final ActividadConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ActividadServiceImpl() {
         new Conexion();
         this.actividadDAO = new ActividadJpaController(Conexion.getEmf());
-        this.converter = new ActividadConverter();
+
     }
 
     @Override
     public ActividadDTO crear(ActividadDTO dto) {
         if (dto != null) {
-            Actividad entity = this.converter.fromDto(dto);
+            ModelMapper modelMapper = new ModelMapper();
+            Actividad entity = modelMapper.map(dto, Actividad.class);
             this.actividadDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -48,9 +49,12 @@ public class ActividadServiceImpl implements IActividadService {
     public ActividadDTO modificar(ActividadDTO dto) {
         if (dto != null) {
             if (dto.getId() != null) {
-                Actividad entity = this.converter.fromDto(dto);
                 try {
+                    ModelMapper modelMapper = new ModelMapper();
+                    Actividad entity = modelMapper.map(dto, Actividad.class);
+
                     actividadDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
                     Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -82,14 +86,25 @@ public class ActividadServiceImpl implements IActividadService {
 
     @Override
     public ActividadDTO listarID(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
         Actividad entity = actividadDAO.findActividad(id);
-        return this.converter.fromEntity(entity);
+        ActividadDTO dto = modelMapper.map(entity, ActividadDTO.class);
+
+        return dto;
     }
 
     @Override
     public List<ActividadDTO> listarTodos() {
-        List<Actividad> entities = actividadDAO.findActividadEntities();
-        return this.converter.fromEntity(entities);
+        ModelMapper modelMapper = new ModelMapper();
+        ActividadDTO dtoAux = null;
+        List<ActividadDTO> dtos = new ArrayList<>();
+
+        for (Actividad entitiy : actividadDAO.findActividadEntities()) {
+            dtoAux = modelMapper.map(entitiy, ActividadDTO.class);
+            dtos.add(dtoAux);
+        }
+
+        return dtos;
     }
 
 }

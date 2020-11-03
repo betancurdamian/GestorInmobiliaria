@@ -14,8 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -32,14 +30,13 @@ import javax.persistence.Table;
 public abstract class Locatario extends Cliente {
 
     @ManyToOne
-    @JoinColumn(name = "fk_actividad", nullable = true)
+    @JoinColumn(name = "fk_actividad")
     private Actividad unaActividad;
 
     @OneToOne(mappedBy = "unLocatario")
     private Garante unGarante;
 
-    @OneToMany(mappedBy = "unLocatario", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unLocatario", cascade = CascadeType.ALL)
     private List<ComprobanteDeIngreso> comprobantesDeIngresosLocatarios;
 
     public Locatario() {

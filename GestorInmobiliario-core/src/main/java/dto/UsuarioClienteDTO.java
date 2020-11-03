@@ -10,14 +10,14 @@ package dto;
  * @author Ariel
  */
 public class UsuarioClienteDTO extends UsuarioDTO{
-    private ClienteDTO unClienteDTO;
+    private ClienteDTO unCliente;
 
-    public ClienteDTO getUnClienteDTO() {
-        return unClienteDTO;
+    public ClienteDTO getUnCliente() {
+        return unCliente;
     }
 
-    public void setUnClienteDTO(ClienteDTO unClienteDTO) {
-        this.unClienteDTO = unClienteDTO;
+    public void setUnCliente(ClienteDTO unCliente) {
+        this.unCliente = unCliente;
     }
     
     

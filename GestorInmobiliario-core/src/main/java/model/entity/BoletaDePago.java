@@ -45,7 +45,7 @@ public class BoletaDePago implements Serializable {
     private Boolean pagado;
 
     @ManyToOne
-    @JoinColumn(name = "fk_contrato", nullable = false, updatable = true)
+    @JoinColumn(name = "fk_contrato")
     private Contrato unContrato;
 
     public BoletaDePago() {

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.LocatarioDependiente;
 
@@ -106,7 +105,7 @@ public class LocatarioDependienteJpaController implements Serializable {
         }
     }
 
-    public void edit(LocatarioDependiente locatarioDependiente) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(LocatarioDependiente locatarioDependiente) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -120,16 +119,6 @@ public class LocatarioDependienteJpaController implements Serializable {
             UsuarioCliente unUsuarioClienteNew = locatarioDependiente.getUnUsuarioCliente();
             List<ComprobanteDeIngreso> comprobantesDeIngresosLocatariosOld = persistentLocatarioDependiente.getComprobantesDeIngresosLocatarios();
             List<ComprobanteDeIngreso> comprobantesDeIngresosLocatariosNew = locatarioDependiente.getComprobantesDeIngresosLocatarios();
-            List<String> illegalOrphanMessages = null;
-            if (unUsuarioClienteOld != null && !unUsuarioClienteOld.equals(unUsuarioClienteNew)) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("You must retain UsuarioCliente " + unUsuarioClienteOld + " since its unCliente field is not nullable.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (unGaranteNew != null) {
                 unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
                 locatarioDependiente.setUnGarante(unGaranteNew);
@@ -170,6 +159,10 @@ public class LocatarioDependienteJpaController implements Serializable {
             if (unaInmobiliariaClienteNew != null && !unaInmobiliariaClienteNew.equals(unaInmobiliariaClienteOld)) {
                 unaInmobiliariaClienteNew.getClientes().add(locatarioDependiente);
                 unaInmobiliariaClienteNew = em.merge(unaInmobiliariaClienteNew);
+            }
+            if (unUsuarioClienteOld != null && !unUsuarioClienteOld.equals(unUsuarioClienteNew)) {
+                unUsuarioClienteOld.setUnCliente(null);
+                unUsuarioClienteOld = em.merge(unUsuarioClienteOld);
             }
             if (unUsuarioClienteNew != null && !unUsuarioClienteNew.equals(unUsuarioClienteOld)) {
                 model.entity.Cliente oldUnClienteOfUnUsuarioCliente = unUsuarioClienteNew.getUnCliente();
@@ -214,7 +207,7 @@ public class LocatarioDependienteJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -226,17 +219,6 @@ public class LocatarioDependienteJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The locatarioDependiente with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            UsuarioCliente unUsuarioClienteOrphanCheck = locatarioDependiente.getUnUsuarioCliente();
-            if (unUsuarioClienteOrphanCheck != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This LocatarioDependiente (" + locatarioDependiente + ") cannot be destroyed since the UsuarioCliente " + unUsuarioClienteOrphanCheck + " in its unUsuarioCliente field has a non-nullable unCliente field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Garante unGarante = locatarioDependiente.getUnGarante();
             if (unGarante != null) {
                 unGarante.setUnLocatario(null);
@@ -246,6 +228,11 @@ public class LocatarioDependienteJpaController implements Serializable {
             if (unaInmobiliariaCliente != null) {
                 unaInmobiliariaCliente.getClientes().remove(locatarioDependiente);
                 unaInmobiliariaCliente = em.merge(unaInmobiliariaCliente);
+            }
+            UsuarioCliente unUsuarioCliente = locatarioDependiente.getUnUsuarioCliente();
+            if (unUsuarioCliente != null) {
+                unUsuarioCliente.setUnCliente(null);
+                unUsuarioCliente = em.merge(unUsuarioCliente);
             }
             List<ComprobanteDeIngreso> comprobantesDeIngresosLocatarios = locatarioDependiente.getComprobantesDeIngresosLocatarios();
             for (ComprobanteDeIngreso comprobantesDeIngresosLocatariosComprobanteDeIngreso : comprobantesDeIngresosLocatarios) {

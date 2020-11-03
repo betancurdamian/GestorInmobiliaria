@@ -63,36 +63,28 @@ public class Inmobiliaria implements Serializable {
     @Column(name = "correo_electronico")
     private String correoElectronico;
 
-    @OneToMany(mappedBy = "unaInmobiliariaCliente", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaCliente", cascade = CascadeType.ALL)
     private List<Cliente> clientes;
 
-    @OneToMany(mappedBy = "unaInmobiliariaGarante", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaGarante", cascade = CascadeType.ALL)
     private List<Garante> garantes;
 
-    @OneToMany(mappedBy = "unaInmobiliariaInmueble", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaInmueble", cascade = CascadeType.ALL)
     private List<Inmueble> inmuebles;
 
-    @OneToMany(mappedBy = "unaInmobiliariaAlquiler", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaAlquiler", cascade = CascadeType.ALL)
     private List<Alquiler> alquileres;
 
-    @OneToMany(mappedBy = "unaInmobiliariaVenta", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaVenta", cascade = CascadeType.ALL)
     private List<Venta> ventas;
 
-    @OneToMany(mappedBy = "unaInmobiliariaRecargoPorMora", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaRecargoPorMora", cascade = CascadeType.ALL)
     private List<RecargoPorMora> recargosPorMoras;
     
-    @OneToMany(mappedBy = "unaInmobiliariaArancelEspecial", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaArancelEspecial", cascade = CascadeType.ALL)
     private List<ArancelEspecial> arancelesEspeciales;
     
-    @OneToMany(mappedBy = "unaInmobiliariaUsuario", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unaInmobiliariaUsuario", cascade = CascadeType.ALL)
     private List<Usuario> usuarios;
 
     public Inmobiliaria() {

@@ -17,9 +17,9 @@ import net.sf.jasperreports.engine.JRException;
  *
  * @author Ariel
  */
-public class ExportImpl extends Export {
+public class ExporLocalBoletaDePago extends ExportLocal {
 
-    public ExportImpl() {
+    public ExporLocalBoletaDePago() {
 
     }
 
@@ -28,7 +28,6 @@ public class ExportImpl extends Export {
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/inmobiliaria?serverTimezone=UTC", "root", "admin")) {
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("txt_cliente", "asdasdasd");
-//            String rutaCarpeta = "src/main/resources/reports";
             String rutaCarpeta = "jaspers";
             String nombreArchivo = "boleta_pago.jrxml";
 

@@ -6,10 +6,10 @@
 package model.entity;
 
 import java.time.LocalDate;
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -20,11 +20,11 @@ import javax.persistence.OneToOne;
 @DiscriminatorValue("CONTRATO ALQUILER")
 public class ContratoAlquiler extends Contrato {
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_garante")
     private Garante unGarante;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "fk_alquiler")
     private Alquiler unAlquiler;
 

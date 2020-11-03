@@ -12,32 +12,32 @@ import java.util.List;
  * @author Ariel
  */
 public abstract class LocatarioDTO extends ClienteDTO{
-    private ActividadDTO unaActividadDTO;
-    private GaranteDTO unGaranteDTO;
-    private List<ComprobanteDeIngresoDTO> comprobantesDeIngresosLocatariosDTO;
+    private ActividadDTO unaActividad;
+    private GaranteDTO unGarante;
+    private List<ComprobanteDeIngresoDTO> comprobantesDeIngresosLocatarios;
 
-    public ActividadDTO getUnaActividadDTO() {
-        return unaActividadDTO;
+    public ActividadDTO getUnaActividad() {
+        return unaActividad;
     }
 
-    public void setUnaActividadDTO(ActividadDTO unaActividadDTO) {
-        this.unaActividadDTO = unaActividadDTO;
+    public void setUnaActividad(ActividadDTO unaActividad) {
+        this.unaActividad = unaActividad;
     }
 
-    public GaranteDTO getUnGaranteDTO() {
-        return unGaranteDTO;
+    public GaranteDTO getUnGarante() {
+        return unGarante;
     }
 
-    public void setUnGaranteDTO(GaranteDTO unGaranteDTO) {
-        this.unGaranteDTO = unGaranteDTO;
+    public void setUnGarante(GaranteDTO unGarante) {
+        this.unGarante = unGarante;
     }
 
-    public List<ComprobanteDeIngresoDTO> getComprobantesDeIngresosLocatariosDTO() {
-        return comprobantesDeIngresosLocatariosDTO;
+    public List<ComprobanteDeIngresoDTO> getComprobantesDeIngresosLocatarios() {
+        return comprobantesDeIngresosLocatarios;
     }
 
-    public void setComprobantesDeIngresosLocatariosDTO(List<ComprobanteDeIngresoDTO> comprobantesDeIngresosLocatariosDTO) {
-        this.comprobantesDeIngresosLocatariosDTO = comprobantesDeIngresosLocatariosDTO;
+    public void setComprobantesDeIngresosLocatarios(List<ComprobanteDeIngresoDTO> comprobantesDeIngresosLocatarios) {
+        this.comprobantesDeIngresosLocatarios = comprobantesDeIngresosLocatarios;
     }
     
     

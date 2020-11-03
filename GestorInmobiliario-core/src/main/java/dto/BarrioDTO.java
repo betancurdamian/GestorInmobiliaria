@@ -13,7 +13,7 @@ public class BarrioDTO {
     private Long id;
     private String nombre;
     private String codigoPostal;
-    private LocalidadDTO unaLocalidadDTO;
+    private LocalidadDTO unaLocalidad;
 
     public Long getId() {
         return id;
@@ -39,12 +39,12 @@ public class BarrioDTO {
         this.codigoPostal = codigoPostal;
     }
 
-    public LocalidadDTO getUnaLocalidadDTO() {
-        return unaLocalidadDTO;
+    public LocalidadDTO getUnaLocalidad() {
+        return unaLocalidad;
     }
 
-    public void setUnaLocalidadDTO(LocalidadDTO unaLocalidadDTO) {
-        this.unaLocalidadDTO = unaLocalidadDTO;
+    public void setUnaLocalidad(LocalidadDTO unaLocalidad) {
+        this.unaLocalidad = unaLocalidad;
     }
     
     

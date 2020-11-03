@@ -22,7 +22,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author Ariel
  */
-public abstract class Export {
+public abstract class ExportLocal {
 
     Path rutaRelativa;
     Path rutaAbsoluta;
@@ -48,5 +48,6 @@ public abstract class Export {
         rutaAbsoluta = rutaRelativa.toAbsolutePath();
         JasperExportManager.exportReportToPdfFile(print, rutaAbsoluta.toString());
     }
+    
 
 }

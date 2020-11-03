@@ -44,7 +44,7 @@ public class LineaDeComisionJpaController implements Serializable {
             }
             em.persist(lineaDeComision);
             if (unaComision != null) {
-                unaComision.getLinesasDeComisiones().add(lineaDeComision);
+                unaComision.getLineasDeComisiones().add(lineaDeComision);
                 unaComision = em.merge(unaComision);
             }
             em.getTransaction().commit();
@@ -69,11 +69,11 @@ public class LineaDeComisionJpaController implements Serializable {
             }
             lineaDeComision = em.merge(lineaDeComision);
             if (unaComisionOld != null && !unaComisionOld.equals(unaComisionNew)) {
-                unaComisionOld.getLinesasDeComisiones().remove(lineaDeComision);
+                unaComisionOld.getLineasDeComisiones().remove(lineaDeComision);
                 unaComisionOld = em.merge(unaComisionOld);
             }
             if (unaComisionNew != null && !unaComisionNew.equals(unaComisionOld)) {
-                unaComisionNew.getLinesasDeComisiones().add(lineaDeComision);
+                unaComisionNew.getLineasDeComisiones().add(lineaDeComision);
                 unaComisionNew = em.merge(unaComisionNew);
             }
             em.getTransaction().commit();
@@ -107,7 +107,7 @@ public class LineaDeComisionJpaController implements Serializable {
             }
             Comision unaComision = lineaDeComision.getUnaComision();
             if (unaComision != null) {
-                unaComision.getLinesasDeComisiones().remove(lineaDeComision);
+                unaComision.getLineasDeComisiones().remove(lineaDeComision);
                 unaComision = em.merge(unaComision);
             }
             em.remove(lineaDeComision);

@@ -5,12 +5,12 @@
  */
 package model.service.Impl;
 
-import converter.InmuebleConverter;
 import dto.CasaDTO;
 import dto.DepartamentoDTO;
 import dto.InmuebleDTO;
 import dto.LocalComercialDTO;
 import dto.TerrenoDTO;
+import java.util.ArrayList;
 import model.dao.CasaJpaController;
 import model.dao.Conexion;
 import model.dao.DepartamentoJpaController;
@@ -26,6 +26,8 @@ import model.service.IInmuebleService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.entity.Inmueble;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -39,8 +41,6 @@ public class InmuebleServiceImpl implements IInmuebleService {
     private final DepartamentoJpaController departamentoDAO;
     private final LocalComercialJpaController localComercialDAO;
 
-    private final InmuebleConverter converter;
-
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public InmuebleServiceImpl() {
         new Conexion();
@@ -49,29 +49,33 @@ public class InmuebleServiceImpl implements IInmuebleService {
         this.departamentoDAO = new DepartamentoJpaController(Conexion.getEmf());
         this.localComercialDAO = new LocalComercialJpaController(Conexion.getEmf());
         this.inmuebleDAO = new InmuebleJpaController(Conexion.getEmf());
-        this.converter = new InmuebleConverter();
+
     }
 
     @Override
     public InmuebleDTO crear(InmuebleDTO dto) {
         if (dto != null) {
             if (dto instanceof TerrenoDTO) {
-                Terreno entity = (Terreno) this.converter.fromDto(dto);
+                ModelMapper modelMapper = new ModelMapper();
+                Terreno entity = modelMapper.map(dto, Terreno.class);
                 this.terrenoDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof CasaDTO) {
-                Casa entity = (Casa) this.converter.fromDto(dto);
+                ModelMapper modelMapper = new ModelMapper();
+                Casa entity = modelMapper.map(dto, Casa.class);
                 this.casaDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof DepartamentoDTO) {
-                Departamento entity = (Departamento) this.converter.fromDto(dto);
+                ModelMapper modelMapper = new ModelMapper();
+                Departamento entity = modelMapper.map(dto, Departamento.class);
                 this.departamentoDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof LocalComercialDTO) {
-                LocalComercial entity = (LocalComercial) this.converter.fromDto(dto);
+                ModelMapper modelMapper = new ModelMapper();
+                LocalComercial entity = modelMapper.map(dto, LocalComercial.class);
                 this.localComercialDAO.create(entity);
                 dto.setId(entity.getId());
             }
@@ -84,40 +88,48 @@ public class InmuebleServiceImpl implements IInmuebleService {
     public InmuebleDTO modificar(InmuebleDTO dto) {
         if (dto != null) {
             if (dto instanceof TerrenoDTO) {
-                Terreno entity = (Terreno) this.converter.fromDto(dto);
                 try {
-                    this.terrenoDAO.edit(entity);
+                    ModelMapper modelMapper = new ModelMapper();
+                    Terreno entity = modelMapper.map(dto, Terreno.class);
+
+                    terrenoDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dto.setId(entity.getId());
             }
             if (dto instanceof CasaDTO) {
-                Casa entity = (Casa) this.converter.fromDto(dto);
                 try {
-                    this.casaDAO.edit(entity);
+                    ModelMapper modelMapper = new ModelMapper();
+                    Casa entity = modelMapper.map(dto, Casa.class);
+
+                    casaDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dto.setId(entity.getId());
             }
             if (dto instanceof DepartamentoDTO) {
-                Departamento entity = (Departamento) this.converter.fromDto(dto);
                 try {
-                    this.departamentoDAO.edit(entity);
+                    ModelMapper modelMapper = new ModelMapper();
+                    Departamento entity = modelMapper.map(dto, Departamento.class);
+
+                    departamentoDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dto.setId(entity.getId());
             }
             if (dto instanceof LocalComercialDTO) {
-                LocalComercial entity = (LocalComercial) this.converter.fromDto(dto);
                 try {
-                    this.localComercialDAO.edit(entity);
+                    ModelMapper modelMapper = new ModelMapper();
+                    LocalComercial entity = modelMapper.map(dto, LocalComercial.class);
+
+                    localComercialDAO.edit(entity);
+                    dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dto.setId(entity.getId());
             }
         }
         return dto;
@@ -134,13 +146,26 @@ public class InmuebleServiceImpl implements IInmuebleService {
     }
 
     @Override
-    public InmuebleDTO listarID(Long id) {       
-        return this.converter.fromEntity(inmuebleDAO.findInmueble(id));
+    public InmuebleDTO listarID(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        Inmueble entity = inmuebleDAO.findInmueble(id);
+        InmuebleDTO dto = modelMapper.map(entity, InmuebleDTO.class);
+
+        return dto;
     }
 
     @Override
     public List<InmuebleDTO> listarTodos() {
-        return converter.fromEntity(inmuebleDAO.findInmuebleEntities());
+        ModelMapper modelMapper = new ModelMapper();
+        InmuebleDTO dtoAux = null;
+        List<InmuebleDTO> dtos = new ArrayList<>();
+
+        for (Inmueble entitiy : inmuebleDAO.findInmuebleEntities()) {
+            dtoAux = modelMapper.map(entitiy, InmuebleDTO.class);
+            dtos.add(dtoAux);
+        }
+
+        return dtos;
     }
 
 }

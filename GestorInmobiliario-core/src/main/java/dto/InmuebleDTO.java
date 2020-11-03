@@ -14,13 +14,13 @@ public abstract class InmuebleDTO {
     private Long id;
     private String direccionCalle;
     private String direccionNumero;
-    private ProvinciaDTO direccionProvinciaDTO;
-    private LocalidadDTO direccionLocalidadDTO;
-    private BarrioDTO direccionBarrioDTO;
+    private ProvinciaDTO direccionProvincia;
+    private LocalidadDTO direccionLocalidad;
+    private BarrioDTO direccionBarrio;
     private Integer superficieTotal;
     private Boolean disponible;
     private String descripcion;
-    private InmobiliariaDTO unaInmobiliariaInmuebleDTO;
+    private InmobiliariaDTO unaInmobiliariaInmueble;
 
     public Long getId() {
         return id;
@@ -46,28 +46,28 @@ public abstract class InmuebleDTO {
         this.direccionNumero = direccionNumero;
     }
 
-    public ProvinciaDTO getDireccionProvinciaDTO() {
-        return direccionProvinciaDTO;
+    public ProvinciaDTO getDireccionProvincia() {
+        return direccionProvincia;
     }
 
-    public void setDireccionProvinciaDTO(ProvinciaDTO direccionProvinciaDTO) {
-        this.direccionProvinciaDTO = direccionProvinciaDTO;
+    public void setDireccionProvincia(ProvinciaDTO direccionProvincia) {
+        this.direccionProvincia = direccionProvincia;
     }
 
-    public LocalidadDTO getDireccionLocalidadDTO() {
-        return direccionLocalidadDTO;
+    public LocalidadDTO getDireccionLocalidad() {
+        return direccionLocalidad;
     }
 
-    public void setDireccionLocalidadDTO(LocalidadDTO direccionLocalidadDTO) {
-        this.direccionLocalidadDTO = direccionLocalidadDTO;
+    public void setDireccionLocalidad(LocalidadDTO direccionLocalidad) {
+        this.direccionLocalidad = direccionLocalidad;
     }
 
-    public BarrioDTO getDireccionBarrioDTO() {
-        return direccionBarrioDTO;
+    public BarrioDTO getDireccionBarrio() {
+        return direccionBarrio;
     }
 
-    public void setDireccionBarrioDTO(BarrioDTO direccionBarrioDTO) {
-        this.direccionBarrioDTO = direccionBarrioDTO;
+    public void setDireccionBarrio(BarrioDTO direccionBarrio) {
+        this.direccionBarrio = direccionBarrio;
     }
 
     public Integer getSuperficieTotal() {
@@ -94,12 +94,12 @@ public abstract class InmuebleDTO {
         this.descripcion = descripcion;
     }
 
-    public InmobiliariaDTO getUnaInmobiliariaInmuebleDTO() {
-        return unaInmobiliariaInmuebleDTO;
+    public InmobiliariaDTO getUnaInmobiliariaInmueble() {
+        return unaInmobiliariaInmueble;
     }
 
-    public void setUnaInmobiliariaInmuebleDTO(InmobiliariaDTO unaInmobiliariaInmuebleDTO) {
-        this.unaInmobiliariaInmuebleDTO = unaInmobiliariaInmuebleDTO;
+    public void setUnaInmobiliariaInmueble(InmobiliariaDTO unaInmobiliariaInmueble) {
+        this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
 
     

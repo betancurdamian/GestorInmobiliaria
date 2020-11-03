@@ -37,7 +37,7 @@ public class Venta implements Serializable {
     @Column(name = "completa")
     private Boolean completa;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "fk_contrato_venta")
     private ContratoVenta unContratoVenta;
 

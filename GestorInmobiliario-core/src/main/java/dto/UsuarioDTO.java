@@ -13,8 +13,8 @@ public abstract class UsuarioDTO {
     private Long id;
     private String userName;
     private String password;
-    private TipoUsuarioDTO unTipoUsuarioDTO;
-    private InmobiliariaDTO unaInmobiliariaUsuarioDTO;
+    private TipoUsuarioDTO unTipoUsuario;
+    private InmobiliariaDTO unaInmobiliariaUsuario;
 
     public Long getId() {
         return id;
@@ -40,20 +40,20 @@ public abstract class UsuarioDTO {
         this.password = password;
     }
 
-    public TipoUsuarioDTO getUnTipoUsuarioDTO() {
-        return unTipoUsuarioDTO;
+    public TipoUsuarioDTO getUnTipoUsuario() {
+        return unTipoUsuario;
     }
 
-    public void setUnTipoUsuarioDTO(TipoUsuarioDTO unTipoUsuarioDTO) {
-        this.unTipoUsuarioDTO = unTipoUsuarioDTO;
+    public void setUnTipoUsuario(TipoUsuarioDTO unTipoUsuario) {
+        this.unTipoUsuario = unTipoUsuario;
     }
 
-    public InmobiliariaDTO getUnaInmobiliariaUsuarioDTO() {
-        return unaInmobiliariaUsuarioDTO;
+    public InmobiliariaDTO getUnaInmobiliariaUsuario() {
+        return unaInmobiliariaUsuario;
     }
 
-    public void setUnaInmobiliariaUsuarioDTO(InmobiliariaDTO unaInmobiliariaUsuarioDTO) {
-        this.unaInmobiliariaUsuarioDTO = unaInmobiliariaUsuarioDTO;
+    public void setUnaInmobiliariaUsuario(InmobiliariaDTO unaInmobiliariaUsuario) {
+        this.unaInmobiliariaUsuario = unaInmobiliariaUsuario;
     }
     
     

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.BoletaDePago;
 import model.entity.ContratoVenta;
@@ -115,7 +114,7 @@ public class ContratoVentaJpaController implements Serializable {
         }
     }
 
-    public void edit(ContratoVenta contratoVenta) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(ContratoVenta contratoVenta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -129,26 +128,6 @@ public class ContratoVentaJpaController implements Serializable {
             List<CuotaVenta> cuotasVentaNew = contratoVenta.getCuotasVenta();
             List<BoletaDePago> boletasDePagoOld = persistentContratoVenta.getBoletasDePago();
             List<BoletaDePago> boletasDePagoNew = contratoVenta.getBoletasDePago();
-            List<String> illegalOrphanMessages = null;
-            for (CuotaVenta cuotasVentaOldCuotaVenta : cuotasVentaOld) {
-                if (!cuotasVentaNew.contains(cuotasVentaOldCuotaVenta)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain CuotaVenta " + cuotasVentaOldCuotaVenta + " since its unContratoVenta field is not nullable.");
-                }
-            }
-            for (BoletaDePago boletasDePagoOldBoletaDePago : boletasDePagoOld) {
-                if (!boletasDePagoNew.contains(boletasDePagoOldBoletaDePago)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain BoletaDePago " + boletasDePagoOldBoletaDePago + " since its unContrato field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (unaVentaNew != null) {
                 unaVentaNew = em.getReference(unaVentaNew.getClass(), unaVentaNew.getId());
                 contratoVenta.setUnaVenta(unaVentaNew);
@@ -198,6 +177,12 @@ public class ContratoVentaJpaController implements Serializable {
                 unaComisionNew.setUnContrato(contratoVenta);
                 unaComisionNew = em.merge(unaComisionNew);
             }
+            for (CuotaVenta cuotasVentaOldCuotaVenta : cuotasVentaOld) {
+                if (!cuotasVentaNew.contains(cuotasVentaOldCuotaVenta)) {
+                    cuotasVentaOldCuotaVenta.setUnContratoVenta(null);
+                    cuotasVentaOldCuotaVenta = em.merge(cuotasVentaOldCuotaVenta);
+                }
+            }
             for (CuotaVenta cuotasVentaNewCuotaVenta : cuotasVentaNew) {
                 if (!cuotasVentaOld.contains(cuotasVentaNewCuotaVenta)) {
                     ContratoVenta oldUnContratoVentaOfCuotasVentaNewCuotaVenta = cuotasVentaNewCuotaVenta.getUnContratoVenta();
@@ -207,6 +192,12 @@ public class ContratoVentaJpaController implements Serializable {
                         oldUnContratoVentaOfCuotasVentaNewCuotaVenta.getCuotasVenta().remove(cuotasVentaNewCuotaVenta);
                         oldUnContratoVentaOfCuotasVentaNewCuotaVenta = em.merge(oldUnContratoVentaOfCuotasVentaNewCuotaVenta);
                     }
+                }
+            }
+            for (BoletaDePago boletasDePagoOldBoletaDePago : boletasDePagoOld) {
+                if (!boletasDePagoNew.contains(boletasDePagoOldBoletaDePago)) {
+                    boletasDePagoOldBoletaDePago.setUnContrato(null);
+                    boletasDePagoOldBoletaDePago = em.merge(boletasDePagoOldBoletaDePago);
                 }
             }
             for (BoletaDePago boletasDePagoNewBoletaDePago : boletasDePagoNew) {
@@ -237,7 +228,7 @@ public class ContratoVentaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -249,24 +240,6 @@ public class ContratoVentaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The contratoVenta with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<CuotaVenta> cuotasVentaOrphanCheck = contratoVenta.getCuotasVenta();
-            for (CuotaVenta cuotasVentaOrphanCheckCuotaVenta : cuotasVentaOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This ContratoVenta (" + contratoVenta + ") cannot be destroyed since the CuotaVenta " + cuotasVentaOrphanCheckCuotaVenta + " in its cuotasVenta field has a non-nullable unContratoVenta field.");
-            }
-            List<BoletaDePago> boletasDePagoOrphanCheck = contratoVenta.getBoletasDePago();
-            for (BoletaDePago boletasDePagoOrphanCheckBoletaDePago : boletasDePagoOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This ContratoVenta (" + contratoVenta + ") cannot be destroyed since the BoletaDePago " + boletasDePagoOrphanCheckBoletaDePago + " in its boletasDePago field has a non-nullable unContrato field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Venta unaVenta = contratoVenta.getUnaVenta();
             if (unaVenta != null) {
                 unaVenta.setUnContratoVenta(null);
@@ -276,6 +249,16 @@ public class ContratoVentaJpaController implements Serializable {
             if (unaComision != null) {
                 unaComision.setUnContrato(null);
                 unaComision = em.merge(unaComision);
+            }
+            List<CuotaVenta> cuotasVenta = contratoVenta.getCuotasVenta();
+            for (CuotaVenta cuotasVentaCuotaVenta : cuotasVenta) {
+                cuotasVentaCuotaVenta.setUnContratoVenta(null);
+                cuotasVentaCuotaVenta = em.merge(cuotasVentaCuotaVenta);
+            }
+            List<BoletaDePago> boletasDePago = contratoVenta.getBoletasDePago();
+            for (BoletaDePago boletasDePagoBoletaDePago : boletasDePago) {
+                boletasDePagoBoletaDePago.setUnContrato(null);
+                boletasDePagoBoletaDePago = em.merge(boletasDePagoBoletaDePago);
             }
             em.remove(contratoVenta);
             em.getTransaction().commit();

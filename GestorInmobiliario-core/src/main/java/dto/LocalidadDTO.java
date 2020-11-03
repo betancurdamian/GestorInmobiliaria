@@ -15,7 +15,7 @@ public class LocalidadDTO {
     private Long id;
     private String nombre;
     private String codigoPostal;
-    private ProvinciaDTO unaProvinciaDTO;
+    private ProvinciaDTO unaProvincia;
     private List<BarrioDTO> barrios;
 
     public Long getId() {
@@ -42,12 +42,12 @@ public class LocalidadDTO {
         this.codigoPostal = codigoPostal;
     }
 
-    public ProvinciaDTO getUnaProvinciaDTO() {
-        return unaProvinciaDTO;
+    public ProvinciaDTO getUnaProvincia() {
+        return unaProvincia;
     }
 
-    public void setUnaProvinciaDTO(ProvinciaDTO unaProvinciaDTO) {
-        this.unaProvinciaDTO = unaProvinciaDTO;
+    public void setUnaProvincia(ProvinciaDTO unaProvincia) {
+        this.unaProvincia = unaProvincia;
     }
 
     public List<BarrioDTO> getBarrios() {

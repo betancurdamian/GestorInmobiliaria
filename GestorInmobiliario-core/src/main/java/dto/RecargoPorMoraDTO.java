@@ -13,7 +13,7 @@ public class RecargoPorMoraDTO {
     private Long id;
     private String unaFechaDeRecargo;
     private Float monto;
-    private InmobiliariaDTO unaInmobiliariaRecargoPorMoraDTO;
+    private InmobiliariaDTO unaInmobiliariaRecargoPorMora;
 
     public Long getId() {
         return id;
@@ -39,12 +39,12 @@ public class RecargoPorMoraDTO {
         this.monto = monto;
     }
 
-    public InmobiliariaDTO getUnaInmobiliariaRecargoPorMoraDTO() {
-        return unaInmobiliariaRecargoPorMoraDTO;
+    public InmobiliariaDTO getUnaInmobiliariaRecargoPorMora() {
+        return unaInmobiliariaRecargoPorMora;
     }
 
-    public void setUnaInmobiliariaRecargoPorMoraDTO(InmobiliariaDTO unaInmobiliariaRecargoPorMoraDTO) {
-        this.unaInmobiliariaRecargoPorMoraDTO = unaInmobiliariaRecargoPorMoraDTO;
+    public void setUnaInmobiliariaRecargoPorMora(InmobiliariaDTO unaInmobiliariaRecargoPorMora) {
+        this.unaInmobiliariaRecargoPorMora = unaInmobiliariaRecargoPorMora;
     }
     
     

@@ -13,7 +13,7 @@ public class LineaDeComisionDTO {
     private Long id;
     private Integer numeroCuota;
     private Float monto;    
-    private ComisionDTO unaComisionDTO;
+    private ComisionDTO unaComision;
 
     public Long getId() {
         return id;
@@ -39,12 +39,12 @@ public class LineaDeComisionDTO {
         this.monto = monto;
     }
 
-    public ComisionDTO getUnaComisionDTO() {
-        return unaComisionDTO;
+    public ComisionDTO getUnaComision() {
+        return unaComision;
     }
 
-    public void setUnaComisionDTO(ComisionDTO unaComisionDTO) {
-        this.unaComisionDTO = unaComisionDTO;
+    public void setUnaComision(ComisionDTO unaComision) {
+        this.unaComision = unaComision;
     }
     
     

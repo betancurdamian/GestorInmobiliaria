@@ -5,8 +5,8 @@
  */
 package model.service.Impl;
 
-import converter.LocalidadConverter;
 import dto.LocalidadDTO;
+import java.util.ArrayList;
 import model.dao.Conexion;
 import model.dao.LocalidadJpaController;
 import model.dao.exceptions.NonexistentEntityException;
@@ -15,6 +15,7 @@ import model.service.ILocalidadService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -24,55 +25,87 @@ public class LocalidadServiceImpl implements ILocalidadService{
 
     private final LocalidadJpaController localidadDAO;
     
-    private final LocalidadConverter converter;
-    
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public LocalidadServiceImpl() {
         new Conexion();
-        this.localidadDAO = new LocalidadJpaController(Conexion.getEmf());
-        this.converter = new LocalidadConverter();
+        this.localidadDAO = new LocalidadJpaController(Conexion.getEmf());        
     }
 
     
     
     @Override
     public LocalidadDTO crear(LocalidadDTO dto) {
-        Localidad entity = this.converter.fromDto(dto);
-        this.localidadDAO.create(entity);
-        dto.setId(entity.getId());
+        if (dto != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            Localidad entity = modelMapper.map(dto, Localidad.class);
+            this.localidadDAO.create(entity);
+            dto.setId(entity.getId());
+        } else {
+            System.out.println("El DTO es null");
+        }
         return dto;
     }
 
     @Override
     public LocalidadDTO modificar(LocalidadDTO dto) {
-        Localidad entity = this.converter.fromDto(dto);
-        try {
-            localidadDAO.edit(entity);
-        } catch (Exception ex) {
-            Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (dto != null) {
+            if (dto.getId() != null) {
+                try {
+                    ModelMapper modelMapper = new ModelMapper();
+                    Localidad entity = modelMapper.map(dto, Localidad.class);
+
+                    localidadDAO.edit(entity);
+                    dto.setId(entity.getId());
+                } catch (Exception ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("ID  DTO is null");
+            }
+        } else {
+            System.out.println("DTO is null");
         }
         return dto;
     }
 
     @Override
     public void eliminar(Long id) {
-        try {
-            localidadDAO.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        if (id != null) {
+            if (localidadDAO.findLocalidad(id) != null) {
+                try {
+                    localidadDAO.destroy(id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("NO EXIST Entity to Delete");
+            }
+        } else {
+            System.out.println("ID is null");
+        }
     }
 
     @Override
     public LocalidadDTO listarID(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
         Localidad entity = localidadDAO.findLocalidad(id);
-        return this.converter.fromEntity(entity);
+        LocalidadDTO dto = modelMapper.map(entity, LocalidadDTO.class);
+
+        return dto;
     }
 
     @Override
     public List<LocalidadDTO> listarTodos() {
-        List<Localidad> entities = localidadDAO.findLocalidadEntities();
-        return this.converter.fromEntity(entities);
+        ModelMapper modelMapper = new ModelMapper();
+        LocalidadDTO dtoAux = null;
+        List<LocalidadDTO> dtos = new ArrayList<>();
+
+        for (Localidad entitiy : localidadDAO.findLocalidadEntities()) {
+            dtoAux = modelMapper.map(entitiy, LocalidadDTO.class);
+            dtos.add(dtoAux);
+        }
+
+        return dtos;
     }
     
 }

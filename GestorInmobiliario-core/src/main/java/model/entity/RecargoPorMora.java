@@ -36,7 +36,7 @@ public class RecargoPorMora implements Serializable {
     private Float monto;
 
     @ManyToOne
-    @JoinColumn(name = "fk_inmobiliaria", nullable = true, updatable = true)
+    @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaRecargoPorMora;
 
     public RecargoPorMora() {

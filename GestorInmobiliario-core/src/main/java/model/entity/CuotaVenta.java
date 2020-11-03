@@ -35,7 +35,7 @@ public class CuotaVenta implements Serializable {
     private Float montoCuota;
 
     @ManyToOne
-    @JoinColumn(name = "fk_contrato_venta", nullable = false, updatable = true)
+    @JoinColumn(name = "fk_contrato_venta")
     private ContratoVenta unContratoVenta;
 
     public CuotaVenta() {

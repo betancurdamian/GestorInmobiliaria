@@ -8,6 +8,7 @@ package model.entity;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -18,8 +19,8 @@ import javax.persistence.OneToOne;
 @DiscriminatorValue("CLIENTE")
 public class UsuarioCliente extends Usuario {
 
-    @OneToOne
-    @JoinColumn(name = "fk_cliente", updatable = false, nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "fk_cliente")
     private Cliente unCliente;
 
     public UsuarioCliente() {

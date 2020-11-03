@@ -5,11 +5,8 @@
  */
 package model.service.Impl;
 
-import converter.AlquilerConverter;
-import converter.ContratoConverter;
-import converter.InmobiliariaConverter;
-import converter.InmuebleConverter;
 import dto.AlquilerDTO;
+import java.util.ArrayList;
 import model.dao.AlquilerJpaController;
 import model.dao.Conexion;
 import model.dao.ContratoAlquilerJpaController;
@@ -21,6 +18,7 @@ import model.service.IAlquilerService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -33,8 +31,6 @@ public class AlquilerServiceImpl implements IAlquilerService {
     private final InmuebleJpaController inmuebleDAO;
     private final ContratoAlquilerJpaController contratoAlquilerDAO;
 
-    private final AlquilerConverter converter;
-
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public AlquilerServiceImpl() {
         new Conexion();
@@ -43,27 +39,13 @@ public class AlquilerServiceImpl implements IAlquilerService {
         this.inmuebleDAO = new InmuebleJpaController(Conexion.getEmf());
         this.contratoAlquilerDAO = new ContratoAlquilerJpaController(Conexion.getEmf());
 
-        this.converter = new AlquilerConverter();
     }
 
     @Override
     public AlquilerDTO crear(AlquilerDTO dto) {
         if (dto != null) {
-            Alquiler entity = this.converter.fromDto(dto);
-
-            if (dto.getUnInmuebleDTO() != null) {
-                InmuebleConverter converterInmueble = new InmuebleConverter();
-                entity.setUnInmuebleAlquiler(inmuebleDAO.findInmueble(converterInmueble.fromDto(dto.getUnInmuebleDTO()).getId()));
-            }
-            if (dto.getUnaInmobiliariaAlquilerDTO() != null) {
-                InmobiliariaConverter converterInmobiliaria = new InmobiliariaConverter();
-                entity.setUnaInmobiliariaAlquiler(inmobiliariaDAO.findInmobiliaria(converterInmobiliaria.fromDto(dto.getUnaInmobiliariaAlquilerDTO()).getId()));
-            }
-
-            if (dto.getUnContratoAlquilerDTO() != null) {
-                ContratoConverter converterContratoAlquiler = new ContratoConverter();
-                entity.setUnContratoAlquiler(contratoAlquilerDAO.findContratoAlquiler(converterContratoAlquiler.fromDto(dto.getUnContratoAlquilerDTO()).getId()));
-            }
+            ModelMapper modelMapper = new ModelMapper();
+            Alquiler entity = modelMapper.map(dto, Alquiler.class);
             this.alquilerDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -76,8 +58,10 @@ public class AlquilerServiceImpl implements IAlquilerService {
     public AlquilerDTO modificar(AlquilerDTO dto) {
         if (dto != null) {
             if (dto.getId() != null) {
-                Alquiler entity = this.converter.fromDto(dto);
                 try {
+                    ModelMapper modelMapper = new ModelMapper();
+                    Alquiler entity = modelMapper.map(dto, Alquiler.class);
+
                     alquilerDAO.edit(entity);
                 } catch (Exception ex) {
                     Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,14 +94,25 @@ public class AlquilerServiceImpl implements IAlquilerService {
 
     @Override
     public AlquilerDTO listarID(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
         Alquiler entity = alquilerDAO.findAlquiler(id);
-        return this.converter.fromEntity(entity);
+        AlquilerDTO dto = modelMapper.map(entity, AlquilerDTO.class);
+
+        return dto;
     }
 
     @Override
     public List<AlquilerDTO> listarTodos() {
-        List<Alquiler> entities = alquilerDAO.findAlquilerEntities();
-        return this.converter.fromEntity(entities);
+        ModelMapper modelMapper = new ModelMapper();
+        AlquilerDTO dtoAux = null;
+        List<AlquilerDTO> dtos = new ArrayList<>();
+        
+        for (Alquiler entitiy : alquilerDAO.findAlquilerEntities()) {
+            dtoAux = modelMapper.map(entitiy, AlquilerDTO.class);
+            dtos.add(dtoAux);
+        }
+        
+        return dtos;
     }
 
 }

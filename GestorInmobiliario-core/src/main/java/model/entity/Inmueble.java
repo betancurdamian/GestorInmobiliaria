@@ -62,7 +62,8 @@ public abstract class Inmueble implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "fk_inmobiliaria")
-    private Inmobiliaria unaInmobiliariaInmueble;   
+    private Inmobiliaria unaInmobiliariaInmueble;
+
     public Inmueble() {
     }
 
@@ -158,5 +159,4 @@ public abstract class Inmueble implements Serializable {
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
 
-    
 }

@@ -13,8 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -31,22 +29,21 @@ import javax.persistence.Table;
 public abstract class Garante extends Persona {
 
     @ManyToOne
-    @JoinColumn(name = "fk_actividad", nullable = true, updatable = true)
+    @JoinColumn(name = "fk_actividad")
     private Actividad unaActividad;
 
     @ManyToOne
-    @JoinColumn(name = "fk_inmobiliaria", nullable = true, updatable = true)
+    @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaGarante;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_locatario")
     private Locatario unLocatario;
     
     @OneToOne(mappedBy = "unGarante")
     private ContratoAlquiler unContratoAlquiler;
 
-    @OneToMany(mappedBy = "unGarante", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unGarante", cascade = CascadeType.ALL)
     private List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes;
 
     public Garante() {

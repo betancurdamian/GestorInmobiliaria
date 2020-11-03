@@ -9,7 +9,7 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/conf</directory>
+            <directory>${project.basedir}/resources/conf</directory>
         </fileSet>
         <fileSet>
             <directory>jaspers</directory>

@@ -13,14 +13,14 @@ public abstract class PersonaDTO {
     private Long id;
     private String nombre;    
     private String apellido;
-    private TipoDNIDTO unTipoDNIDTO;
+    private TipoDNIDTO unTipoDNI;
     private String dni;
-    private EstadoCivilDTO unEstadoCivilDTO;
+    private EstadoCivilDTO unEstadoCivil;
     private String direccionCalle;
     private String direccionNumero;
-    private ProvinciaDTO direccionProvinciaDTO;
-    private LocalidadDTO direccionLocalidadDTO;
-    private BarrioDTO direccionBarrioDTO;
+    private ProvinciaDTO direccionProvincia;
+    private LocalidadDTO direccionLocalidad;
+    private BarrioDTO direccionBarrio;
     private String telefono;
     private String correoElectronico;
 
@@ -48,12 +48,12 @@ public abstract class PersonaDTO {
         this.apellido = apellido;
     }
 
-    public TipoDNIDTO getUnTipoDNIDTO() {
-        return unTipoDNIDTO;
+    public TipoDNIDTO getUnTipoDNI() {
+        return unTipoDNI;
     }
 
-    public void setUnTipoDNIDTO(TipoDNIDTO unTipoDNIDTO) {
-        this.unTipoDNIDTO = unTipoDNIDTO;
+    public void setUnTipoDNI(TipoDNIDTO unTipoDNI) {
+        this.unTipoDNI = unTipoDNI;
     }
 
     public String getDni() {
@@ -64,12 +64,12 @@ public abstract class PersonaDTO {
         this.dni = dni;
     }
 
-    public EstadoCivilDTO getUnEstadoCivilDTO() {
-        return unEstadoCivilDTO;
+    public EstadoCivilDTO getUnEstadoCivil() {
+        return unEstadoCivil;
     }
 
-    public void setUnEstadoCivilDTO(EstadoCivilDTO unEstadoCivilDTO) {
-        this.unEstadoCivilDTO = unEstadoCivilDTO;
+    public void setUnEstadoCivil(EstadoCivilDTO unEstadoCivil) {
+        this.unEstadoCivil = unEstadoCivil;
     }
 
     public String getDireccionCalle() {
@@ -88,28 +88,28 @@ public abstract class PersonaDTO {
         this.direccionNumero = direccionNumero;
     }
 
-    public ProvinciaDTO getDireccionProvinciaDTO() {
-        return direccionProvinciaDTO;
+    public ProvinciaDTO getDireccionProvincia() {
+        return direccionProvincia;
     }
 
-    public void setDireccionProvinciaDTO(ProvinciaDTO direccionProvinciaDTO) {
-        this.direccionProvinciaDTO = direccionProvinciaDTO;
+    public void setDireccionProvincia(ProvinciaDTO direccionProvincia) {
+        this.direccionProvincia = direccionProvincia;
     }
 
-    public LocalidadDTO getDireccionLocalidadDTO() {
-        return direccionLocalidadDTO;
+    public LocalidadDTO getDireccionLocalidad() {
+        return direccionLocalidad;
     }
 
-    public void setDireccionLocalidadDTO(LocalidadDTO direccionLocalidadDTO) {
-        this.direccionLocalidadDTO = direccionLocalidadDTO;
+    public void setDireccionLocalidad(LocalidadDTO direccionLocalidad) {
+        this.direccionLocalidad = direccionLocalidad;
     }
 
-    public BarrioDTO getDireccionBarrioDTO() {
-        return direccionBarrioDTO;
+    public BarrioDTO getDireccionBarrio() {
+        return direccionBarrio;
     }
 
-    public void setDireccionBarrioDTO(BarrioDTO direccionBarrioDTO) {
-        this.direccionBarrioDTO = direccionBarrioDTO;
+    public void setDireccionBarrio(BarrioDTO direccionBarrio) {
+        this.direccionBarrio = direccionBarrio;
     }
 
     public String getTelefono() {

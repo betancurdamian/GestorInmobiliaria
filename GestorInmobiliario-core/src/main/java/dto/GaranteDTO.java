@@ -12,50 +12,50 @@ import java.util.List;
  * @author Ariel
  */
 public abstract class GaranteDTO extends PersonaDTO{
-    private ActividadDTO unaActividadDTO;
-    private InmobiliariaDTO unaInmobiliariaGaranteDTO;
-    private LocatarioDTO unLocatarioDTO;
-    private ContratoAlquilerDTO unContratoAlquilerDTO;
-    private List<ComprobanteDeIngresoDTO> comprobantesDeIngresosGarantesDTO;
+    private ActividadDTO unaActividad;
+    private InmobiliariaDTO unaInmobiliariaGarante;
+    private LocatarioDTO unLocatario;
+    private ContratoAlquilerDTO unContratoAlquiler;
+    private List<ComprobanteDeIngresoDTO> comprobantesDeIngresosGarantes;
 
-    public ActividadDTO getUnaActividadDTO() {
-        return unaActividadDTO;
+    public ActividadDTO getUnaActividad() {
+        return unaActividad;
     }
 
-    public void setUnaActividadDTO(ActividadDTO unaActividadDTO) {
-        this.unaActividadDTO = unaActividadDTO;
+    public void setUnaActividad(ActividadDTO unaActividad) {
+        this.unaActividad = unaActividad;
     }
 
-    public InmobiliariaDTO getUnaInmobiliariaGaranteDTO() {
-        return unaInmobiliariaGaranteDTO;
+    public InmobiliariaDTO getUnaInmobiliariaGarante() {
+        return unaInmobiliariaGarante;
     }
 
-    public void setUnaInmobiliariaGaranteDTO(InmobiliariaDTO unaInmobiliariaGaranteDTO) {
-        this.unaInmobiliariaGaranteDTO = unaInmobiliariaGaranteDTO;
+    public void setUnaInmobiliariaGarante(InmobiliariaDTO unaInmobiliariaGarante) {
+        this.unaInmobiliariaGarante = unaInmobiliariaGarante;
     }
 
-    public LocatarioDTO getUnLocatarioDTO() {
-        return unLocatarioDTO;
+    public LocatarioDTO getUnLocatario() {
+        return unLocatario;
     }
 
-    public void setUnLocatarioDTO(LocatarioDTO unLocatarioDTO) {
-        this.unLocatarioDTO = unLocatarioDTO;
+    public void setUnLocatario(LocatarioDTO unLocatario) {
+        this.unLocatario = unLocatario;
     }
 
-    public ContratoAlquilerDTO getUnContratoAlquilerDTO() {
-        return unContratoAlquilerDTO;
+    public ContratoAlquilerDTO getUnContratoAlquiler() {
+        return unContratoAlquiler;
     }
 
-    public void setUnContratoAlquilerDTO(ContratoAlquilerDTO unContratoAlquilerDTO) {
-        this.unContratoAlquilerDTO = unContratoAlquilerDTO;
+    public void setUnContratoAlquiler(ContratoAlquilerDTO unContratoAlquiler) {
+        this.unContratoAlquiler = unContratoAlquiler;
     }
 
-    public List<ComprobanteDeIngresoDTO> getComprobantesDeIngresosGarantesDTO() {
-        return comprobantesDeIngresosGarantesDTO;
+    public List<ComprobanteDeIngresoDTO> getComprobantesDeIngresosGarantes() {
+        return comprobantesDeIngresosGarantes;
     }
 
-    public void setComprobantesDeIngresosGarantesDTO(List<ComprobanteDeIngresoDTO> comprobantesDeIngresosGarantesDTO) {
-        this.comprobantesDeIngresosGarantesDTO = comprobantesDeIngresosGarantesDTO;
+    public void setComprobantesDeIngresosGarantes(List<ComprobanteDeIngresoDTO> comprobantesDeIngresosGarantes) {
+        this.comprobantesDeIngresosGarantes = comprobantesDeIngresosGarantes;
     }
     
     

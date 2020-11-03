@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.ContratoAlquiler;
 
@@ -111,7 +110,7 @@ public class ContratoAlquilerJpaController implements Serializable {
         }
     }
 
-    public void edit(ContratoAlquiler contratoAlquiler) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(ContratoAlquiler contratoAlquiler) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -125,18 +124,6 @@ public class ContratoAlquilerJpaController implements Serializable {
             Comision unaComisionNew = contratoAlquiler.getUnaComision();
             List<BoletaDePago> boletasDePagoOld = persistentContratoAlquiler.getBoletasDePago();
             List<BoletaDePago> boletasDePagoNew = contratoAlquiler.getBoletasDePago();
-            List<String> illegalOrphanMessages = null;
-            for (BoletaDePago boletasDePagoOldBoletaDePago : boletasDePagoOld) {
-                if (!boletasDePagoNew.contains(boletasDePagoOldBoletaDePago)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain BoletaDePago " + boletasDePagoOldBoletaDePago + " since its unContrato field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (unGaranteNew != null) {
                 unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
                 contratoAlquiler.setUnGarante(unGaranteNew);
@@ -196,6 +183,12 @@ public class ContratoAlquilerJpaController implements Serializable {
                 unaComisionNew.setUnContrato(contratoAlquiler);
                 unaComisionNew = em.merge(unaComisionNew);
             }
+            for (BoletaDePago boletasDePagoOldBoletaDePago : boletasDePagoOld) {
+                if (!boletasDePagoNew.contains(boletasDePagoOldBoletaDePago)) {
+                    boletasDePagoOldBoletaDePago.setUnContrato(null);
+                    boletasDePagoOldBoletaDePago = em.merge(boletasDePagoOldBoletaDePago);
+                }
+            }
             for (BoletaDePago boletasDePagoNewBoletaDePago : boletasDePagoNew) {
                 if (!boletasDePagoOld.contains(boletasDePagoNewBoletaDePago)) {
                     ContratoAlquiler oldUnContratoOfBoletasDePagoNewBoletaDePago = (ContratoAlquiler) boletasDePagoNewBoletaDePago.getUnContrato();
@@ -224,7 +217,7 @@ public class ContratoAlquilerJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -235,17 +228,6 @@ public class ContratoAlquilerJpaController implements Serializable {
                 contratoAlquiler.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The contratoAlquiler with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            List<BoletaDePago> boletasDePagoOrphanCheck = contratoAlquiler.getBoletasDePago();
-            for (BoletaDePago boletasDePagoOrphanCheckBoletaDePago : boletasDePagoOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This ContratoAlquiler (" + contratoAlquiler + ") cannot be destroyed since the BoletaDePago " + boletasDePagoOrphanCheckBoletaDePago + " in its boletasDePago field has a non-nullable unContrato field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Garante unGarante = contratoAlquiler.getUnGarante();
             if (unGarante != null) {
@@ -261,6 +243,11 @@ public class ContratoAlquilerJpaController implements Serializable {
             if (unaComision != null) {
                 unaComision.setUnContrato(null);
                 unaComision = em.merge(unaComision);
+            }
+            List<BoletaDePago> boletasDePago = contratoAlquiler.getBoletasDePago();
+            for (BoletaDePago boletasDePagoBoletaDePago : boletasDePago) {
+                boletasDePagoBoletaDePago.setUnContrato(null);
+                boletasDePagoBoletaDePago = em.merge(boletasDePagoBoletaDePago);
             }
             em.remove(contratoAlquiler);
             em.getTransaction().commit();

@@ -11,10 +11,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -24,11 +23,10 @@ import javax.persistence.OneToOne;
 @DiscriminatorValue("CONTRATO ALQUILER")
 public class ContratoVenta extends Contrato {
 
-    @OneToMany(mappedBy = "unContratoVenta", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-        CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "unContratoVenta", cascade = CascadeType.ALL)
     private List<CuotaVenta> cuotasVenta;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_venta")
     private Venta unaVenta;
 

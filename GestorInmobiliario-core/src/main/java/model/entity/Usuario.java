@@ -40,11 +40,11 @@ public abstract class Usuario implements Serializable {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "fk_tipo_usuario", nullable = true, updatable = true)
+    @JoinColumn(name = "fk_tipo_usuario")
     private TipoUsuario unTipoUsuario;
 
     @ManyToOne
-    @JoinColumn(name = "fk_inmobiliaria", nullable = false, updatable = true)
+    @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaUsuario;
 
     public Usuario() {

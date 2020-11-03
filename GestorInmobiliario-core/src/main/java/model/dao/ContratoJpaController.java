@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Contrato;
 
@@ -81,7 +80,7 @@ public class ContratoJpaController implements Serializable {
         }
     }
 
-    public void edit(Contrato contrato) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Contrato contrato) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -91,18 +90,6 @@ public class ContratoJpaController implements Serializable {
             Comision unaComisionNew = contrato.getUnaComision();
             List<BoletaDePago> boletasDePagoOld = persistentContrato.getBoletasDePago();
             List<BoletaDePago> boletasDePagoNew = contrato.getBoletasDePago();
-            List<String> illegalOrphanMessages = null;
-            for (BoletaDePago boletasDePagoOldBoletaDePago : boletasDePagoOld) {
-                if (!boletasDePagoNew.contains(boletasDePagoOldBoletaDePago)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain BoletaDePago " + boletasDePagoOldBoletaDePago + " since its unContrato field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (unaComisionNew != null) {
                 unaComisionNew = em.getReference(unaComisionNew.getClass(), unaComisionNew.getId());
                 contrato.setUnaComision(unaComisionNew);
@@ -127,6 +114,12 @@ public class ContratoJpaController implements Serializable {
                 }
                 unaComisionNew.setUnContrato(contrato);
                 unaComisionNew = em.merge(unaComisionNew);
+            }
+            for (BoletaDePago boletasDePagoOldBoletaDePago : boletasDePagoOld) {
+                if (!boletasDePagoNew.contains(boletasDePagoOldBoletaDePago)) {
+                    boletasDePagoOldBoletaDePago.setUnContrato(null);
+                    boletasDePagoOldBoletaDePago = em.merge(boletasDePagoOldBoletaDePago);
+                }
             }
             for (BoletaDePago boletasDePagoNewBoletaDePago : boletasDePagoNew) {
                 if (!boletasDePagoOld.contains(boletasDePagoNewBoletaDePago)) {
@@ -156,7 +149,7 @@ public class ContratoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -168,21 +161,15 @@ public class ContratoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The contrato with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<BoletaDePago> boletasDePagoOrphanCheck = contrato.getBoletasDePago();
-            for (BoletaDePago boletasDePagoOrphanCheckBoletaDePago : boletasDePagoOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Contrato (" + contrato + ") cannot be destroyed since the BoletaDePago " + boletasDePagoOrphanCheckBoletaDePago + " in its boletasDePago field has a non-nullable unContrato field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Comision unaComision = contrato.getUnaComision();
             if (unaComision != null) {
                 unaComision.setUnContrato(null);
                 unaComision = em.merge(unaComision);
+            }
+            List<BoletaDePago> boletasDePago = contrato.getBoletasDePago();
+            for (BoletaDePago boletasDePagoBoletaDePago : boletasDePago) {
+                boletasDePagoBoletaDePago.setUnContrato(null);
+                boletasDePagoBoletaDePago = em.merge(boletasDePagoBoletaDePago);
             }
             em.remove(contrato);
             em.getTransaction().commit();

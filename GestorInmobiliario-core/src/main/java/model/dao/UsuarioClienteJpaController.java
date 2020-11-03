@@ -6,18 +6,16 @@
 package model.dao;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Cliente;
 import model.entity.Inmobiliaria;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import model.dao.exceptions.IllegalOrphanException;
-import model.dao.exceptions.NonexistentEntityException;
 import model.entity.UsuarioCliente;
 
 /**
@@ -35,21 +33,7 @@ public class UsuarioClienteJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(UsuarioCliente usuarioCliente) throws IllegalOrphanException {
-        List<String> illegalOrphanMessages = null;
-        Cliente unClienteOrphanCheck = usuarioCliente.getUnCliente();
-        if (unClienteOrphanCheck != null) {
-            UsuarioCliente oldUnUsuarioClienteOfUnCliente = unClienteOrphanCheck.getUnUsuarioCliente();
-            if (oldUnUsuarioClienteOfUnCliente != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("The Cliente " + unClienteOrphanCheck + " already has an item of type UsuarioCliente whose unCliente column cannot be null. Please make another selection for the unCliente field.");
-            }
-        }
-        if (illegalOrphanMessages != null) {
-            throw new IllegalOrphanException(illegalOrphanMessages);
-        }
+    public void create(UsuarioCliente usuarioCliente) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -66,6 +50,11 @@ public class UsuarioClienteJpaController implements Serializable {
             }
             em.persist(usuarioCliente);
             if (unCliente != null) {
+                UsuarioCliente oldUnUsuarioClienteOfUnCliente = unCliente.getUnUsuarioCliente();
+                if (oldUnUsuarioClienteOfUnCliente != null) {
+                    oldUnUsuarioClienteOfUnCliente.setUnCliente(null);
+                    oldUnUsuarioClienteOfUnCliente = em.merge(oldUnUsuarioClienteOfUnCliente);
+                }
                 unCliente.setUnUsuarioCliente(usuarioCliente);
                 unCliente = em.merge(unCliente);
             }
@@ -81,7 +70,7 @@ public class UsuarioClienteJpaController implements Serializable {
         }
     }
 
-    public void edit(UsuarioCliente usuarioCliente) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(UsuarioCliente usuarioCliente) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -91,19 +80,6 @@ public class UsuarioClienteJpaController implements Serializable {
             Cliente unClienteNew = usuarioCliente.getUnCliente();
             Inmobiliaria unaInmobiliariaUsuarioOld = persistentUsuarioCliente.getUnaInmobiliariaUsuario();
             Inmobiliaria unaInmobiliariaUsuarioNew = usuarioCliente.getUnaInmobiliariaUsuario();
-            List<String> illegalOrphanMessages = null;
-            if (unClienteNew != null && !unClienteNew.equals(unClienteOld)) {
-                UsuarioCliente oldUnUsuarioClienteOfUnCliente = unClienteNew.getUnUsuarioCliente();
-                if (oldUnUsuarioClienteOfUnCliente != null) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("The Cliente " + unClienteNew + " already has an item of type UsuarioCliente whose unCliente column cannot be null. Please make another selection for the unCliente field.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (unClienteNew != null) {
                 unClienteNew = em.getReference(unClienteNew.getClass(), unClienteNew.getId());
                 usuarioCliente.setUnCliente(unClienteNew);
@@ -118,6 +94,11 @@ public class UsuarioClienteJpaController implements Serializable {
                 unClienteOld = em.merge(unClienteOld);
             }
             if (unClienteNew != null && !unClienteNew.equals(unClienteOld)) {
+                UsuarioCliente oldUnUsuarioClienteOfUnCliente = unClienteNew.getUnUsuarioCliente();
+                if (oldUnUsuarioClienteOfUnCliente != null) {
+                    oldUnUsuarioClienteOfUnCliente.setUnCliente(null);
+                    oldUnUsuarioClienteOfUnCliente = em.merge(oldUnUsuarioClienteOfUnCliente);
+                }
                 unClienteNew.setUnUsuarioCliente(usuarioCliente);
                 unClienteNew = em.merge(unClienteNew);
             }

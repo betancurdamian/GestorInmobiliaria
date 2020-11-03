@@ -29,7 +29,7 @@ public class AlquilerController {
     public void listarAlquileres() {
         for (AlquilerDTO alqdto : service.listarTodos()) {
             System.out.println("ID: " + alqdto.getId());
-            System.out.println("Contratos " + alqdto.getUnContratoAlquilerDTO());
+            System.out.println("Contratos " + alqdto.getUnContratoAlquiler());
 
         }
     }

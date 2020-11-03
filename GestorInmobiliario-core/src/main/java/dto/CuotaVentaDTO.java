@@ -13,7 +13,7 @@ public class CuotaVentaDTO {
     private Long id;
     private Integer numeroCuota;
     private Float montoCuota;
-    private ContratoVentaDTO unContratoVentaDTO;
+    private ContratoVentaDTO unContratoVenta;
 
     public Long getId() {
         return id;
@@ -39,12 +39,12 @@ public class CuotaVentaDTO {
         this.montoCuota = montoCuota;
     }
 
-    public ContratoVentaDTO getUnContratoVentaDTO() {
-        return unContratoVentaDTO;
+    public ContratoVentaDTO getUnContratoVenta() {
+        return unContratoVenta;
     }
 
-    public void setUnContratoVentaDTO(ContratoVentaDTO unContratoVentaDTO) {
-        this.unContratoVentaDTO = unContratoVentaDTO;
+    public void setUnContratoVenta(ContratoVentaDTO unContratoVenta) {
+        this.unContratoVenta = unContratoVenta;
     }
     
     

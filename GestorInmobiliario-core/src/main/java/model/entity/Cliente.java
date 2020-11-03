@@ -26,7 +26,7 @@ import javax.persistence.Table;
 public abstract class Cliente extends Persona {
 
     @ManyToOne
-    @JoinColumn(name = "fk_inmobiliaria", nullable = true, updatable = true)
+    @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaCliente;
 
     @OneToOne(mappedBy = "unCliente", cascade = CascadeType.ALL)

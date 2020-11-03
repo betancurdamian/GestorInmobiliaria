@@ -10,17 +10,16 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.entity.Inmueble;
+import model.entity.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
+import model.entity.Garante;
+import model.entity.Inmueble;
 import model.entity.Alquiler;
 import model.entity.Venta;
-import model.entity.Cliente;
-import model.entity.Garante;
 import model.entity.RecargoPorMora;
 import model.entity.ArancelEspecial;
 import model.entity.Inmobiliaria;
@@ -42,6 +41,12 @@ public class InmobiliariaJpaController implements Serializable {
     }
 
     public void create(Inmobiliaria inmobiliaria) {
+        if (inmobiliaria.getClientes() == null) {
+            inmobiliaria.setClientes(new ArrayList<Cliente>());
+        }
+        if (inmobiliaria.getGarantes() == null) {
+            inmobiliaria.setGarantes(new ArrayList<Garante>());
+        }
         if (inmobiliaria.getInmuebles() == null) {
             inmobiliaria.setInmuebles(new ArrayList<Inmueble>());
         }
@@ -50,12 +55,6 @@ public class InmobiliariaJpaController implements Serializable {
         }
         if (inmobiliaria.getVentas() == null) {
             inmobiliaria.setVentas(new ArrayList<Venta>());
-        }
-        if (inmobiliaria.getClientes() == null) {
-            inmobiliaria.setClientes(new ArrayList<Cliente>());
-        }
-        if (inmobiliaria.getGarantes() == null) {
-            inmobiliaria.setGarantes(new ArrayList<Garante>());
         }
         if (inmobiliaria.getRecargosPorMoras() == null) {
             inmobiliaria.setRecargosPorMoras(new ArrayList<RecargoPorMora>());
@@ -70,6 +69,18 @@ public class InmobiliariaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Cliente> attachedClientes = new ArrayList<Cliente>();
+            for (Cliente clientesClienteToAttach : inmobiliaria.getClientes()) {
+                clientesClienteToAttach = em.getReference(clientesClienteToAttach.getClass(), clientesClienteToAttach.getId());
+                attachedClientes.add(clientesClienteToAttach);
+            }
+            inmobiliaria.setClientes(attachedClientes);
+            List<Garante> attachedGarantes = new ArrayList<Garante>();
+            for (Garante garantesGaranteToAttach : inmobiliaria.getGarantes()) {
+                garantesGaranteToAttach = em.getReference(garantesGaranteToAttach.getClass(), garantesGaranteToAttach.getId());
+                attachedGarantes.add(garantesGaranteToAttach);
+            }
+            inmobiliaria.setGarantes(attachedGarantes);
             List<Inmueble> attachedInmuebles = new ArrayList<Inmueble>();
             for (Inmueble inmueblesInmuebleToAttach : inmobiliaria.getInmuebles()) {
                 inmueblesInmuebleToAttach = em.getReference(inmueblesInmuebleToAttach.getClass(), inmueblesInmuebleToAttach.getId());
@@ -88,18 +99,6 @@ public class InmobiliariaJpaController implements Serializable {
                 attachedVentas.add(ventasVentaToAttach);
             }
             inmobiliaria.setVentas(attachedVentas);
-            List<Cliente> attachedClientes = new ArrayList<Cliente>();
-            for (Cliente clientesClienteToAttach : inmobiliaria.getClientes()) {
-                clientesClienteToAttach = em.getReference(clientesClienteToAttach.getClass(), clientesClienteToAttach.getId());
-                attachedClientes.add(clientesClienteToAttach);
-            }
-            inmobiliaria.setClientes(attachedClientes);
-            List<Garante> attachedGarantes = new ArrayList<Garante>();
-            for (Garante garantesGaranteToAttach : inmobiliaria.getGarantes()) {
-                garantesGaranteToAttach = em.getReference(garantesGaranteToAttach.getClass(), garantesGaranteToAttach.getId());
-                attachedGarantes.add(garantesGaranteToAttach);
-            }
-            inmobiliaria.setGarantes(attachedGarantes);
             List<RecargoPorMora> attachedRecargosPorMoras = new ArrayList<RecargoPorMora>();
             for (RecargoPorMora recargosPorMorasRecargoPorMoraToAttach : inmobiliaria.getRecargosPorMoras()) {
                 recargosPorMorasRecargoPorMoraToAttach = em.getReference(recargosPorMorasRecargoPorMoraToAttach.getClass(), recargosPorMorasRecargoPorMoraToAttach.getId());
@@ -119,6 +118,24 @@ public class InmobiliariaJpaController implements Serializable {
             }
             inmobiliaria.setUsuarios(attachedUsuarios);
             em.persist(inmobiliaria);
+            for (Cliente clientesCliente : inmobiliaria.getClientes()) {
+                Inmobiliaria oldUnaInmobiliariaClienteOfClientesCliente = clientesCliente.getUnaInmobiliariaCliente();
+                clientesCliente.setUnaInmobiliariaCliente(inmobiliaria);
+                clientesCliente = em.merge(clientesCliente);
+                if (oldUnaInmobiliariaClienteOfClientesCliente != null) {
+                    oldUnaInmobiliariaClienteOfClientesCliente.getClientes().remove(clientesCliente);
+                    oldUnaInmobiliariaClienteOfClientesCliente = em.merge(oldUnaInmobiliariaClienteOfClientesCliente);
+                }
+            }
+            for (Garante garantesGarante : inmobiliaria.getGarantes()) {
+                Inmobiliaria oldUnaInmobiliariaGaranteOfGarantesGarante = garantesGarante.getUnaInmobiliariaGarante();
+                garantesGarante.setUnaInmobiliariaGarante(inmobiliaria);
+                garantesGarante = em.merge(garantesGarante);
+                if (oldUnaInmobiliariaGaranteOfGarantesGarante != null) {
+                    oldUnaInmobiliariaGaranteOfGarantesGarante.getGarantes().remove(garantesGarante);
+                    oldUnaInmobiliariaGaranteOfGarantesGarante = em.merge(oldUnaInmobiliariaGaranteOfGarantesGarante);
+                }
+            }
             for (Inmueble inmueblesInmueble : inmobiliaria.getInmuebles()) {
                 Inmobiliaria oldUnaInmobiliariaInmuebleOfInmueblesInmueble = inmueblesInmueble.getUnaInmobiliariaInmueble();
                 inmueblesInmueble.setUnaInmobiliariaInmueble(inmobiliaria);
@@ -144,24 +161,6 @@ public class InmobiliariaJpaController implements Serializable {
                 if (oldUnaInmobiliariaVentaOfVentasVenta != null) {
                     oldUnaInmobiliariaVentaOfVentasVenta.getVentas().remove(ventasVenta);
                     oldUnaInmobiliariaVentaOfVentasVenta = em.merge(oldUnaInmobiliariaVentaOfVentasVenta);
-                }
-            }
-            for (Cliente clientesCliente : inmobiliaria.getClientes()) {
-                Inmobiliaria oldUnaInmobiliariaClienteOfClientesCliente = clientesCliente.getUnaInmobiliariaCliente();
-                clientesCliente.setUnaInmobiliariaCliente(inmobiliaria);
-                clientesCliente = em.merge(clientesCliente);
-                if (oldUnaInmobiliariaClienteOfClientesCliente != null) {
-                    oldUnaInmobiliariaClienteOfClientesCliente.getClientes().remove(clientesCliente);
-                    oldUnaInmobiliariaClienteOfClientesCliente = em.merge(oldUnaInmobiliariaClienteOfClientesCliente);
-                }
-            }
-            for (Garante garantesGarante : inmobiliaria.getGarantes()) {
-                Inmobiliaria oldUnaInmobiliariaGaranteOfGarantesGarante = garantesGarante.getUnaInmobiliariaGarante();
-                garantesGarante.setUnaInmobiliariaGarante(inmobiliaria);
-                garantesGarante = em.merge(garantesGarante);
-                if (oldUnaInmobiliariaGaranteOfGarantesGarante != null) {
-                    oldUnaInmobiliariaGaranteOfGarantesGarante.getGarantes().remove(garantesGarante);
-                    oldUnaInmobiliariaGaranteOfGarantesGarante = em.merge(oldUnaInmobiliariaGaranteOfGarantesGarante);
                 }
             }
             for (RecargoPorMora recargosPorMorasRecargoPorMora : inmobiliaria.getRecargosPorMoras()) {
@@ -199,40 +198,42 @@ public class InmobiliariaJpaController implements Serializable {
         }
     }
 
-    public void edit(Inmobiliaria inmobiliaria) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Inmobiliaria inmobiliaria) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Inmobiliaria persistentInmobiliaria = em.find(Inmobiliaria.class, inmobiliaria.getId());
+            List<Cliente> clientesOld = persistentInmobiliaria.getClientes();
+            List<Cliente> clientesNew = inmobiliaria.getClientes();
+            List<Garante> garantesOld = persistentInmobiliaria.getGarantes();
+            List<Garante> garantesNew = inmobiliaria.getGarantes();
             List<Inmueble> inmueblesOld = persistentInmobiliaria.getInmuebles();
             List<Inmueble> inmueblesNew = inmobiliaria.getInmuebles();
             List<Alquiler> alquileresOld = persistentInmobiliaria.getAlquileres();
             List<Alquiler> alquileresNew = inmobiliaria.getAlquileres();
             List<Venta> ventasOld = persistentInmobiliaria.getVentas();
             List<Venta> ventasNew = inmobiliaria.getVentas();
-            List<Cliente> clientesOld = persistentInmobiliaria.getClientes();
-            List<Cliente> clientesNew = inmobiliaria.getClientes();
-            List<Garante> garantesOld = persistentInmobiliaria.getGarantes();
-            List<Garante> garantesNew = inmobiliaria.getGarantes();
             List<RecargoPorMora> recargosPorMorasOld = persistentInmobiliaria.getRecargosPorMoras();
             List<RecargoPorMora> recargosPorMorasNew = inmobiliaria.getRecargosPorMoras();
             List<ArancelEspecial> arancelesEspecialesOld = persistentInmobiliaria.getArancelesEspeciales();
             List<ArancelEspecial> arancelesEspecialesNew = inmobiliaria.getArancelesEspeciales();
             List<Usuario> usuariosOld = persistentInmobiliaria.getUsuarios();
             List<Usuario> usuariosNew = inmobiliaria.getUsuarios();
-            List<String> illegalOrphanMessages = null;
-            for (Usuario usuariosOldUsuario : usuariosOld) {
-                if (!usuariosNew.contains(usuariosOldUsuario)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Usuario " + usuariosOldUsuario + " since its unaInmobiliariaUsuario field is not nullable.");
-                }
+            List<Cliente> attachedClientesNew = new ArrayList<Cliente>();
+            for (Cliente clientesNewClienteToAttach : clientesNew) {
+                clientesNewClienteToAttach = em.getReference(clientesNewClienteToAttach.getClass(), clientesNewClienteToAttach.getId());
+                attachedClientesNew.add(clientesNewClienteToAttach);
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            clientesNew = attachedClientesNew;
+            inmobiliaria.setClientes(clientesNew);
+            List<Garante> attachedGarantesNew = new ArrayList<Garante>();
+            for (Garante garantesNewGaranteToAttach : garantesNew) {
+                garantesNewGaranteToAttach = em.getReference(garantesNewGaranteToAttach.getClass(), garantesNewGaranteToAttach.getId());
+                attachedGarantesNew.add(garantesNewGaranteToAttach);
             }
+            garantesNew = attachedGarantesNew;
+            inmobiliaria.setGarantes(garantesNew);
             List<Inmueble> attachedInmueblesNew = new ArrayList<Inmueble>();
             for (Inmueble inmueblesNewInmuebleToAttach : inmueblesNew) {
                 inmueblesNewInmuebleToAttach = em.getReference(inmueblesNewInmuebleToAttach.getClass(), inmueblesNewInmuebleToAttach.getId());
@@ -254,20 +255,6 @@ public class InmobiliariaJpaController implements Serializable {
             }
             ventasNew = attachedVentasNew;
             inmobiliaria.setVentas(ventasNew);
-            List<Cliente> attachedClientesNew = new ArrayList<Cliente>();
-            for (Cliente clientesNewClienteToAttach : clientesNew) {
-                clientesNewClienteToAttach = em.getReference(clientesNewClienteToAttach.getClass(), clientesNewClienteToAttach.getId());
-                attachedClientesNew.add(clientesNewClienteToAttach);
-            }
-            clientesNew = attachedClientesNew;
-            inmobiliaria.setClientes(clientesNew);
-            List<Garante> attachedGarantesNew = new ArrayList<Garante>();
-            for (Garante garantesNewGaranteToAttach : garantesNew) {
-                garantesNewGaranteToAttach = em.getReference(garantesNewGaranteToAttach.getClass(), garantesNewGaranteToAttach.getId());
-                attachedGarantesNew.add(garantesNewGaranteToAttach);
-            }
-            garantesNew = attachedGarantesNew;
-            inmobiliaria.setGarantes(garantesNew);
             List<RecargoPorMora> attachedRecargosPorMorasNew = new ArrayList<RecargoPorMora>();
             for (RecargoPorMora recargosPorMorasNewRecargoPorMoraToAttach : recargosPorMorasNew) {
                 recargosPorMorasNewRecargoPorMoraToAttach = em.getReference(recargosPorMorasNewRecargoPorMoraToAttach.getClass(), recargosPorMorasNewRecargoPorMoraToAttach.getId());
@@ -290,6 +277,40 @@ public class InmobiliariaJpaController implements Serializable {
             usuariosNew = attachedUsuariosNew;
             inmobiliaria.setUsuarios(usuariosNew);
             inmobiliaria = em.merge(inmobiliaria);
+            for (Cliente clientesOldCliente : clientesOld) {
+                if (!clientesNew.contains(clientesOldCliente)) {
+                    clientesOldCliente.setUnaInmobiliariaCliente(null);
+                    clientesOldCliente = em.merge(clientesOldCliente);
+                }
+            }
+            for (Cliente clientesNewCliente : clientesNew) {
+                if (!clientesOld.contains(clientesNewCliente)) {
+                    Inmobiliaria oldUnaInmobiliariaClienteOfClientesNewCliente = clientesNewCliente.getUnaInmobiliariaCliente();
+                    clientesNewCliente.setUnaInmobiliariaCliente(inmobiliaria);
+                    clientesNewCliente = em.merge(clientesNewCliente);
+                    if (oldUnaInmobiliariaClienteOfClientesNewCliente != null && !oldUnaInmobiliariaClienteOfClientesNewCliente.equals(inmobiliaria)) {
+                        oldUnaInmobiliariaClienteOfClientesNewCliente.getClientes().remove(clientesNewCliente);
+                        oldUnaInmobiliariaClienteOfClientesNewCliente = em.merge(oldUnaInmobiliariaClienteOfClientesNewCliente);
+                    }
+                }
+            }
+            for (Garante garantesOldGarante : garantesOld) {
+                if (!garantesNew.contains(garantesOldGarante)) {
+                    garantesOldGarante.setUnaInmobiliariaGarante(null);
+                    garantesOldGarante = em.merge(garantesOldGarante);
+                }
+            }
+            for (Garante garantesNewGarante : garantesNew) {
+                if (!garantesOld.contains(garantesNewGarante)) {
+                    Inmobiliaria oldUnaInmobiliariaGaranteOfGarantesNewGarante = garantesNewGarante.getUnaInmobiliariaGarante();
+                    garantesNewGarante.setUnaInmobiliariaGarante(inmobiliaria);
+                    garantesNewGarante = em.merge(garantesNewGarante);
+                    if (oldUnaInmobiliariaGaranteOfGarantesNewGarante != null && !oldUnaInmobiliariaGaranteOfGarantesNewGarante.equals(inmobiliaria)) {
+                        oldUnaInmobiliariaGaranteOfGarantesNewGarante.getGarantes().remove(garantesNewGarante);
+                        oldUnaInmobiliariaGaranteOfGarantesNewGarante = em.merge(oldUnaInmobiliariaGaranteOfGarantesNewGarante);
+                    }
+                }
+            }
             for (Inmueble inmueblesOldInmueble : inmueblesOld) {
                 if (!inmueblesNew.contains(inmueblesOldInmueble)) {
                     inmueblesOldInmueble.setUnaInmobiliariaInmueble(null);
@@ -341,40 +362,6 @@ public class InmobiliariaJpaController implements Serializable {
                     }
                 }
             }
-            for (Cliente clientesOldCliente : clientesOld) {
-                if (!clientesNew.contains(clientesOldCliente)) {
-                    clientesOldCliente.setUnaInmobiliariaCliente(null);
-                    clientesOldCliente = em.merge(clientesOldCliente);
-                }
-            }
-            for (Cliente clientesNewCliente : clientesNew) {
-                if (!clientesOld.contains(clientesNewCliente)) {
-                    Inmobiliaria oldUnaInmobiliariaClienteOfClientesNewCliente = clientesNewCliente.getUnaInmobiliariaCliente();
-                    clientesNewCliente.setUnaInmobiliariaCliente(inmobiliaria);
-                    clientesNewCliente = em.merge(clientesNewCliente);
-                    if (oldUnaInmobiliariaClienteOfClientesNewCliente != null && !oldUnaInmobiliariaClienteOfClientesNewCliente.equals(inmobiliaria)) {
-                        oldUnaInmobiliariaClienteOfClientesNewCliente.getClientes().remove(clientesNewCliente);
-                        oldUnaInmobiliariaClienteOfClientesNewCliente = em.merge(oldUnaInmobiliariaClienteOfClientesNewCliente);
-                    }
-                }
-            }
-            for (Garante garantesOldGarante : garantesOld) {
-                if (!garantesNew.contains(garantesOldGarante)) {
-                    garantesOldGarante.setUnaInmobiliariaGarante(null);
-                    garantesOldGarante = em.merge(garantesOldGarante);
-                }
-            }
-            for (Garante garantesNewGarante : garantesNew) {
-                if (!garantesOld.contains(garantesNewGarante)) {
-                    Inmobiliaria oldUnaInmobiliariaGaranteOfGarantesNewGarante = garantesNewGarante.getUnaInmobiliariaGarante();
-                    garantesNewGarante.setUnaInmobiliariaGarante(inmobiliaria);
-                    garantesNewGarante = em.merge(garantesNewGarante);
-                    if (oldUnaInmobiliariaGaranteOfGarantesNewGarante != null && !oldUnaInmobiliariaGaranteOfGarantesNewGarante.equals(inmobiliaria)) {
-                        oldUnaInmobiliariaGaranteOfGarantesNewGarante.getGarantes().remove(garantesNewGarante);
-                        oldUnaInmobiliariaGaranteOfGarantesNewGarante = em.merge(oldUnaInmobiliariaGaranteOfGarantesNewGarante);
-                    }
-                }
-            }
             for (RecargoPorMora recargosPorMorasOldRecargoPorMora : recargosPorMorasOld) {
                 if (!recargosPorMorasNew.contains(recargosPorMorasOldRecargoPorMora)) {
                     recargosPorMorasOldRecargoPorMora.setUnaInmobiliariaRecargoPorMora(null);
@@ -409,6 +396,12 @@ public class InmobiliariaJpaController implements Serializable {
                     }
                 }
             }
+            for (Usuario usuariosOldUsuario : usuariosOld) {
+                if (!usuariosNew.contains(usuariosOldUsuario)) {
+                    usuariosOldUsuario.setUnaInmobiliariaUsuario(null);
+                    usuariosOldUsuario = em.merge(usuariosOldUsuario);
+                }
+            }
             for (Usuario usuariosNewUsuario : usuariosNew) {
                 if (!usuariosOld.contains(usuariosNewUsuario)) {
                     Inmobiliaria oldUnaInmobiliariaUsuarioOfUsuariosNewUsuario = usuariosNewUsuario.getUnaInmobiliariaUsuario();
@@ -437,7 +430,7 @@ public class InmobiliariaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -449,16 +442,15 @@ public class InmobiliariaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The inmobiliaria with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Usuario> usuariosOrphanCheck = inmobiliaria.getUsuarios();
-            for (Usuario usuariosOrphanCheckUsuario : usuariosOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Inmobiliaria (" + inmobiliaria + ") cannot be destroyed since the Usuario " + usuariosOrphanCheckUsuario + " in its usuarios field has a non-nullable unaInmobiliariaUsuario field.");
+            List<Cliente> clientes = inmobiliaria.getClientes();
+            for (Cliente clientesCliente : clientes) {
+                clientesCliente.setUnaInmobiliariaCliente(null);
+                clientesCliente = em.merge(clientesCliente);
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Garante> garantes = inmobiliaria.getGarantes();
+            for (Garante garantesGarante : garantes) {
+                garantesGarante.setUnaInmobiliariaGarante(null);
+                garantesGarante = em.merge(garantesGarante);
             }
             List<Inmueble> inmuebles = inmobiliaria.getInmuebles();
             for (Inmueble inmueblesInmueble : inmuebles) {
@@ -475,16 +467,6 @@ public class InmobiliariaJpaController implements Serializable {
                 ventasVenta.setUnaInmobiliariaVenta(null);
                 ventasVenta = em.merge(ventasVenta);
             }
-            List<Cliente> clientes = inmobiliaria.getClientes();
-            for (Cliente clientesCliente : clientes) {
-                clientesCliente.setUnaInmobiliariaCliente(null);
-                clientesCliente = em.merge(clientesCliente);
-            }
-            List<Garante> garantes = inmobiliaria.getGarantes();
-            for (Garante garantesGarante : garantes) {
-                garantesGarante.setUnaInmobiliariaGarante(null);
-                garantesGarante = em.merge(garantesGarante);
-            }
             List<RecargoPorMora> recargosPorMoras = inmobiliaria.getRecargosPorMoras();
             for (RecargoPorMora recargosPorMorasRecargoPorMora : recargosPorMoras) {
                 recargosPorMorasRecargoPorMora.setUnaInmobiliariaRecargoPorMora(null);
@@ -494,6 +476,11 @@ public class InmobiliariaJpaController implements Serializable {
             for (ArancelEspecial arancelesEspecialesArancelEspecial : arancelesEspeciales) {
                 arancelesEspecialesArancelEspecial.setUnaInmobiliariaArancelEspecial(null);
                 arancelesEspecialesArancelEspecial = em.merge(arancelesEspecialesArancelEspecial);
+            }
+            List<Usuario> usuarios = inmobiliaria.getUsuarios();
+            for (Usuario usuariosUsuario : usuarios) {
+                usuariosUsuario.setUnaInmobiliariaUsuario(null);
+                usuariosUsuario = em.merge(usuariosUsuario);
             }
             em.remove(inmobiliaria);
             em.getTransaction().commit();

@@ -12,23 +12,23 @@ import java.util.List;
  * @author Ariel
  */
 public class ContratoVentaDTO extends ContratoDTO{
-    private List<CuotaVentaDTO> cuotasVentaDTO;
-    private VentaDTO unaVentaDTO;
+    private List<CuotaVentaDTO> cuotasVenta;
+    private VentaDTO unaVenta;
     
-    public List<CuotaVentaDTO> getCuotasVentaDTO() {
-        return cuotasVentaDTO;
+    public List<CuotaVentaDTO> getCuotasVenta() {
+        return cuotasVenta;
     }
 
-    public void setCuotasVentaDTO(List<CuotaVentaDTO> cuotasVentaDTO) {
-        this.cuotasVentaDTO = cuotasVentaDTO;
+    public void setCuotasVenta(List<CuotaVentaDTO> cuotasVenta) {
+        this.cuotasVenta = cuotasVenta;
     }
 
-    public VentaDTO getUnaVentaDTO() {
-        return unaVentaDTO;
+    public VentaDTO getUnaVenta() {
+        return unaVenta;
     }
 
-    public void setUnaVentaDTO(VentaDTO unaVentaDTO) {
-        this.unaVentaDTO = unaVentaDTO;
+    public void setUnaVenta(VentaDTO unaVenta) {
+        this.unaVenta = unaVenta;
     }
     
     

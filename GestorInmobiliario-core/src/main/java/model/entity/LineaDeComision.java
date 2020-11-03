@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "lineas_comisiones")
 public class LineaDeComision implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +35,7 @@ public class LineaDeComision implements Serializable {
     private Float monto;
 
     @ManyToOne
-    @JoinColumn(name = "fk_comision", nullable = false, updatable = true)
+    @JoinColumn(name = "fk_comision")
     private Comision unaComision;
 
     public LineaDeComision() {
@@ -72,13 +72,7 @@ public class LineaDeComision implements Serializable {
         return "com.betancur.gestorinmobiliario.model.LineaDeComision[ id=" + id + " ]";
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    
 
     public Integer getNumeroCuota() {
         return numeroCuota;
@@ -103,5 +97,15 @@ public class LineaDeComision implements Serializable {
     public void setUnaComision(Comision unaComision) {
         this.unaComision = unaComision;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    
 
 }

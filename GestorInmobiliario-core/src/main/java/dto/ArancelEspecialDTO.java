@@ -15,7 +15,7 @@ public abstract class ArancelEspecialDTO {
     private String unaFechaDeRecargo;    
     private String descripcion;    
     private Float monto;    
-    private InmobiliariaDTO unaInmobiliariaArancelEspecialDTO;
+    private InmobiliariaDTO unaInmobiliariaArancelEspecial;
 
     public Long getId() {
         return id;
@@ -49,12 +49,12 @@ public abstract class ArancelEspecialDTO {
         this.monto = monto;
     }
 
-    public InmobiliariaDTO getUnaInmobiliariaArancelEspecialDTO() {
-        return unaInmobiliariaArancelEspecialDTO;
+    public InmobiliariaDTO getUnaInmobiliariaArancelEspecial() {
+        return unaInmobiliariaArancelEspecial;
     }
 
-    public void setUnaInmobiliariaArancelEspecialDTO(InmobiliariaDTO unaInmobiliariaArancelEspecialDTO) {
-        this.unaInmobiliariaArancelEspecialDTO = unaInmobiliariaArancelEspecialDTO;
+    public void setUnaInmobiliariaArancelEspecial(InmobiliariaDTO unaInmobiliariaArancelEspecial) {
+        this.unaInmobiliariaArancelEspecial = unaInmobiliariaArancelEspecial;
     }
     
     
