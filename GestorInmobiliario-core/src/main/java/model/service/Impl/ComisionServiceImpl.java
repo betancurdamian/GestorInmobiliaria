@@ -5,8 +5,9 @@
  */
 package model.service.Impl;
 
+import converter.ComisionConverter;
+import converter.LineaDeComisionConverter;
 import dto.ComisionDTO;
-import dto.LineaDeComisionDTO;
 import java.util.ArrayList;
 import model.dao.Conexion;
 import model.service.IComisionService;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dao.ComisionJpaController;
 import model.dao.LineaDeComisionJpaController;
+import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Comision;
 import model.entity.LineaDeComision;
@@ -28,26 +30,31 @@ public class ComisionServiceImpl implements IComisionService {
 
     private final ComisionJpaController comisionDAO;
     private final LineaDeComisionJpaController lineaDeComisionDAO;
+    private final ComisionConverter converterComision;
+    private final LineaDeComisionConverter converterLineaDeComision;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ComisionServiceImpl() {
         this.comisionDAO = new ComisionJpaController(Conexion.getEmf());
         this.lineaDeComisionDAO = new LineaDeComisionJpaController(Conexion.getEmf());
+        this.converterComision = new ComisionConverter();
+        this.converterLineaDeComision = new LineaDeComisionConverter();
     }
 
     @Override
     public ComisionDTO crear(ComisionDTO dto) {
-        System.out.println("");
-        if (dto != null) {
-            ModelMapper modelMapper = new ModelMapper();
-            Comision entity = modelMapper.map(dto, Comision.class);
-                        
+        if (dto != null) {            
+            Comision entity = converterComision.fomDTO(dto);             
+            
+            entity.setLineasDeComisiones(null);
             comisionDAO.create(entity);
-            for (LineaDeComisionDTO lineasDeComisione : dto.getLinesasDeComisiones()) {
-                LineaDeComision entityLinea = modelMapper.map(lineasDeComisione, LineaDeComision.class);
-                entityLinea.setUnaComision(entity);
-                lineaDeComisionDAO.create(entityLinea);
-            }
+            
+            dto.getLineasDeComisiones().forEach(lcdto->{
+                LineaDeComision lc = new LineaDeComision();
+                lc = converterLineaDeComision.fomDTO(lcdto);
+                lc.setUnaComision(entity);
+                lineaDeComisionDAO.create(lc);
+            });            
         } else {
             System.out.println("El DTO es null");
         }
@@ -84,6 +91,8 @@ public class ComisionServiceImpl implements IComisionService {
                     comisionDAO.destroy(id);
                 } catch (NonexistentEntityException ex) {
                     Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(ComisionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("NO EXIST Entity to Delete");

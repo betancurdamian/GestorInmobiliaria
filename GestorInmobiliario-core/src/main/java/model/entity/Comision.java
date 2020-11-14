@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,8 @@ public class Comision implements Serializable {
     @Column(name = "montoTotal")
     private Float montoTotal;
 
-    @OneToMany(mappedBy = "unaComision", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unaComision", cascade = {CascadeType.PERSIST, CascadeType.MERGE
+    ,CascadeType.REMOVE}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<LineaDeComision> lineasDeComisiones;
 
     public Comision() {

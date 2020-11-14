@@ -5,6 +5,7 @@
  */
 package model.service.Impl;
 
+import converter.ArancelEspecialConverter;
 import dto.ArancelEspecialDTO;
 import dto.ArancelEspecialExpensaDTO;
 import dto.ArancelEspecialServicioDTO;
@@ -22,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.ArancelEspecial;
 import org.modelmapper.ModelMapper;
+import util.Converter;
 
 /**
  *
@@ -32,6 +34,7 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
     private final ArancelEspecialExpensaJpaController arancelEspecialExpensaDAO;
     private final ArancelEspecialServicioJpaController arancelEspecialServicioDAO;
     private final ArancelEspecialJpaController arancelEspecialDAO;
+    private final ArancelEspecialConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ArancelEspecialServiceImpl() {
@@ -39,22 +42,22 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
         this.arancelEspecialDAO = new ArancelEspecialJpaController(Conexion.getEmf());
         this.arancelEspecialExpensaDAO = new ArancelEspecialExpensaJpaController(Conexion.getEmf());
         this.arancelEspecialServicioDAO = new ArancelEspecialServicioJpaController(Conexion.getEmf());
+        this.converter = new ArancelEspecialConverter();
     }
 
     @Override
     public ArancelEspecialDTO crear(ArancelEspecialDTO dto) {
         if (dto != null) {
             if (dto instanceof ArancelEspecialExpensaDTO) {
-                ModelMapper modelMapper = new ModelMapper();
-                ArancelEspecialExpensa entity = modelMapper.map(dto, ArancelEspecialExpensa.class);
-
+                ArancelEspecialExpensa entity = (ArancelEspecialExpensa) converter.fomDTO(dto);
+                entity.setUnaFechaDeRecargo(Converter.converterStringToLocalDate(dto.getUnaFechaDeRecargo()));
                 this.arancelEspecialExpensaDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof ArancelEspecialServicioDTO) {
-                ModelMapper modelMapper = new ModelMapper();
-                ArancelEspecialServicio entity = modelMapper.map(dto, ArancelEspecialServicio.class);
 
+                ArancelEspecialServicio entity = (ArancelEspecialServicio) converter.fomDTO(dto);
+                entity.setUnaFechaDeRecargo(Converter.converterStringToLocalDate(dto.getUnaFechaDeRecargo()));
                 this.arancelEspecialServicioDAO.create(entity);
                 dto.setId(entity.getId());
             }
@@ -70,9 +73,9 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
             if (dto.getId() != null) {
                 if (dto instanceof ArancelEspecialExpensaDTO) {
                     try {
-                        ModelMapper modelMapper = new ModelMapper();
-                        ArancelEspecialExpensa entity = modelMapper.map(dto, ArancelEspecialExpensa.class);
-                        arancelEspecialExpensaDAO.edit(entity);
+                        ArancelEspecialExpensa entity = (ArancelEspecialExpensa) converter.fomDTO(dto);
+                        entity.setUnaFechaDeRecargo(Converter.converterStringToLocalDate(dto.getUnaFechaDeRecargo()));
+                        this.arancelEspecialExpensaDAO.edit(entity);
                         dto.setId(entity.getId());
                     } catch (Exception ex) {
                         Logger.getLogger(ArancelEspecialServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,13 +83,13 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
                 }
                 if (dto instanceof ArancelEspecialServicioDTO) {
                     try {
-                        ModelMapper modelMapper = new ModelMapper();
-                        ArancelEspecialServicio entity = modelMapper.map(dto, ArancelEspecialServicio.class);
-                        arancelEspecialServicioDAO.edit(entity);
+                        ArancelEspecialServicio entity = (ArancelEspecialServicio) converter.fomDTO(dto);
+                        entity.setUnaFechaDeRecargo(Converter.converterStringToLocalDate(dto.getUnaFechaDeRecargo()));
+                        this.arancelEspecialServicioDAO.edit(entity);                        
                         dto.setId(entity.getId());
                     } catch (Exception ex) {
                         Logger.getLogger(ArancelEspecialServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                    }                    
+                    }
                 }
             } else {
                 System.out.println("ID  DTO is null");
@@ -116,10 +119,14 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
 
     @Override
     public ArancelEspecialDTO listarID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
+        ArancelEspecialDTO dto = null;
         ArancelEspecial entity = arancelEspecialDAO.findArancelEspecial(id);
-        ArancelEspecialDTO dto = modelMapper.map(entity, ArancelEspecialDTO.class);
-
+        if (entity instanceof ArancelEspecialExpensa) {
+             dto = (ArancelEspecialExpensaDTO) converter.fromDTO(entity);
+        }
+        if (entity instanceof ArancelEspecialServicio) {
+            dto = (ArancelEspecialServicioDTO) converter.fromDTO(entity);
+        }
         return dto;
     }
 

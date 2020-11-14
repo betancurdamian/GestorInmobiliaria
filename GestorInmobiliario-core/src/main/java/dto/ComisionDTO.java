@@ -17,7 +17,7 @@ public class ComisionDTO {
     private ContratoDTO unContrato;
     private Integer cantidadDeCuotas;
     private Float montoTotal;
-    private List<LineaDeComisionDTO> linesasDeComisiones;
+    private List<LineaDeComisionDTO> lineasDeComisiones;
 
     public Long getId() {
         return id;
@@ -51,12 +51,12 @@ public class ComisionDTO {
         this.montoTotal = montoTotal;
     }
 
-    public List<LineaDeComisionDTO> getLinesasDeComisiones() {
-        return linesasDeComisiones;
+    public List<LineaDeComisionDTO> getLineasDeComisiones() {
+        return lineasDeComisiones;
     }
 
-    public void setLinesasDeComisiones(List<LineaDeComisionDTO> linesasDeComisiones) {
-        this.linesasDeComisiones = linesasDeComisiones;
+    public void setLineasDeComisiones(List<LineaDeComisionDTO> lineasDeComisiones) {
+        this.lineasDeComisiones = lineasDeComisiones;
     }
 
 }
