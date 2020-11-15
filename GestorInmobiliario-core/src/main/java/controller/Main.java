@@ -5,43 +5,30 @@
  */
 package controller;
 
-import dto.ArancelEspecialExpensaDTO;
-import dto.ArancelEspecialServicioDTO;
-import dto.ComisionDTO;
-import dto.LineaDeComisionDTO;
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import model.dao.Conexion;
-import model.service.Impl.ArancelEspecialServiceImpl;
-import model.service.Impl.ComisionServiceImpl;
-import net.sf.jasperreports.engine.JRException;
+import dto.LocadorDTO;
+import dto.LocatarioDependienteDTO;
+import dto.LocatarioEstudianteDTO;
+import dto.LocatarioIndependienteDTO;
+import model.service.Impl.ClienteServiceImpl;
 
 /**
  *
  * @author Ariel
  */
 public class Main {
+    public static void main(String[] args) {
 
-    @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public static void main(String[] args) throws SQLException, JRException, JRException, FileNotFoundException {
-
-        new Conexion();
-
-        ArancelEspecialServiceImpl servArancel = new ArancelEspecialServiceImpl();
+        ClienteServiceImpl service = new ClienteServiceImpl();
         
-        ArancelEspecialServicioDTO aesdto = new ArancelEspecialServicioDTO();
-        aesdto.setDescripcion("usura servicio");
-        aesdto.setMonto(120f);
-        aesdto.setUnaFechaDeRecargo("2020-11-14");
+        LocadorDTO l = new LocadorDTO();
+        LocatarioDependienteDTO ld = new LocatarioDependienteDTO();
+        LocatarioIndependienteDTO li = new LocatarioIndependienteDTO();
+        LocatarioEstudianteDTO le = new LocatarioEstudianteDTO();
         
-        servArancel.crear(aesdto);
-        
-        ArancelEspecialExpensaDTO aeedto = new ArancelEspecialExpensaDTO();
-        aeedto.setDescripcion("usura servicio");
-        aeedto.setMonto(120f);
-        aeedto.setUnaFechaDeRecargo("2020-11-14");
-        servArancel.crear(aeedto);
+        service.crear(l);
+        service.crear(ld);
+        service.crear(li);
+        service.crear(le);
     }
 
 }

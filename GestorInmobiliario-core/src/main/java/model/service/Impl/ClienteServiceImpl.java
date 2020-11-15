@@ -5,6 +5,7 @@
  */
 package model.service.Impl;
 
+import converter.ClienteConverter;
 import dto.ClienteDTO;
 import dto.LocadorDTO;
 import dto.LocatarioDTO;
@@ -30,7 +31,6 @@ import model.entity.LocatarioDependiente;
 import model.entity.LocatarioEstudiante;
 import model.entity.LocatarioIndependiente;
 import model.service.IClienteService;
-import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -44,6 +44,7 @@ public class ClienteServiceImpl implements IClienteService {
     private final LocatarioDependienteJpaController locatarioDependienteDAO;
     private final LocatarioIndependienteJpaController locatarioIndependienteDAO;
     private final LocatarioEstudianteJpaController locatarioEstudianteDAO;
+    private final ClienteConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ClienteServiceImpl() {
@@ -54,32 +55,29 @@ public class ClienteServiceImpl implements IClienteService {
         this.locatarioDependienteDAO = new LocatarioDependienteJpaController(Conexion.getEmf());
         this.locatarioIndependienteDAO = new LocatarioIndependienteJpaController(Conexion.getEmf());
         this.locatarioEstudianteDAO = new LocatarioEstudianteJpaController(Conexion.getEmf());
+        this.converter = new ClienteConverter();
     }
 
     @Override
     public ClienteDTO crear(ClienteDTO dto) {
         if (dto != null) {
-            if (dto instanceof LocadorDTO) {
-                ModelMapper modelMapper = new ModelMapper();
-                Locador entity = modelMapper.map(dto, Locador.class);
+            if (dto instanceof LocadorDTO) {                
+                Locador entity = (Locador) converter.fomDTO(dto);
                 this.locadorDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof LocatarioDependienteDTO) {
-                ModelMapper modelMapper = new ModelMapper();
-                LocatarioDependiente entity = modelMapper.map(dto, LocatarioDependiente.class);
+                LocatarioDependiente entity = (LocatarioDependiente) converter.fomDTO(dto);
                 this.locatarioDependienteDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof LocatarioIndependienteDTO) {
-                ModelMapper modelMapper = new ModelMapper();
-                LocatarioIndependiente entity = modelMapper.map(dto, LocatarioIndependiente.class);
+                LocatarioIndependiente entity = (LocatarioIndependiente) converter.fomDTO(dto);
                 this.locatarioIndependienteDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof LocatarioEstudianteDTO) {
-                ModelMapper modelMapper = new ModelMapper();
-                LocatarioEstudiante entity = modelMapper.map(dto, LocatarioEstudiante.class);
+                LocatarioEstudiante entity = (LocatarioEstudiante) converter.fomDTO(dto);
                 this.locatarioEstudianteDAO.create(entity);
                 dto.setId(entity.getId());
             }
@@ -95,46 +93,38 @@ public class ClienteServiceImpl implements IClienteService {
             if (dto.getId() != null) {
                 if (dto instanceof LocadorDTO) {
                     try {
-                        ModelMapper modelMapper = new ModelMapper();
-                        Locador entity = modelMapper.map(dto, Locador.class);
-
+                        Locador entity = (Locador) converter.fomDTO(dto);
                         locadorDAO.edit(entity);
                         dto.setId(entity.getId());
                     } catch (Exception ex) {
-                        Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 if (dto instanceof LocatarioDependienteDTO) {
                     try {
-                        ModelMapper modelMapper = new ModelMapper();
-                        LocatarioDependiente entity = modelMapper.map(dto, LocatarioDependiente.class);
-
+                        LocatarioDependiente entity = (LocatarioDependiente) converter.fomDTO(dto);
                         locatarioDAO.edit(entity);
                         dto.setId(entity.getId());
                     } catch (Exception ex) {
-                        Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 if (dto instanceof LocatarioIndependienteDTO) {
                     try {
-                        ModelMapper modelMapper = new ModelMapper();
-                        LocatarioIndependiente entity = modelMapper.map(dto, LocatarioIndependiente.class);
-
+                        LocatarioIndependiente entity = (LocatarioIndependiente) converter.fomDTO(dto);
                         locatarioIndependienteDAO.edit(entity);
                         dto.setId(entity.getId());
                     } catch (Exception ex) {
-                        Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 if (dto instanceof LocatarioEstudianteDTO) {
                     try {
-                        ModelMapper modelMapper = new ModelMapper();
-                        LocatarioEstudiante entity = modelMapper.map(dto, LocatarioEstudiante.class);
-
+                        LocatarioEstudiante entity = (LocatarioEstudiante) converter.fomDTO(dto);
                         locatarioEstudianteDAO.edit(entity);
                         dto.setId(entity.getId());
                     } catch (Exception ex) {
-                        Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ClienteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             } else {
@@ -165,21 +155,30 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public ClienteDTO listarID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         Cliente entity = clienteDAO.findCliente(id);
-        ClienteDTO dto = modelMapper.map(entity, ClienteDTO.class);
-
+        ClienteDTO dto = null;
+        if (entity instanceof Locador) {
+            dto = (LocadorDTO) converter.fromDTO(entity);
+        }
+        if (entity instanceof LocatarioDependiente) {
+            dto = (LocatarioDependienteDTO) converter.fromDTO(entity);
+        }
+        if (entity instanceof LocatarioIndependiente) {
+            dto = (LocatarioIndependienteDTO) converter.fromDTO(entity);
+        }
+        if (entity instanceof LocatarioEstudiante) {
+            dto = (LocatarioEstudianteDTO) converter.fromDTO(entity);
+        }
         return dto;
     }
 
     @Override
     public List<ClienteDTO> listarTodos() {
-        ModelMapper modelMapper = new ModelMapper();
         ClienteDTO dtoAux = null;
         List<ClienteDTO> dtos = new ArrayList<>();
 
         for (Cliente entitiy : clienteDAO.findClienteEntities()) {
-            dtoAux = modelMapper.map(entitiy, ClienteDTO.class);
+            dtoAux = converter.fromDTO(entitiy);
             dtos.add(dtoAux);
         }
 
@@ -188,21 +187,18 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public LocadorDTO listarLocadorID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         Locador entity = locadorDAO.findLocador(id);
-        LocadorDTO dto = modelMapper.map(entity, LocadorDTO.class);
-
+        LocadorDTO dto = (LocadorDTO) converter.fromDTO(entity);
         return dto;
     }
 
     @Override
     public List<LocadorDTO> listarTodosLocadores() {
-        ModelMapper modelMapper = new ModelMapper();
         LocadorDTO dtoAux = null;
         List<LocadorDTO> dtos = new ArrayList<>();
 
         for (Locador entity : locadorDAO.findLocadorEntities()) {
-            dtoAux = modelMapper.map(entity, LocadorDTO.class);
+            dtoAux = (LocadorDTO) converter.fromDTO(entity);
             dtos.add(dtoAux);
         }
 
@@ -211,21 +207,18 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public LocatarioDTO listarLocatarioID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         Locatario entity = locatarioDAO.findLocatario(id);
-        LocatarioDTO dto = modelMapper.map(entity, LocatarioDTO.class);
-
+        LocatarioDTO dto = (LocatarioDTO) converter.fromDTO(entity);
         return dto;
     }
 
     @Override
     public List<LocatarioDTO> listarTodosLocatarios() {
-        ModelMapper modelMapper = new ModelMapper();
         LocatarioDTO dtoAux = null;
         List<LocatarioDTO> dtos = new ArrayList<>();
 
         for (Locatario entity : locatarioDAO.findLocatarioEntities()) {
-            dtoAux = modelMapper.map(entity, LocatarioDTO.class);
+            dtoAux = (LocatarioDTO) converter.fromDTO(entity);
             dtos.add(dtoAux);
         }
 
@@ -234,21 +227,18 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public LocatarioDependienteDTO listarLocatarioDependienteID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         LocatarioDependiente entity = locatarioDependienteDAO.findLocatarioDependiente(id);
-        LocatarioDependienteDTO dto = modelMapper.map(entity, LocatarioDependienteDTO.class);
-
+        LocatarioDependienteDTO dto = (LocatarioDependienteDTO) converter.fromDTO(entity);
         return dto;
     }
 
     @Override
     public List<LocatarioDependienteDTO> listarTodosLocatariosDependientes() {
-        ModelMapper modelMapper = new ModelMapper();
         LocatarioDependienteDTO dtoAux = null;
         List<LocatarioDependienteDTO> dtos = new ArrayList<>();
 
         for (LocatarioDependiente entity : locatarioDependienteDAO.findLocatarioDependienteEntities()) {
-            dtoAux = modelMapper.map(entity, LocatarioDependienteDTO.class);
+            dtoAux = (LocatarioDependienteDTO) converter.fromDTO(entity);
             dtos.add(dtoAux);
         }
 
@@ -257,47 +247,39 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public LocatarioIndependienteDTO listarLocatarioIndependienteID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         LocatarioIndependiente entity = locatarioIndependienteDAO.findLocatarioIndependiente(id);
-        LocatarioIndependienteDTO dto = modelMapper.map(entity, LocatarioIndependienteDTO.class);
-
+        LocatarioIndependienteDTO dto = (LocatarioIndependienteDTO) converter.fromDTO(entity);
         return dto;
     }
 
     @Override
     public List<LocatarioIndependienteDTO> listarTodosLocatariosIndependientes() {
-        ModelMapper modelMapper = new ModelMapper();
         LocatarioIndependienteDTO dtoAux = null;
         List<LocatarioIndependienteDTO> dtos = new ArrayList<>();
 
         for (LocatarioIndependiente entity : locatarioIndependienteDAO.findLocatarioIndependienteEntities()) {
-            dtoAux = modelMapper.map(entity, LocatarioIndependienteDTO.class);
+            dtoAux = (LocatarioIndependienteDTO) converter.fromDTO(entity);
             dtos.add(dtoAux);
         }
-
         return dtos;
     }
 
     @Override
     public LocatarioEstudianteDTO listarLocatarioEstudianteID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         LocatarioEstudiante entity = locatarioEstudianteDAO.findLocatarioEstudiante(id);
-        LocatarioEstudianteDTO dto = modelMapper.map(entity, LocatarioEstudianteDTO.class);
-
+        LocatarioEstudianteDTO dto = (LocatarioEstudianteDTO) converter.fromDTO(entity);
         return dto;
     }
 
     @Override
     public List<LocatarioEstudianteDTO> listarTodosLocatariosEstudiantes() {
-        ModelMapper modelMapper = new ModelMapper();
         LocatarioEstudianteDTO dtoAux = null;
         List<LocatarioEstudianteDTO> dtos = new ArrayList<>();
 
         for (LocatarioEstudiante entity : locatarioEstudianteDAO.findLocatarioEstudianteEntities()) {
-            dtoAux = modelMapper.map(entity, LocatarioEstudianteDTO.class);
+            dtoAux = (LocatarioEstudianteDTO) converter.fromDTO(entity);
             dtos.add(dtoAux);
         }
-
         return dtos;
     }
 

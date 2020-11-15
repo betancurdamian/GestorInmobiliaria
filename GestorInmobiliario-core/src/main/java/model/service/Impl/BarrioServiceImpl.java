@@ -5,6 +5,7 @@
  */
 package model.service.Impl;
 
+import converter.BarrioConverter;
 import dto.BarrioDTO;
 import java.util.ArrayList;
 import model.dao.BarrioJpaController;
@@ -15,7 +16,6 @@ import model.service.IBarrioService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -24,18 +24,19 @@ import org.modelmapper.ModelMapper;
 public class BarrioServiceImpl implements IBarrioService {
 
     private final BarrioJpaController barrioDAO;
+    private final BarrioConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public BarrioServiceImpl() {
         new Conexion();
         this.barrioDAO = new BarrioJpaController(Conexion.getEmf());
+        this.converter = new BarrioConverter();
     }
 
     @Override
     public BarrioDTO crear(BarrioDTO dto) {
         if (dto != null) {
-            ModelMapper modelMapper = new ModelMapper();
-            Barrio entity = modelMapper.map(dto, Barrio.class);
+            Barrio entity = converter.fomDTO(dto);
             this.barrioDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -49,13 +50,11 @@ public class BarrioServiceImpl implements IBarrioService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    ModelMapper modelMapper = new ModelMapper();
-                    Barrio entity = modelMapper.map(dto, Barrio.class);
-
+                    Barrio entity = converter.fomDTO(dto);
                     barrioDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarrioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("ID  DTO is null");
@@ -74,7 +73,7 @@ public class BarrioServiceImpl implements IBarrioService {
                 try {
                     barrioDAO.destroy(id);
                 } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarrioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("NO EXIST Entity to Delete");
@@ -86,21 +85,18 @@ public class BarrioServiceImpl implements IBarrioService {
 
     @Override
     public BarrioDTO listarID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         Barrio entity = barrioDAO.findBarrio(id);
-        BarrioDTO dto = modelMapper.map(entity, BarrioDTO.class);
-
+        BarrioDTO dto = converter.fromDTO(entity);
         return dto;
     }
 
     @Override
     public List<BarrioDTO> listarTodos() {
-        ModelMapper modelMapper = new ModelMapper();
         BarrioDTO dtoAux = null;
         List<BarrioDTO> dtos = new ArrayList<>();
 
         for (Barrio entitiy : barrioDAO.findBarrioEntities()) {
-            dtoAux = modelMapper.map(entitiy, BarrioDTO.class);
+            dtoAux = converter.fromDTO(entitiy);
             dtos.add(dtoAux);
         }
 

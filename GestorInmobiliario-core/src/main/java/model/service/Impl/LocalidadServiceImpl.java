@@ -57,7 +57,7 @@ public class LocalidadServiceImpl implements ILocalidadService{
                     localidadDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LocalidadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("ID  DTO is null");
@@ -75,7 +75,7 @@ public class LocalidadServiceImpl implements ILocalidadService{
                 try {
                     localidadDAO.destroy(id);
                 } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LocalidadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("NO EXIST Entity to Delete");

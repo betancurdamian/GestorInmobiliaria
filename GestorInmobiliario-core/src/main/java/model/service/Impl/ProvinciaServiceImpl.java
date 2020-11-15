@@ -55,7 +55,7 @@ public class ProvinciaServiceImpl implements IProvinciaService {
                     provinciaDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProvinciaServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("ID  DTO is null");
@@ -73,7 +73,7 @@ public class ProvinciaServiceImpl implements IProvinciaService {
                 try {
                     provinciaDAO.destroy(id);
                 } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProvinciaServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("NO EXIST Entity to Delete");

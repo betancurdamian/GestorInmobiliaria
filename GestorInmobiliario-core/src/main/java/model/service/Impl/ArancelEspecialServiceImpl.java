@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.ArancelEspecial;
-import org.modelmapper.ModelMapper;
 import util.Converter;
 
 /**
@@ -132,12 +131,11 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
 
     @Override
     public List<ArancelEspecialDTO> listarTodos() {
-        ModelMapper modelMapper = new ModelMapper();
         ArancelEspecialDTO dtoAux = null;
         List<ArancelEspecialDTO> dtos = new ArrayList<>();
 
         for (ArancelEspecial entitiy : arancelEspecialDAO.findArancelEspecialEntities()) {
-            dtoAux = modelMapper.map(entitiy, ArancelEspecialDTO.class);
+            dtoAux = converter.fromDTO(entitiy);
             dtos.add(dtoAux);
         }
 

@@ -20,7 +20,6 @@ import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Comision;
 import model.entity.LineaDeComision;
-import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -43,18 +42,18 @@ public class ComisionServiceImpl implements IComisionService {
 
     @Override
     public ComisionDTO crear(ComisionDTO dto) {
-        if (dto != null) {            
-            Comision entity = converterComision.fomDTO(dto);             
-            
+        if (dto != null) {
+            Comision entity = converterComision.fomDTO(dto);
+
             entity.setLineasDeComisiones(null);
             comisionDAO.create(entity);
-            
-            dto.getLineasDeComisiones().forEach(lcdto->{
+
+            dto.getLineasDeComisiones().forEach(lcdto -> {
                 LineaDeComision lc = new LineaDeComision();
                 lc = converterLineaDeComision.fomDTO(lcdto);
                 lc.setUnaComision(entity);
                 lineaDeComisionDAO.create(lc);
-            });            
+            });
         } else {
             System.out.println("El DTO es null");
         }
@@ -66,13 +65,24 @@ public class ComisionServiceImpl implements IComisionService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    ModelMapper modelMapper = new ModelMapper();
-                    Comision entity = modelMapper.map(dto, Comision.class);
-
+                    Comision entity = converterComision.fomDTO(dto);
+                    entity.setLineasDeComisiones(null);
                     comisionDAO.edit(entity);
+
+                    dto.getLineasDeComisiones().forEach(lcdto -> {
+                        LineaDeComision lc = new LineaDeComision();
+                        lc = converterLineaDeComision.fomDTO(lcdto);
+                        lc.setUnaComision(entity);
+                        try {
+                            lineaDeComisionDAO.edit(lc);
+                        } catch (Exception ex) {
+                            Logger.getLogger(ComisionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ComisionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("ID  DTO is null");
@@ -104,21 +114,19 @@ public class ComisionServiceImpl implements IComisionService {
 
     @Override
     public ComisionDTO listarID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         Comision entity = comisionDAO.findComision(id);
-        ComisionDTO dto = modelMapper.map(entity, ComisionDTO.class);
+        ComisionDTO dto = converterComision.fromDTO(entity);
 
         return dto;
     }
 
     @Override
     public List<ComisionDTO> listarTodos() {
-        ModelMapper modelMapper = new ModelMapper();
         ComisionDTO dtoAux = null;
         List<ComisionDTO> dtos = new ArrayList<>();
 
         for (Comision entitiy : comisionDAO.findComisionEntities()) {
-            dtoAux = modelMapper.map(entitiy, ComisionDTO.class);
+            dtoAux = converterComision.fromDTO(entitiy);
             dtos.add(dtoAux);
         }
 

@@ -5,6 +5,7 @@
  */
 package model.service.Impl;
 
+import converter.ActividadConverter;
 import dto.ActividadDTO;
 import java.util.ArrayList;
 import model.dao.Conexion;
@@ -15,7 +16,6 @@ import java.util.logging.Logger;
 import model.dao.ActividadJpaController;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Actividad;
-import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -24,19 +24,20 @@ import org.modelmapper.ModelMapper;
 public class ActividadServiceImpl implements IActividadService {
 
     private final ActividadJpaController actividadDAO;
+    private final ActividadConverter converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ActividadServiceImpl() {
         new Conexion();
         this.actividadDAO = new ActividadJpaController(Conexion.getEmf());
+        this.converter = new ActividadConverter();
 
     }
 
     @Override
     public ActividadDTO crear(ActividadDTO dto) {
         if (dto != null) {
-            ModelMapper modelMapper = new ModelMapper();
-            Actividad entity = modelMapper.map(dto, Actividad.class);
+            Actividad entity = converter.fomDTO(dto);
             this.actividadDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,13 +51,11 @@ public class ActividadServiceImpl implements IActividadService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    ModelMapper modelMapper = new ModelMapper();
-                    Actividad entity = modelMapper.map(dto, Actividad.class);
-
+                    Actividad entity = converter.fomDTO(dto);
                     actividadDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ActividadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("ID  DTO is null");
@@ -74,7 +73,7 @@ public class ActividadServiceImpl implements IActividadService {
                 try {
                     actividadDAO.destroy(id);
                 } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ActividadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("NO EXIST Entity to Delete");
@@ -86,21 +85,19 @@ public class ActividadServiceImpl implements IActividadService {
 
     @Override
     public ActividadDTO listarID(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
         Actividad entity = actividadDAO.findActividad(id);
-        ActividadDTO dto = modelMapper.map(entity, ActividadDTO.class);
+        ActividadDTO dto = converter.fromDTO(entity);
 
         return dto;
     }
 
     @Override
     public List<ActividadDTO> listarTodos() {
-        ModelMapper modelMapper = new ModelMapper();
         ActividadDTO dtoAux = null;
         List<ActividadDTO> dtos = new ArrayList<>();
 
         for (Actividad entitiy : actividadDAO.findActividadEntities()) {
-            dtoAux = modelMapper.map(entitiy, ActividadDTO.class);
+            dtoAux = converter.fromDTO(entitiy);
             dtos.add(dtoAux);
         }
 

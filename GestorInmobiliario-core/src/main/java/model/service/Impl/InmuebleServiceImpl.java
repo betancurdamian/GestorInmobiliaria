@@ -95,7 +95,7 @@ public class InmuebleServiceImpl implements IInmuebleService {
                     terrenoDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (dto instanceof CasaDTO) {
@@ -106,7 +106,7 @@ public class InmuebleServiceImpl implements IInmuebleService {
                     casaDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (dto instanceof DepartamentoDTO) {
@@ -117,7 +117,7 @@ public class InmuebleServiceImpl implements IInmuebleService {
                     departamentoDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (dto instanceof LocalComercialDTO) {
@@ -128,7 +128,7 @@ public class InmuebleServiceImpl implements IInmuebleService {
                     localComercialDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
