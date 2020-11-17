@@ -5,11 +5,8 @@
  */
 package controller;
 
-import dto.LocadorDTO;
-import dto.LocatarioDependienteDTO;
-import dto.LocatarioEstudianteDTO;
-import dto.LocatarioIndependienteDTO;
-import model.service.Impl.ClienteServiceImpl;
+import dto.ActividadDTO;
+import model.service.Impl.ActividadServiceImpl;
 
 /**
  *
@@ -17,18 +14,22 @@ import model.service.Impl.ClienteServiceImpl;
  */
 public class Main {
     public static void main(String[] args) {
-
-        ClienteServiceImpl service = new ClienteServiceImpl();
         
-        LocadorDTO l = new LocadorDTO();
-        LocatarioDependienteDTO ld = new LocatarioDependienteDTO();
-        LocatarioIndependienteDTO li = new LocatarioIndependienteDTO();
-        LocatarioEstudianteDTO le = new LocatarioEstudianteDTO();
+        ActividadServiceImpl service = new ActividadServiceImpl();
         
-        service.crear(l);
-        service.crear(ld);
-        service.crear(li);
-        service.crear(le);
+        
+        System.out.println("id: "+service.listarID(651l).getId());
+        
+        ActividadDTO dto = new ActividadDTO();
+        dto.setNombre("prosti");
+        
+       service.crear(dto);
+        
+        for (ActividadDTO l : service.listarTodos()) {
+            System.out.println("id: "+l.getId());
+            System.out.println("nombre: "+l.getNombre());
+        }
+        
     }
 
 }

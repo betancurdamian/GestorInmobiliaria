@@ -12,7 +12,7 @@ package dto;
 public abstract class ArancelEspecialDTO {
     
     private Long id;
-    private String unaFechaDeRecargo;    
+    private String unaFechaArancel;    
     private String descripcion;    
     private Float monto;    
     private InmobiliariaDTO unaInmobiliariaArancelEspecial;
@@ -25,12 +25,12 @@ public abstract class ArancelEspecialDTO {
         this.id = id;
     }
 
-    public String getUnaFechaDeRecargo() {
-        return unaFechaDeRecargo;
+    public String getUnaFechaArancel() {
+        return unaFechaArancel;
     }
 
-    public void setUnaFechaDeRecargo(String unaFechaDeRecargo) {
-        this.unaFechaDeRecargo = unaFechaDeRecargo;
+    public void setUnaFechaArancel(String unaFechaArancel) {
+        this.unaFechaArancel = unaFechaArancel;
     }
 
     public String getDescripcion() {

@@ -16,14 +16,24 @@ import java.time.format.DateTimeFormatterBuilder;
 public class Converter {
 
     public static LocalDate converterStringToLocalDate(String strLocalDate) {
-        DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
-                .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
-        LocalDate datetime = LocalDate.parse(strLocalDate, f);
-        return datetime;
+        if (strLocalDate != null) {
+            DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
+                    .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
+            LocalDate datetime = LocalDate.parse(strLocalDate, f);
+            return datetime;
+        }else{
+            return null;
+        }
+
     }
-    
+
     public static String converterLocalDateToString(LocalDate ldt) {
-        String formattedDate = ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        return formattedDate;
+        if (ldt != null) {
+            String formattedDate = ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            return formattedDate;
+        } else {
+            return null;
+        }
+
     }
 }

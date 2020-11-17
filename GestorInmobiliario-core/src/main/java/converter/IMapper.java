@@ -5,13 +5,18 @@
  */
 package converter;
 
+import java.util.List;
+
 /**
  *
  * @author Ariel
  * @param <ENTITY>
  * @param <DTO>
  */
-public interface Converter <ENTITY,DTO>{
-    ENTITY fomDTO(DTO dto);
-    DTO fromDTO(ENTITY entity);
+public interface IMapper <ENTITY, DTO>{
+    DTO toDTO(ENTITY entity);
+    
+    ENTITY toEntity(DTO dto);    
+    
+    List<DTO> toDTOList(List<ENTITY> entities);
 }

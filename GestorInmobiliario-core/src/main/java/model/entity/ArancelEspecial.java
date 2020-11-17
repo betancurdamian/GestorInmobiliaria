@@ -35,7 +35,7 @@ public abstract class ArancelEspecial implements Serializable {
     private Long id;
 
     @Column(name = "fecha_recargo")
-    private LocalDate unaFechaDeRecargo;
+    private LocalDate unaFechaArancel;
 
     @Column(name = "descripcion")
     private String descripcion;
@@ -50,8 +50,8 @@ public abstract class ArancelEspecial implements Serializable {
     public ArancelEspecial() {
     }
 
-    public ArancelEspecial(LocalDate unaFechaDeRecargo, String descripcion, Float monto, Inmobiliaria unaInmobiliariaArancelEspecial) {
-        this.unaFechaDeRecargo = unaFechaDeRecargo;
+    public ArancelEspecial(LocalDate unaFechaArancel, String descripcion, Float monto, Inmobiliaria unaInmobiliariaArancelEspecial) {
+        this.unaFechaArancel = unaFechaArancel;
         this.descripcion = descripcion;
         this.monto = monto;
         this.unaInmobiliariaArancelEspecial = unaInmobiliariaArancelEspecial;
@@ -90,12 +90,12 @@ public abstract class ArancelEspecial implements Serializable {
         return "com.betancur.gestorinmobiliario.model.ArancelEspecial[ id=" + id + " ]";
     }
 
-    public LocalDate getUnaFechaDeRecargo() {
-        return unaFechaDeRecargo;
+    public LocalDate getUnaFechaArancel() {
+        return unaFechaArancel;
     }
 
-    public void setUnaFechaDeRecargo(LocalDate unaFechaDeRecargo) {
-        this.unaFechaDeRecargo = unaFechaDeRecargo;
+    public void setUnaFechaArancel(LocalDate unaFechaArancel) {
+        this.unaFechaArancel = unaFechaArancel;
     }
 
     public String getDescripcion() {

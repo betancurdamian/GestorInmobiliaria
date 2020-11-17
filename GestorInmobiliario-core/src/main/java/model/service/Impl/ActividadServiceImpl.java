@@ -5,9 +5,7 @@
  */
 package model.service.Impl;
 
-import converter.ActividadConverter;
 import dto.ActividadDTO;
-import java.util.ArrayList;
 import model.dao.Conexion;
 import model.service.IActividadService;
 import java.util.List;
@@ -16,6 +14,8 @@ import java.util.logging.Logger;
 import model.dao.ActividadJpaController;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Actividad;
+import org.mapstruct.factory.Mappers;
+import converter.ActividadMapper;
 
 /**
  *
@@ -24,20 +24,18 @@ import model.entity.Actividad;
 public class ActividadServiceImpl implements IActividadService {
 
     private final ActividadJpaController actividadDAO;
-    private final ActividadConverter converter;
+    private final ActividadMapper converter = Mappers.getMapper(ActividadMapper.class);
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ActividadServiceImpl() {
         new Conexion();
         this.actividadDAO = new ActividadJpaController(Conexion.getEmf());
-        this.converter = new ActividadConverter();
-
     }
 
     @Override
     public ActividadDTO crear(ActividadDTO dto) {
         if (dto != null) {
-            Actividad entity = converter.fomDTO(dto);
+            Actividad entity = converter.toEntity(dto);
             this.actividadDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -51,7 +49,7 @@ public class ActividadServiceImpl implements IActividadService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    Actividad entity = converter.fomDTO(dto);
+                    Actividad entity = converter.toEntity(dto);
                     actividadDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -86,22 +84,13 @@ public class ActividadServiceImpl implements IActividadService {
     @Override
     public ActividadDTO listarID(Long id) {
         Actividad entity = actividadDAO.findActividad(id);
-        ActividadDTO dto = converter.fromDTO(entity);
-
-        return dto;
+        return converter.toDTO(entity);
     }
 
     @Override
     public List<ActividadDTO> listarTodos() {
-        ActividadDTO dtoAux = null;
-        List<ActividadDTO> dtos = new ArrayList<>();
-
-        for (Actividad entitiy : actividadDAO.findActividadEntities()) {
-            dtoAux = converter.fromDTO(entitiy);
-            dtos.add(dtoAux);
-        }
-
-        return dtos;
+        List<Actividad> entities = actividadDAO.findActividadEntities();        
+        return converter.toDTOList(entities);
     }
 
 }
