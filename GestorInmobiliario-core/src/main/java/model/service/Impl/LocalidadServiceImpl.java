@@ -5,38 +5,34 @@
  */
 package model.service.Impl;
 
-import dto.ActividadDTO;
+import converter.InmobiliariaMapper;
+import dto.LocalidadDTO;
 import model.dao.Conexion;
-import model.service.IActividadService;
+import model.dao.LocalidadJpaController;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.Localidad;
+import model.service.ILocalidadService;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.dao.ActividadJpaController;
-import model.dao.exceptions.NonexistentEntityException;
-import model.entity.Actividad;
 import org.mapstruct.factory.Mappers;
-import converter.InmobiliariaMapper;
 
-/**
- *
- * @author Ariel
- */
-public class ActividadServiceImpl implements IActividadService {
+public class LocalidadServiceImpl implements ILocalidadService{
 
-    private final ActividadJpaController actividadDAO;
+    private final LocalidadJpaController localidadDAO;
     private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
-
+    
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public ActividadServiceImpl() {
+    public LocalidadServiceImpl() {
         new Conexion();
-        this.actividadDAO = new ActividadJpaController(Conexion.getEmf());
+        this.localidadDAO = new LocalidadJpaController(Conexion.getEmf());        
     }
-
+    
     @Override
-    public ActividadDTO crear(ActividadDTO dto) {
+    public LocalidadDTO crear(LocalidadDTO dto) {
         if (dto != null) {
-            Actividad entity = converter.toEntity(dto);
-            this.actividadDAO.create(entity);
+            Localidad entity = converter.toEntity(dto);
+            this.localidadDAO.create(entity);
             dto.setId(entity.getId());
         } else {
             System.out.println("El DTO es null");
@@ -45,15 +41,16 @@ public class ActividadServiceImpl implements IActividadService {
     }
 
     @Override
-    public ActividadDTO modificar(ActividadDTO dto) {
+    public LocalidadDTO modificar(LocalidadDTO dto) {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    Actividad entity = converter.toEntity(dto);
-                    actividadDAO.edit(entity);
+                    Localidad entity = converter.toEntity(dto);
+
+                    localidadDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
-                    Logger.getLogger(ActividadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LocalidadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("ID  DTO is null");
@@ -67,11 +64,11 @@ public class ActividadServiceImpl implements IActividadService {
     @Override
     public void eliminar(Long id) {
         if (id != null) {
-            if (actividadDAO.findActividad(id) != null) {
+            if (localidadDAO.findLocalidad(id) != null) {
                 try {
-                    actividadDAO.destroy(id);
+                    localidadDAO.destroy(id);
                 } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(ActividadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LocalidadServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 System.out.println("NO EXIST Entity to Delete");
@@ -82,15 +79,15 @@ public class ActividadServiceImpl implements IActividadService {
     }
 
     @Override
-    public ActividadDTO listarID(Long id) {
-        Actividad entity = actividadDAO.findActividad(id);
+    public LocalidadDTO listarID(Long id) {
+        Localidad entity = localidadDAO.findLocalidad(id);
         return converter.toDTO(entity);
     }
 
     @Override
-    public List<ActividadDTO> listarTodos() {
-        List<Actividad> entities = actividadDAO.findActividadEntities();
-        return converter.toDTOActividadList(entities);
+    public List<LocalidadDTO> listarTodos() {
+        List<Localidad> entities = localidadDAO.findLocalidadEntities();        
+        return converter.toDTOLocalidadList(entities);        
     }
-
+    
 }

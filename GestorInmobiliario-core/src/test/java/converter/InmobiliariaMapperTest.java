@@ -5,32 +5,24 @@
  */
 package converter;
 
-import dto.ActividadDTO;
-import model.entity.Actividad;
+import dto.InmobiliariaDTO;
+import model.entity.Inmobiliaria;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.mapstruct.factory.Mappers;
 
-/**
- *
- * @author Ariel
- */
-public class ActividadMapperTest {
-    
+public class InmobiliariaMapperTest {
     @Test
     public void testToDTO() {
         System.out.println("toDTO");
-        Actividad entity = new Actividad("una");
+        Inmobiliaria entity = new Inmobiliaria();
         entity.setId(1l);
-        ActividadMapper converter = Mappers.getMapper(ActividadMapper.class);
+        InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
         
-        ActividadDTO expResult = new ActividadDTO();
-        expResult.setNombre("una");
+        InmobiliariaDTO expResult = new InmobiliariaDTO();
         expResult.setId(1l);
-        ActividadDTO result = converter.toDTO(entity);
+        InmobiliariaDTO result = converter.toDTO(entity);
         assertEquals(expResult.getId(), result.getId());
         
     }
-
-    
 }
