@@ -19,7 +19,10 @@ import java.util.List;
  */
 public interface IClienteService extends ICRUD<ClienteDTO>{    
     LocadorDTO listarLocadorID(Long id);
-    List<LocadorDTO> listarTodosLocadores();    
+    List<LocadorDTO> listarTodosLocadores();  
+    
+    LocatarioDTO listarLocatarioID(Long id);
+    List<LocatarioDTO> listarTodosLocatarios();
     
     LocatarioDependienteDTO listarLocatarioDependienteID(Long id);
     List<LocatarioDependienteDTO> listarTodosLocatariosDependientes();

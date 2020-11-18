@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package converter;
 
 import dto.ActividadDTO;
@@ -11,13 +6,16 @@ import dto.ArancelEspecialDTO;
 import dto.ArancelEspecialExpensaDTO;
 import dto.ArancelEspecialServicioDTO;
 import dto.BarrioDTO;
+import dto.BoletaDePagoDTO;
 import dto.CasaDTO;
 import dto.ClienteDTO;
+import dto.ComisionDTO;
 import dto.ComprobanteDeIngresoDTO;
 import dto.ComprobanteMonotributoDTO;
 import dto.ContratoAlquilerDTO;
 import dto.ContratoDTO;
 import dto.ContratoVentaDTO;
+import dto.CuotaVentaDTO;
 import dto.DepartamentoDTO;
 import dto.DocumentoDeIngresoDTO;
 import dto.EstadoCivilDTO;
@@ -26,6 +24,7 @@ import dto.GaranteDependienteDTO;
 import dto.GaranteIndependienteDTO;
 import dto.InmobiliariaDTO;
 import dto.InmuebleDTO;
+import dto.LineaDeComisionDTO;
 import dto.LocadorDTO;
 import dto.LocalComercialDTO;
 import dto.LocalidadDTO;
@@ -33,12 +32,16 @@ import dto.LocatarioDTO;
 import dto.LocatarioDependienteDTO;
 import dto.LocatarioEstudianteDTO;
 import dto.LocatarioIndependienteDTO;
+import dto.ProvinciaDTO;
+import dto.RecargoPorMoraDTO;
 import dto.ReciboDeSueldoDTO;
 import dto.TerrenoDTO;
 import dto.TipoDNIDTO;
+import dto.TipoUsuarioDTO;
 import dto.UsuarioClienteDTO;
 import dto.UsuarioDTO;
 import dto.UsuarioEmpresaDTO;
+import dto.VentaDTO;
 import java.util.List;
 import model.entity.Actividad;
 import model.entity.Alquiler;
@@ -46,13 +49,16 @@ import model.entity.ArancelEspecial;
 import model.entity.ArancelEspecialExpensa;
 import model.entity.ArancelEspecialServicio;
 import model.entity.Barrio;
+import model.entity.BoletaDePago;
 import model.entity.Casa;
 import model.entity.Cliente;
+import model.entity.Comision;
 import model.entity.ComprobanteDeIngreso;
 import model.entity.ComprobanteMonotributo;
 import model.entity.Contrato;
 import model.entity.ContratoAlquiler;
 import model.entity.ContratoVenta;
+import model.entity.CuotaVenta;
 import model.entity.Departamento;
 import model.entity.DocumentoDeIngreso;
 import model.entity.EstadoCivil;
@@ -61,6 +67,7 @@ import model.entity.GaranteDependiente;
 import model.entity.GaranteIndependiente;
 import model.entity.Inmobiliaria;
 import model.entity.Inmueble;
+import model.entity.LineaDeComision;
 import model.entity.Locador;
 import model.entity.LocalComercial;
 import model.entity.Localidad;
@@ -68,12 +75,16 @@ import model.entity.Locatario;
 import model.entity.LocatarioDependiente;
 import model.entity.LocatarioEstudiante;
 import model.entity.LocatarioIndependiente;
+import model.entity.Provincia;
+import model.entity.RecargoPorMora;
 import model.entity.ReciboDeSueldo;
 import model.entity.Terreno;
 import model.entity.TipoDNI;
+import model.entity.TipoUsuario;
 import model.entity.Usuario;
 import model.entity.UsuarioCliente;
 import model.entity.UsuarioEmpresa;
+import model.entity.Venta;
 import org.mapstruct.Mapper;
 
 @Mapper
@@ -106,7 +117,7 @@ public interface InmobiliariaMapper {
     }
 
     LocadorDTO toLocadorDTO(Locador entity);
-    
+
     default LocatarioDTO toDTO(Locatario entity) {
         LocatarioDTO dtoAux = null;
         if (entity == null) {
@@ -147,7 +158,7 @@ public interface InmobiliariaMapper {
     GaranteDependienteDTO toGaranteDependienteDTO(GaranteDependiente entity);
 
     GaranteIndependienteDTO toGaranteIndependienteDTO(GaranteIndependiente entity);
-    
+
     default InmuebleDTO toDTO(Inmueble entity) {
         InmuebleDTO dtoAux = null;
         if (entity == null) {
@@ -167,15 +178,15 @@ public interface InmobiliariaMapper {
         }
         return dtoAux;
     }
-    
+
     TerrenoDTO toTerrenoDTO(Terreno entity);
-    
+
     CasaDTO toCasaDTO(Casa entity);
-    
+
     DepartamentoDTO toDepartamentoDTO(Departamento entity);
-    
+
     LocalComercialDTO toLocalComercialDTO(LocalComercial entity);
-    
+
     default ComprobanteDeIngresoDTO toDTO(ComprobanteDeIngreso entity) {
         ComprobanteDeIngresoDTO dtoAux = null;
         if (entity == null) {
@@ -192,13 +203,13 @@ public interface InmobiliariaMapper {
         }
         return dtoAux;
     }
-    
+
     ReciboDeSueldoDTO toReciboDeSueldoDTO(ReciboDeSueldo entity);
-    
+
     ComprobanteMonotributoDTO toComprobanteMonotributoDTO(ComprobanteMonotributo entity);
-    
+
     DocumentoDeIngresoDTO toDocumentoDeIngresoDTO(DocumentoDeIngreso entity);
-    
+
     default ArancelEspecialDTO toDTO(ArancelEspecial entity) {
         ArancelEspecialDTO dtoAux = null;
         if (entity == null) {
@@ -212,11 +223,11 @@ public interface InmobiliariaMapper {
         }
         return dtoAux;
     }
-    
+
     ArancelEspecialExpensaDTO toArancelEspecialExpensaDTO(ArancelEspecialExpensa entity);
-    
+
     ArancelEspecialServicioDTO toArancelEspecialServicioDTO(ArancelEspecialServicio entity);
-    
+
     default UsuarioDTO toDTO(Usuario entity) {
         UsuarioDTO dtoAux = null;
         if (entity == null) {
@@ -230,11 +241,10 @@ public interface InmobiliariaMapper {
         }
         return dtoAux;
     }
-    
-    UsuarioEmpresaDTO toUsuarioEmpresaDTO(UsuarioEmpresa entity);
-    
-    UsuarioClienteDTO toUsuarioClienteDTO(UsuarioCliente entity);
 
+    UsuarioEmpresaDTO toUsuarioEmpresaDTO(UsuarioEmpresa entity);
+
+    UsuarioClienteDTO toUsuarioClienteDTO(UsuarioCliente entity);
 
     default ContratoDTO toDTO(Contrato entity) {
         ContratoDTO dtoAux = null;
@@ -249,15 +259,11 @@ public interface InmobiliariaMapper {
         }
         return dtoAux;
     }
-    
+
     ContratoVentaDTO toContratoVentaDTO(ContratoVenta entity);
-    
+
     ContratoAlquilerDTO toContratoAlquilerDTO(ContratoAlquiler entity);
-    
-    
-    
-    
-    
+
     default Cliente toEntity(ClienteDTO dto) {
         Cliente entityAux = null;
         if (dto == null) {
@@ -279,7 +285,7 @@ public interface InmobiliariaMapper {
     }
 
     Locador toLocadorEntity(LocadorDTO dto);
-    
+
     default Locatario toEntity(LocatarioDTO dto) {
         Locatario entityAux = null;
         if (dto == null) {
@@ -320,7 +326,7 @@ public interface InmobiliariaMapper {
     GaranteDependiente toGaranteDependienteEntity(GaranteDependienteDTO dto);
 
     GaranteIndependiente toGaranteIndependienteEntity(GaranteIndependienteDTO dto);
-    
+
     default Inmueble toEntity(InmuebleDTO dto) {
         Inmueble entityAux = null;
         if (dto == null) {
@@ -340,15 +346,15 @@ public interface InmobiliariaMapper {
         }
         return entityAux;
     }
-    
+
     Terreno toTerrenoEntity(TerrenoDTO dto);
-    
+
     Casa toCasaEntity(CasaDTO dto);
-    
+
     Departamento toDepartamentoEntity(DepartamentoDTO dto);
-    
+
     LocalComercial toLocalComercialEntity(LocalComercialDTO dto);
-    
+
     default ComprobanteDeIngreso toEntity(ComprobanteDeIngresoDTO dto) {
         ComprobanteDeIngreso entityAux = null;
         if (dto == null) {
@@ -365,13 +371,13 @@ public interface InmobiliariaMapper {
         }
         return entityAux;
     }
-    
+
     ReciboDeSueldo toReciboDeSueldoEntity(ReciboDeSueldoDTO dto);
-    
+
     ComprobanteMonotributo toComprobanteMonotributoEntity(ComprobanteMonotributoDTO dto);
-    
+
     DocumentoDeIngreso toDocumentoDeIngresoEntity(DocumentoDeIngresoDTO dto);
-    
+
     default ArancelEspecial toEntity(ArancelEspecialDTO dto) {
         ArancelEspecial entityAux = null;
         if (dto == null) {
@@ -385,11 +391,11 @@ public interface InmobiliariaMapper {
         }
         return entityAux;
     }
-    
+
     ArancelEspecialExpensa toArancelEspecialExpensaEntity(ArancelEspecialExpensaDTO dto);
-    
+
     ArancelEspecialServicio toArancelEspecialServicioEntity(ArancelEspecialServicioDTO dto);
-    
+
     default Usuario toEntity(UsuarioDTO dto) {
         Usuario entityAux = null;
         if (dto == null) {
@@ -403,11 +409,10 @@ public interface InmobiliariaMapper {
         }
         return entityAux;
     }
-    
-    UsuarioEmpresa toUsuarioEmpresaEntity(UsuarioEmpresaDTO dto);
-    
-    UsuarioCliente toUsuarioClienteEntity(UsuarioClienteDTO dto);
 
+    UsuarioEmpresa toUsuarioEmpresaEntity(UsuarioEmpresaDTO dto);
+
+    UsuarioCliente toUsuarioClienteEntity(UsuarioClienteDTO dto);
 
     default Contrato toEntity(ContratoDTO dto) {
         Contrato entityAux = null;
@@ -424,11 +429,8 @@ public interface InmobiliariaMapper {
     }
 
     ContratoVenta toContratoVentaEntity(ContratoVentaDTO dto);
-    
+
     ContratoAlquiler toContratoAlquilerEntity(ContratoAlquilerDTO dto);
-
-
-
 
     AlquilerDTO toDTO(Alquiler entity);
 
@@ -436,29 +438,29 @@ public interface InmobiliariaMapper {
 
     List<AlquilerDTO> toDTOAlquilerList(List<Alquiler> entities);
 
-
     ActividadDTO toDTO(Actividad entity);
 
     Actividad toEntity(ActividadDTO dto);
 
     List<ActividadDTO> toDTOActividadList(List<Actividad> entities);
 
-    
-    
     BarrioDTO toDTO(Barrio entity);
 
     Barrio toEntity(BarrioDTO dto);
 
     List<BarrioDTO> toDTOBarrioList(List<Barrio> entities);
 
+    TipoUsuarioDTO toDTO(TipoUsuario entity);
 
-    
-    EstadoCivilDTO toDTO(EstadoCivil entity);
+    TipoUsuario toEntity(TipoUsuarioDTO dto);
 
-    EstadoCivil toEntity(EstadoCivilDTO dto);
+    List<TipoUsuarioDTO> toDTOTipoUsuarioList(List<TipoUsuario> entities);
 
-    List<EstadoCivilDTO> toDTOEstadoCivilList(List<EstadoCivil> entities);
+    RecargoPorMoraDTO toDTO(RecargoPorMora entity);
 
+    RecargoPorMora toEntity(RecargoPorMoraDTO dto);
+
+    List<RecargoPorMoraDTO> toDTORecargoPorMoraList(List<RecargoPorMora> entities);
 
     LocalidadDTO toDTO(Localidad entity);
 
@@ -466,24 +468,105 @@ public interface InmobiliariaMapper {
 
     List<LocalidadDTO> toDTOLocalidadList(List<Localidad> entities);
 
-
     TipoDNIDTO toDTO(TipoDNI entity);
 
     TipoDNI toEntity(TipoDNIDTO dto);
 
     List<TipoDNIDTO> toDTOTipoDNIList(List<TipoDNI> entities);
 
-    
-    
+    CuotaVentaDTO toDTO(CuotaVenta entity);
+
+    CuotaVenta toEntity(CuotaVentaDTO dto);
+
+    List<CuotaVentaDTO> toDTOCuotaVentaList(List<CuotaVenta> entities);
+
+    VentaDTO toDTO(Venta entity);
+
+    Venta toEntity(VentaDTO dto);
+
+    List<VentaDTO> toDTOVentaList(List<Venta> entities);
+
+    ComisionDTO toDTO(Comision entity);
+
+    Comision toEntity(ComisionDTO dto);
+
+    List<ComisionDTO> toDTOComisionList(List<Comision> entities);
+
+    LineaDeComisionDTO toDTO(LineaDeComision entity);
+
+    LineaDeComision toEntity(LineaDeComisionDTO dto);
+
+    List<LineaDeComisionDTO> toDTOLineaDeComisionList(List<LineaDeComision> entities);
+
+    BoletaDePagoDTO toDTO(BoletaDePago entity);
+
+    BoletaDePago toEntity(BoletaDePagoDTO dto);
+
+    List<BoletaDePagoDTO> toDTOBoletaDePagoList(List<BoletaDePago> entities);
+
+    EstadoCivilDTO toDTO(EstadoCivil entity);
+
+    EstadoCivil toEntity(EstadoCivilDTO dto);
+
+    List<EstadoCivilDTO> toDTOEstadoCivilList(List<EstadoCivil> entities);
+
+    ProvinciaDTO toDTO(Provincia entity);
+
+    Provincia toEntity(ProvinciaDTO dto);
+
+    List<ProvinciaDTO> toDTOProvinciaList(List<Provincia> entities);
+
     List<TerrenoDTO> toDTOTerrenoList(List<Terreno> entities);
-    
+
     List<CasaDTO> toDTOCasaList(List<Casa> entities);
-    
+
     List<DepartamentoDTO> toDTODepartamentoList(List<Departamento> entities);
-    
+
     List<LocalComercialDTO> toDTOLocalComercialList(List<LocalComercial> entities);
-    
-    
+
     List<InmuebleDTO> toDTOInmuebleList(List<Inmueble> entities);
 
+    List<UsuarioDTO> toDTOUsuarioList(List<Usuario> entities);
+
+    List<UsuarioEmpresaDTO> toDTOUsuarioEmpresaList(List<UsuarioEmpresa> entities);
+
+    List<UsuarioClienteDTO> toDTOUsuarioClienteList(List<UsuarioCliente> entities);
+
+    List<ArancelEspecialDTO> toDTOArancelEspecialList(List<ArancelEspecial> entities);
+
+    List<ArancelEspecialExpensaDTO> toDTOArancelEspecialExpensaList(List<ArancelEspecialExpensa> entities);
+
+    List<ArancelEspecialServicioDTO> toDTOArancelEspecialServicioList(List<ArancelEspecialServicio> entities);
+
+    List<ClienteDTO> toDTOClienteList(List<Cliente> entities);
+
+    List<LocadorDTO> toDTOLocadorList(List<Locador> entities);
+
+    List<ContratoDTO> toDTOContratoList(List<Contrato> entities);
+
+    List<ContratoVentaDTO> toDTOContratoVentaList(List<ContratoVenta> entities);
+
+    List<ContratoAlquilerDTO> toDTOContratoAlquilerList(List<ContratoAlquiler> entities);
+
+    List<GaranteDTO> toDTOGaranteList(List<Garante> entities);
+
+    List<GaranteDependienteDTO> toDTOGaranteDependienteList(List<GaranteDependiente> entities);
+
+    List<GaranteIndependienteDTO> toDTOGaranteIndependienteList(List<GaranteIndependiente> entities);
+
+    List<LocatarioDTO> toDTOLocatarioList(List<Locatario> entities);
+
+    List<LocatarioDependienteDTO> toDTOLocatarioDependienteList(List<LocatarioDependiente> entities);
+
+    List<LocatarioIndependienteDTO> toDTOLocatarioIndependienteList(List<LocatarioIndependiente> entities);
+
+    List<LocatarioEstudianteDTO> toDTOLocatarioEstudianteList(List<LocatarioEstudiante> entities);
+
+    List<ComprobanteDeIngresoDTO> toDTOComprobanteDeIngresoList(List<ComprobanteDeIngreso> entities);
+
+    List<ReciboDeSueldoDTO> toDTOReciboDeSueldoList(List<ReciboDeSueldo> entities);
+
+    List<ComprobanteMonotributoDTO> toDTOComprobanteDeMonotributoList(List<ComprobanteMonotributo> entities);
+
+    List<DocumentoDeIngresoDTO> toDTODocumentoDeIngresoList(List<DocumentoDeIngreso> entities);
 }

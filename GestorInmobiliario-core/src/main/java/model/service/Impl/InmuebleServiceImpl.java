@@ -11,7 +11,6 @@ import dto.DepartamentoDTO;
 import dto.InmuebleDTO;
 import dto.LocalComercialDTO;
 import dto.TerrenoDTO;
-import java.util.ArrayList;
 import model.dao.CasaJpaController;
 import model.dao.Conexion;
 import model.dao.DepartamentoJpaController;

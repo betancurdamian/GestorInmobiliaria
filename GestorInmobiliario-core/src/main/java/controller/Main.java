@@ -8,11 +8,14 @@ package controller;
 import dto.ActividadDTO;
 import dto.BarrioDTO;
 import dto.CasaDTO;
+import dto.ClienteDTO;
 import dto.EstadoCivilDTO;
 import dto.InmuebleDTO;
+import dto.LocadorDTO;
 import dto.LocalidadDTO;
 import dto.TipoDNIDTO;
 import model.service.Impl.ActividadServiceImpl;
+import model.service.Impl.ClienteServiceImpl;
 import model.service.Impl.EstadoCivilServiceImpl;
 import model.service.Impl.InmuebleServiceImpl;
 import model.service.Impl.LocalidadServiceImpl;
@@ -25,16 +28,16 @@ import model.service.Impl.TipoDNIServiceImpl;
 public class Main {
     public static void main(String[] args) {
         
-       InmuebleServiceImpl service = new InmuebleServiceImpl();
+       ClienteServiceImpl service = new ClienteServiceImpl();
         
         
         //System.out.println("id: "+service.listarID(651l).getId());
         
-        CasaDTO dto = new CasaDTO();
+        LocadorDTO dto = new LocadorDTO();
         
        service.crear(dto);
         
-        for (InmuebleDTO l : service.listarTodos()) {
+        for (ClienteDTO l : service.listarTodos()) {
             System.out.println("id: "+l.getId());
         }
         
