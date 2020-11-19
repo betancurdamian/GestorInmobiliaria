@@ -24,12 +24,13 @@ import org.mapstruct.factory.Mappers;
 public class ProvinciaServiceImpl implements IProvinciaService {
 
     private final ProvinciaJpaController provinciaDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ProvinciaServiceImpl() {
         new Conexion();
-        this.provinciaDAO = new ProvinciaJpaController(Conexion.getEmf());        
+        this.provinciaDAO = new ProvinciaJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ProvinciaServiceImpl implements IProvinciaService {
         } else {
             System.out.println("El DTO es null");
         }
-        return dto;        
+        return dto;
     }
 
     @Override

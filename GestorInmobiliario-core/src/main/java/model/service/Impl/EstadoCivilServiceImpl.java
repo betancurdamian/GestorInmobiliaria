@@ -21,18 +21,18 @@ import org.mapstruct.factory.Mappers;
  *
  * @author Ariel
  */
-public class EstadoCivilServiceImpl implements IEstadoCivilService{
-    
+public class EstadoCivilServiceImpl implements IEstadoCivilService {
+
     private final EstadoCivilJpaController estadoCivilDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public EstadoCivilServiceImpl() {
         new Conexion();
-        this.estadoCivilDAO = new EstadoCivilJpaController(Conexion.getEmf());        
+        this.estadoCivilDAO = new EstadoCivilJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
-    
     @Override
     public EstadoCivilDTO crear(EstadoCivilDTO dto) {
         if (dto != null) {
@@ -93,5 +93,5 @@ public class EstadoCivilServiceImpl implements IEstadoCivilService{
         List<EstadoCivil> entities = estadoCivilDAO.findEstadoCivilEntities();
         return converter.toDTOEstadoCivilList(entities);
     }
-    
+
 }

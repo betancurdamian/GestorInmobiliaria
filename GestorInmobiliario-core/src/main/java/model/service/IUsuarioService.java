@@ -5,12 +5,19 @@
  */
 package model.service;
 
+import dto.UsuarioClienteDTO;
 import dto.UsuarioDTO;
+import dto.UsuarioEmpresaDTO;
+import java.util.List;
 
 /**
  *
  * @author Ariel
  */
 public interface IUsuarioService extends ICRUD<UsuarioDTO>{
+    UsuarioEmpresaDTO listarUsuarioEmpresaID(Long id);
+    List<UsuarioEmpresaDTO> listarTodosUsuariosEmpresas();
     
+    UsuarioClienteDTO listarUsuarioClienteID(Long id);
+    List<UsuarioClienteDTO> listarTodosUsuariosClientes();
 }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.service.Impl;
 
 import converter.InmobiliariaMapper;
@@ -33,7 +29,7 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
     private final ArancelEspecialExpensaJpaController arancelEspecialExpensaDAO;
     private final ArancelEspecialServicioJpaController arancelEspecialServicioDAO;
     private final ArancelEspecialJpaController arancelEspecialDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ArancelEspecialServiceImpl() {
@@ -41,20 +37,21 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
         this.arancelEspecialDAO = new ArancelEspecialJpaController(Conexion.getEmf());
         this.arancelEspecialExpensaDAO = new ArancelEspecialExpensaJpaController(Conexion.getEmf());
         this.arancelEspecialServicioDAO = new ArancelEspecialServicioJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     @Override
     public ArancelEspecialDTO crear(ArancelEspecialDTO dto) {
         if (dto != null) {
             if (dto instanceof ArancelEspecialExpensaDTO) {
-                ArancelEspecialExpensa entity = (ArancelEspecialExpensa) converter.toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
+                ArancelEspecialExpensa entity = converter.toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
                 entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                 this.arancelEspecialExpensaDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof ArancelEspecialServicioDTO) {
 
-                ArancelEspecialServicio entity = (ArancelEspecialServicio) converter.toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
+                ArancelEspecialServicio entity = converter.toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
                 entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                 this.arancelEspecialServicioDAO.create(entity);
                 dto.setId(entity.getId());
@@ -71,7 +68,7 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
             if (dto.getId() != null) {
                 if (dto instanceof ArancelEspecialExpensaDTO) {
                     try {
-                        ArancelEspecialExpensa entity = (ArancelEspecialExpensa) converter.toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
+                        ArancelEspecialExpensa entity = converter.toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
                         entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                         this.arancelEspecialExpensaDAO.edit(entity);
                         dto.setId(entity.getId());
@@ -81,7 +78,7 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
                 }
                 if (dto instanceof ArancelEspecialServicioDTO) {
                     try {
-                        ArancelEspecialServicio entity = (ArancelEspecialServicio) converter.toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
+                        ArancelEspecialServicio entity = converter.toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
                         entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                         this.arancelEspecialServicioDAO.edit(entity);
                         dto.setId(entity.getId());
@@ -132,5 +129,29 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
     public List<ArancelEspecialDTO> listarTodos() {
         List<ArancelEspecial> entities = arancelEspecialDAO.findArancelEspecialEntities();
         return converter.toDTOArancelEspecialList(entities);
+    }
+
+    @Override
+    public ArancelEspecialExpensaDTO listarArancelEspecialExpensaID(Long id) {
+        ArancelEspecialExpensa entity = arancelEspecialExpensaDAO.findArancelEspecialExpensa(id);
+        return converter.toArancelEspecialExpensaDTO(entity);
+    }
+
+    @Override
+    public List<ArancelEspecialExpensaDTO> listarTodosArancelEspecialesExpensas() {
+        List<ArancelEspecialExpensa> entities = arancelEspecialExpensaDAO.findArancelEspecialExpensaEntities();
+        return converter.toDTOArancelEspecialExpensaList(entities);
+    }
+
+    @Override
+    public ArancelEspecialServicioDTO listarArancelEspecialServicioID(Long id) {
+        ArancelEspecialServicio entity = arancelEspecialServicioDAO.findArancelEspecialServicio(id);
+        return converter.toArancelEspecialServicioDTO(entity);
+    }
+
+    @Override
+    public List<ArancelEspecialServicioDTO> listarTodosArancelEspecialesServicios() {
+        List<ArancelEspecialServicio> entities = arancelEspecialServicioDAO.findArancelEspecialServicioEntities();
+        return converter.toDTOArancelEspecialServicioList(entities);
     }
 }

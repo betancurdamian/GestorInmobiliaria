@@ -5,10 +5,17 @@
  */
 package model.service.Impl;
 
+import converter.InmobiliariaMapper;
 import dto.RecargoPorMoraDTO;
 import model.dao.Conexion;
 import model.service.IRecargoPorMoraService;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.dao.RecargoPorMoraJpaController;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.RecargoPorMora;
+import org.mapstruct.factory.Mappers;
 
 /**
  *
@@ -16,34 +23,75 @@ import java.util.List;
  */
 public class RecargoPorMoraServiceImpl implements IRecargoPorMoraService{
 
+    private final RecargoPorMoraJpaController recargoPorMoraDAO;
+    private final InmobiliariaMapper converter;
+    
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public RecargoPorMoraServiceImpl() {
         new Conexion();
+        this.recargoPorMoraDAO = new RecargoPorMoraJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     @Override
     public RecargoPorMoraDTO crear(RecargoPorMoraDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (dto != null) {
+            RecargoPorMora entity = converter.toEntity(dto);
+            this.recargoPorMoraDAO.create(entity);
+            dto.setId(entity.getId());
+        } else {
+            System.out.println("El DTO es null");
+        }
+        return dto;
     }
 
     @Override
     public RecargoPorMoraDTO modificar(RecargoPorMoraDTO dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (dto != null) {
+            if (dto.getId() != null) {
+                try {
+                    RecargoPorMora entity = converter.toEntity(dto);
+                    recargoPorMoraDAO.edit(entity);
+                    dto.setId(entity.getId());
+                } catch (Exception ex) {
+                    Logger.getLogger(RecargoPorMoraServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("ID  DTO is null");
+            }
+        } else {
+            System.out.println("DTO is null");
+        }
+        return dto;
     }
 
     @Override
     public void eliminar(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (id != null) {
+            if (recargoPorMoraDAO.findRecargoPorMora(id) != null) {
+                try {
+                    recargoPorMoraDAO.destroy(id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(RecargoPorMoraServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("NO EXIST Entity to Delete");
+            }
+        } else {
+            System.out.println("ID is null");
+        }
     }
 
     @Override
     public RecargoPorMoraDTO listarID(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RecargoPorMora entity = recargoPorMoraDAO.findRecargoPorMora(id);
+        return converter.toDTO(entity);
     }
 
     @Override
     public List<RecargoPorMoraDTO> listarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<RecargoPorMora> entities = recargoPorMoraDAO.findRecargoPorMoraEntities();
+        return converter.toDTORecargoPorMoraList(entities);
     }
     
 }

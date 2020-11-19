@@ -24,12 +24,13 @@ import converter.InmobiliariaMapper;
 public class ActividadServiceImpl implements IActividadService {
 
     private final ActividadJpaController actividadDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ActividadServiceImpl() {
         new Conexion();
         this.actividadDAO = new ActividadJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     @Override

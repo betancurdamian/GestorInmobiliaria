@@ -6,11 +6,23 @@
 package model.service;
 
 import dto.ComprobanteDeIngresoDTO;
+import dto.ComprobanteMonotributoDTO;
+import dto.DocumentoDeIngresoDTO;
+import dto.ReciboDeSueldoDTO;
+import java.util.List;
 
 /**
  *
  * @author Ariel
  */
 public interface IComprobanteDeIngresoService extends ICRUD<ComprobanteDeIngresoDTO>{
+     
+    ReciboDeSueldoDTO listarReciboDeSueldoID(Long id);
+    List<ReciboDeSueldoDTO> listarTodosReciboDeSueldos();
     
+    ComprobanteMonotributoDTO listarComprobanteMonotributoID(Long id);
+    List<ComprobanteMonotributoDTO> listarTodosComprobanteMonotributos();
+    
+    DocumentoDeIngresoDTO listarDocumentoDeIngresoID(Long id);
+    List<DocumentoDeIngresoDTO> listarTodosDocumentoDeIngresos();
 }

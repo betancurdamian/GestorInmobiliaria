@@ -36,7 +36,7 @@ public class InmuebleServiceImpl implements IInmuebleService {
     private final CasaJpaController casaDAO;
     private final DepartamentoJpaController departamentoDAO;
     private final LocalComercialJpaController localComercialDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public InmuebleServiceImpl() {
@@ -46,6 +46,7 @@ public class InmuebleServiceImpl implements IInmuebleService {
         this.departamentoDAO = new DepartamentoJpaController(Conexion.getEmf());
         this.localComercialDAO = new LocalComercialJpaController(Conexion.getEmf());
         this.inmuebleDAO = new InmuebleJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
 
     }
 
@@ -83,7 +84,6 @@ public class InmuebleServiceImpl implements IInmuebleService {
             if (dto instanceof TerrenoDTO) {
                 try {
                     Terreno entity = converter.toTerrenoEntity((TerrenoDTO) dto);
-
                     terrenoDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -93,7 +93,6 @@ public class InmuebleServiceImpl implements IInmuebleService {
             if (dto instanceof CasaDTO) {
                 try {
                     Casa entity = converter.toCasaEntity((CasaDTO) dto);
-
                     casaDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -103,7 +102,6 @@ public class InmuebleServiceImpl implements IInmuebleService {
             if (dto instanceof DepartamentoDTO) {
                 try {
                     Departamento entity = converter.toDepartamentoEntity((DepartamentoDTO) dto);
-
                     departamentoDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -113,7 +111,6 @@ public class InmuebleServiceImpl implements IInmuebleService {
             if (dto instanceof LocalComercialDTO) {
                 try {
                     LocalComercial entity = converter.toLocalComercialEntity((LocalComercialDTO) dto);
-
                     localComercialDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -126,10 +123,18 @@ public class InmuebleServiceImpl implements IInmuebleService {
 
     @Override
     public void eliminar(Long id) {
-        try {
-            inmuebleDAO.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        if (id != null) {
+            if (inmuebleDAO.findInmueble(id) != null) {
+                try {
+                    inmuebleDAO.destroy(id);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(InmuebleServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("NO EXIST Entity to Delete");
+            }
+        } else {
+            System.out.println("ID is null");
         }
 
     }
@@ -139,7 +144,7 @@ public class InmuebleServiceImpl implements IInmuebleService {
         InmuebleDTO dto = null;
         Inmueble entity = inmuebleDAO.findInmueble(id);
         if (entity instanceof Terreno) {
-             dto = converter.toTerrenoDTO((Terreno) entity);
+            dto = converter.toTerrenoDTO((Terreno) entity);
         }
         if (entity instanceof Casa) {
             dto = converter.toCasaDTO((Casa) entity);
@@ -158,8 +163,56 @@ public class InmuebleServiceImpl implements IInmuebleService {
 
     @Override
     public List<InmuebleDTO> listarTodos() {
-        List<Inmueble> entities = inmuebleDAO.findInmuebleEntities();        
+        List<Inmueble> entities = inmuebleDAO.findInmuebleEntities();
         return converter.toDTOInmuebleList(entities);
+    }
+
+    @Override
+    public TerrenoDTO listarTerrenoID(Long id) {
+        Terreno entity = terrenoDAO.findTerreno(id);
+        return converter.toTerrenoDTO(entity);
+    }
+
+    @Override
+    public List<TerrenoDTO> listarTodosTerrenos() {
+        List<Terreno> entities = terrenoDAO.findTerrenoEntities();
+        return converter.toDTOTerrenoList(entities);
+    }
+
+    @Override
+    public CasaDTO listarCasaID(Long id) {
+        Casa entity = casaDAO.findCasa(id);
+        return converter.toCasaDTO(entity);
+    }
+
+    @Override
+    public List<CasaDTO> listarTodasCasas() {
+        List<Casa> entities = casaDAO.findCasaEntities();
+        return converter.toDTOCasaList(entities);
+    }
+
+    @Override
+    public DepartamentoDTO listarDepartamentoID(Long id) {
+        Departamento entity = departamentoDAO.findDepartamento(id);
+        return converter.toDepartamentoDTO(entity);
+    }
+
+    @Override
+    public List<DepartamentoDTO> listarTodosDepartamentos() {
+        List<Departamento> entities = departamentoDAO.findDepartamentoEntities();
+        return converter.toDTODepartamentoList(entities);
+    }
+
+    @Override
+    public LocalComercialDTO listarLocalComercialID(Long id) {
+        LocalComercial entity = localComercialDAO.findLocalComercial(id);
+        return converter.toLocalComercialDTO(entity);
+    }
+
+    @Override
+    public List<LocalComercialDTO> listarTodosLocalesComerciales() {
+        List<LocalComercial> entities = localComercialDAO.findLocalComercialEntities();
+        return converter.toDTOLocalComercialList(entities);
     }
 
 }

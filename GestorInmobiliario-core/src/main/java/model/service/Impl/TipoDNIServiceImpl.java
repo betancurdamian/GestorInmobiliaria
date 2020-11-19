@@ -16,12 +16,13 @@ import org.mapstruct.factory.Mappers;
 public class TipoDNIServiceImpl implements ITipoDNIService{
 
     private final TipoDNIJpaController tipoDNIDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
     
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public TipoDNIServiceImpl() {
         new Conexion();
         this.tipoDNIDAO = new TipoDNIJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     

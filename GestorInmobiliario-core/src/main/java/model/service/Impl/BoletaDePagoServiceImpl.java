@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model.service.Impl;
 
 import converter.InmobiliariaMapper;
@@ -24,12 +20,13 @@ import org.mapstruct.factory.Mappers;
 public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
 
     private final BoletaDePagoJpaController boletaDePagoDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public BoletaDePagoServiceImpl() {
         new Conexion();
         this.boletaDePagoDAO = new BoletaDePagoJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     @Override

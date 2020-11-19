@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.service.Impl;
 
 import converter.InmobiliariaMapper;
@@ -28,12 +23,13 @@ public class ComisionServiceImpl implements IComisionService {
 
     private final ComisionJpaController comisionDAO;
     private final LineaDeComisionJpaController lineaDeComisionDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ComisionServiceImpl() {
         this.comisionDAO = new ComisionJpaController(Conexion.getEmf());
         this.lineaDeComisionDAO = new LineaDeComisionJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     @Override

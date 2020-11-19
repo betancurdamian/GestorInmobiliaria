@@ -6,11 +6,18 @@
 package model.service;
 
 import dto.GaranteDTO;
+import dto.GaranteDependienteDTO;
+import dto.GaranteIndependienteDTO;
+import java.util.List;
 
 /**
  *
  * @author Ariel
  */
 public interface IGaranteService extends ICRUD<GaranteDTO>{
+    GaranteDependienteDTO listarGaranteDependienteID(Long id);
+    List<GaranteDependienteDTO> listarTodosGarantesDependientes();
     
+    GaranteIndependienteDTO listarGaranteIndependienteID(Long id);
+    List<GaranteIndependienteDTO> listarTodosGarantesIndependientes();
 }

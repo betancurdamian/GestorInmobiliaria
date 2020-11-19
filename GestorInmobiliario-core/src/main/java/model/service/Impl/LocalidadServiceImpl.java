@@ -20,12 +20,13 @@ import org.mapstruct.factory.Mappers;
 public class LocalidadServiceImpl implements ILocalidadService{
 
     private final LocalidadJpaController localidadDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
     
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public LocalidadServiceImpl() {
         new Conexion();
-        this.localidadDAO = new LocalidadJpaController(Conexion.getEmf());        
+        this.localidadDAO = new LocalidadJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
     
     @Override

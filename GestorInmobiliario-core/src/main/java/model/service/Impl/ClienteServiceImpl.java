@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.service.Impl;
 
 import converter.InmobiliariaMapper;
@@ -44,7 +39,7 @@ public class ClienteServiceImpl implements IClienteService {
     private final LocatarioDependienteJpaController locatarioDependienteDAO;
     private final LocatarioIndependienteJpaController locatarioIndependienteDAO;
     private final LocatarioEstudianteJpaController locatarioEstudianteDAO;
-    private final InmobiliariaMapper converter = Mappers.getMapper(InmobiliariaMapper.class);
+    private final InmobiliariaMapper converter;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ClienteServiceImpl() {
@@ -55,6 +50,7 @@ public class ClienteServiceImpl implements IClienteService {
         this.locatarioDependienteDAO = new LocatarioDependienteJpaController(Conexion.getEmf());
         this.locatarioIndependienteDAO = new LocatarioIndependienteJpaController(Conexion.getEmf());
         this.locatarioEstudianteDAO = new LocatarioEstudianteJpaController(Conexion.getEmf());
+        this.converter = Mappers.getMapper(InmobiliariaMapper.class);
     }
 
     @Override
