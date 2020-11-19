@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Inmobiliaria;
+import model.entity.Locador;
 import model.entity.LocalComercial;
 
 /**
@@ -42,10 +43,19 @@ public class LocalComercialJpaController implements Serializable {
                 unaInmobiliariaInmueble = em.getReference(unaInmobiliariaInmueble.getClass(), unaInmobiliariaInmueble.getId());
                 localComercial.setUnaInmobiliariaInmueble(unaInmobiliariaInmueble);
             }
+            Locador unLocador = localComercial.getUnLocador();
+            if (unLocador != null) {
+                unLocador = em.getReference(unLocador.getClass(), unLocador.getId());
+                localComercial.setUnLocador(unLocador);
+            }
             em.persist(localComercial);
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().add(localComercial);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
+            }
+            if (unLocador != null) {
+                unLocador.getInmuebles().add(localComercial);
+                unLocador = em.merge(unLocador);
             }
             em.getTransaction().commit();
         } finally {
@@ -63,9 +73,15 @@ public class LocalComercialJpaController implements Serializable {
             LocalComercial persistentLocalComercial = em.find(LocalComercial.class, localComercial.getId());
             Inmobiliaria unaInmobiliariaInmuebleOld = persistentLocalComercial.getUnaInmobiliariaInmueble();
             Inmobiliaria unaInmobiliariaInmuebleNew = localComercial.getUnaInmobiliariaInmueble();
+            Locador unLocadorOld = persistentLocalComercial.getUnLocador();
+            Locador unLocadorNew = localComercial.getUnLocador();
             if (unaInmobiliariaInmuebleNew != null) {
                 unaInmobiliariaInmuebleNew = em.getReference(unaInmobiliariaInmuebleNew.getClass(), unaInmobiliariaInmuebleNew.getId());
                 localComercial.setUnaInmobiliariaInmueble(unaInmobiliariaInmuebleNew);
+            }
+            if (unLocadorNew != null) {
+                unLocadorNew = em.getReference(unLocadorNew.getClass(), unLocadorNew.getId());
+                localComercial.setUnLocador(unLocadorNew);
             }
             localComercial = em.merge(localComercial);
             if (unaInmobiliariaInmuebleOld != null && !unaInmobiliariaInmuebleOld.equals(unaInmobiliariaInmuebleNew)) {
@@ -75,6 +91,14 @@ public class LocalComercialJpaController implements Serializable {
             if (unaInmobiliariaInmuebleNew != null && !unaInmobiliariaInmuebleNew.equals(unaInmobiliariaInmuebleOld)) {
                 unaInmobiliariaInmuebleNew.getInmuebles().add(localComercial);
                 unaInmobiliariaInmuebleNew = em.merge(unaInmobiliariaInmuebleNew);
+            }
+            if (unLocadorOld != null && !unLocadorOld.equals(unLocadorNew)) {
+                unLocadorOld.getInmuebles().remove(localComercial);
+                unLocadorOld = em.merge(unLocadorOld);
+            }
+            if (unLocadorNew != null && !unLocadorNew.equals(unLocadorOld)) {
+                unLocadorNew.getInmuebles().add(localComercial);
+                unLocadorNew = em.merge(unLocadorNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -109,6 +133,11 @@ public class LocalComercialJpaController implements Serializable {
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().remove(localComercial);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
+            }
+            Locador unLocador = localComercial.getUnLocador();
+            if (unLocador != null) {
+                unLocador.getInmuebles().remove(localComercial);
+                unLocador = em.merge(unLocador);
             }
             em.remove(localComercial);
             em.getTransaction().commit();

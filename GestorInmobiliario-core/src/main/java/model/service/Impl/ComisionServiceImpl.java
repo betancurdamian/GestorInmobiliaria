@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dao.ComisionJpaController;
 import model.dao.LineaDeComisionJpaController;
-import model.dao.exceptions.IllegalOrphanException;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Comision;
 import model.entity.LineaDeComision;
@@ -92,8 +91,6 @@ public class ComisionServiceImpl implements IComisionService {
                 try {
                     comisionDAO.destroy(id);
                 } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalOrphanException ex) {
                     Logger.getLogger(ComisionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {

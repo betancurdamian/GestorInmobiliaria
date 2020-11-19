@@ -6,17 +6,19 @@
 package model.dao;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Inmobiliaria;
-import model.entity.Locador;
 import model.entity.UsuarioCliente;
+import model.entity.Inmueble;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import model.dao.exceptions.NonexistentEntityException;
+import model.entity.Locador;
 
 /**
  *
@@ -34,6 +36,9 @@ public class LocadorJpaController implements Serializable {
     }
 
     public void create(Locador locador) {
+        if (locador.getInmuebles() == null) {
+            locador.setInmuebles(new ArrayList<Inmueble>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -48,6 +53,12 @@ public class LocadorJpaController implements Serializable {
                 unUsuarioCliente = em.getReference(unUsuarioCliente.getClass(), unUsuarioCliente.getId());
                 locador.setUnUsuarioCliente(unUsuarioCliente);
             }
+            List<Inmueble> attachedInmuebles = new ArrayList<Inmueble>();
+            for (Inmueble inmueblesInmuebleToAttach : locador.getInmuebles()) {
+                inmueblesInmuebleToAttach = em.getReference(inmueblesInmuebleToAttach.getClass(), inmueblesInmuebleToAttach.getId());
+                attachedInmuebles.add(inmueblesInmuebleToAttach);
+            }
+            locador.setInmuebles(attachedInmuebles);
             em.persist(locador);
             if (unaInmobiliariaCliente != null) {
                 unaInmobiliariaCliente.getClientes().add(locador);
@@ -61,6 +72,15 @@ public class LocadorJpaController implements Serializable {
                 }
                 unUsuarioCliente.setUnCliente(locador);
                 unUsuarioCliente = em.merge(unUsuarioCliente);
+            }
+            for (Inmueble inmueblesInmueble : locador.getInmuebles()) {
+                Locador oldUnLocadorOfInmueblesInmueble = inmueblesInmueble.getUnLocador();
+                inmueblesInmueble.setUnLocador(locador);
+                inmueblesInmueble = em.merge(inmueblesInmueble);
+                if (oldUnLocadorOfInmueblesInmueble != null) {
+                    oldUnLocadorOfInmueblesInmueble.getInmuebles().remove(inmueblesInmueble);
+                    oldUnLocadorOfInmueblesInmueble = em.merge(oldUnLocadorOfInmueblesInmueble);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -80,6 +100,8 @@ public class LocadorJpaController implements Serializable {
             Inmobiliaria unaInmobiliariaClienteNew = locador.getUnaInmobiliariaCliente();
             UsuarioCliente unUsuarioClienteOld = persistentLocador.getUnUsuarioCliente();
             UsuarioCliente unUsuarioClienteNew = locador.getUnUsuarioCliente();
+            List<Inmueble> inmueblesOld = persistentLocador.getInmuebles();
+            List<Inmueble> inmueblesNew = locador.getInmuebles();
             if (unaInmobiliariaClienteNew != null) {
                 unaInmobiliariaClienteNew = em.getReference(unaInmobiliariaClienteNew.getClass(), unaInmobiliariaClienteNew.getId());
                 locador.setUnaInmobiliariaCliente(unaInmobiliariaClienteNew);
@@ -88,6 +110,13 @@ public class LocadorJpaController implements Serializable {
                 unUsuarioClienteNew = em.getReference(unUsuarioClienteNew.getClass(), unUsuarioClienteNew.getId());
                 locador.setUnUsuarioCliente(unUsuarioClienteNew);
             }
+            List<Inmueble> attachedInmueblesNew = new ArrayList<Inmueble>();
+            for (Inmueble inmueblesNewInmuebleToAttach : inmueblesNew) {
+                inmueblesNewInmuebleToAttach = em.getReference(inmueblesNewInmuebleToAttach.getClass(), inmueblesNewInmuebleToAttach.getId());
+                attachedInmueblesNew.add(inmueblesNewInmuebleToAttach);
+            }
+            inmueblesNew = attachedInmueblesNew;
+            locador.setInmuebles(inmueblesNew);
             locador = em.merge(locador);
             if (unaInmobiliariaClienteOld != null && !unaInmobiliariaClienteOld.equals(unaInmobiliariaClienteNew)) {
                 unaInmobiliariaClienteOld.getClientes().remove(locador);
@@ -109,6 +138,23 @@ public class LocadorJpaController implements Serializable {
                 }
                 unUsuarioClienteNew.setUnCliente(locador);
                 unUsuarioClienteNew = em.merge(unUsuarioClienteNew);
+            }
+            for (Inmueble inmueblesOldInmueble : inmueblesOld) {
+                if (!inmueblesNew.contains(inmueblesOldInmueble)) {
+                    inmueblesOldInmueble.setUnLocador(null);
+                    inmueblesOldInmueble = em.merge(inmueblesOldInmueble);
+                }
+            }
+            for (Inmueble inmueblesNewInmueble : inmueblesNew) {
+                if (!inmueblesOld.contains(inmueblesNewInmueble)) {
+                    Locador oldUnLocadorOfInmueblesNewInmueble = inmueblesNewInmueble.getUnLocador();
+                    inmueblesNewInmueble.setUnLocador(locador);
+                    inmueblesNewInmueble = em.merge(inmueblesNewInmueble);
+                    if (oldUnLocadorOfInmueblesNewInmueble != null && !oldUnLocadorOfInmueblesNewInmueble.equals(locador)) {
+                        oldUnLocadorOfInmueblesNewInmueble.getInmuebles().remove(inmueblesNewInmueble);
+                        oldUnLocadorOfInmueblesNewInmueble = em.merge(oldUnLocadorOfInmueblesNewInmueble);
+                    }
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -148,6 +194,11 @@ public class LocadorJpaController implements Serializable {
             if (unUsuarioCliente != null) {
                 unUsuarioCliente.setUnCliente(null);
                 unUsuarioCliente = em.merge(unUsuarioCliente);
+            }
+            List<Inmueble> inmuebles = locador.getInmuebles();
+            for (Inmueble inmueblesInmueble : inmuebles) {
+                inmueblesInmueble.setUnLocador(null);
+                inmueblesInmueble = em.merge(inmueblesInmueble);
             }
             em.remove(locador);
             em.getTransaction().commit();

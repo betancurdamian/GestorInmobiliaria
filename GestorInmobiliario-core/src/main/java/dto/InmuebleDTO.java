@@ -21,6 +21,7 @@ public abstract class InmuebleDTO {
     private Boolean disponible;
     private String descripcion;
     private InmobiliariaDTO unaInmobiliariaInmueble;
+    private LocadorDTO unaLocador;
 
     public Long getId() {
         return id;
@@ -100,6 +101,14 @@ public abstract class InmuebleDTO {
 
     public void setUnaInmobiliariaInmueble(InmobiliariaDTO unaInmobiliariaInmueble) {
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
+    }
+
+    public LocadorDTO getUnaLocador() {
+        return unaLocador;
+    }
+
+    public void setUnaLocador(LocadorDTO unaLocador) {
+        this.unaLocador = unaLocador;
     }
 
     

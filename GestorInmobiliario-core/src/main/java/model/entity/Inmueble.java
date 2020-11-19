@@ -63,11 +63,15 @@ public abstract class Inmueble implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaInmueble;
+    
+    @ManyToOne
+    @JoinColumn(name = "fk_locador")
+    private Locador unLocador;
 
     public Inmueble() {
     }
 
-    public Inmueble(String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
+    public Inmueble(String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unaLocador) {
         this.direccionCalle = direccionCalle;
         this.direccionNumero = direccionNumero;
         this.direccionProvincia = direccionProvincia;
@@ -77,7 +81,10 @@ public abstract class Inmueble implements Serializable {
         this.disponible = disponible;
         this.descripcion = descripcion;
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
+        this.unLocador = unaLocador;
     }
+
+    
 
     public Long getId() {
         return id;
@@ -158,5 +165,15 @@ public abstract class Inmueble implements Serializable {
     public void setUnaInmobiliariaInmueble(Inmobiliaria unaInmobiliariaInmueble) {
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
+
+    public Locador getUnLocador() {
+        return unLocador;
+    }
+
+    public void setUnLocador(Locador unLocador) {
+        this.unLocador = unLocador;
+    }
+    
+    
 
 }

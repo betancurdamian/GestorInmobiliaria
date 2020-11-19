@@ -43,6 +43,17 @@ public class Casa extends Inmueble {
         this.jardin = jardin;
     }
 
+    public Casa(Integer cantidadDeDormitorios, Integer cantidadDeBanio, Integer numeroDePisos, Boolean cochera, Boolean jardin, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unaLocador) {
+        super(direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble, unaLocador);
+        this.cantidadDeDormitorios = cantidadDeDormitorios;
+        this.cantidadDeBanio = cantidadDeBanio;
+        this.numeroDePisos = numeroDePisos;
+        this.cochera = cochera;
+        this.jardin = jardin;
+    }
+
+    
+
     public Integer getCantidadDeDormitorios() {
         return cantidadDeDormitorios;
     }

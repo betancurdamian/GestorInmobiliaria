@@ -31,11 +31,13 @@ public class LocalComercial extends Inmueble {
         this.cochera = cochera;
     }
 
-    public LocalComercial(Integer cantidadDeBanio, Boolean cochera, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble) {
-        super(direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble);
+    public LocalComercial(Integer cantidadDeBanio, Boolean cochera, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unaLocador) {
+        super(direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble, unaLocador);
         this.cantidadDeBanio = cantidadDeBanio;
         this.cochera = cochera;
     }
+
+    
 
     public Integer getCantidadDeBanio() {
         return cantidadDeBanio;

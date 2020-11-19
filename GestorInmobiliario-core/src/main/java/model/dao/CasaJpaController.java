@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Casa;
 import model.entity.Inmobiliaria;
+import model.entity.Locador;
 
 /**
  *
@@ -42,10 +43,19 @@ public class CasaJpaController implements Serializable {
                 unaInmobiliariaInmueble = em.getReference(unaInmobiliariaInmueble.getClass(), unaInmobiliariaInmueble.getId());
                 casa.setUnaInmobiliariaInmueble(unaInmobiliariaInmueble);
             }
+            Locador unLocador = casa.getUnLocador();
+            if (unLocador != null) {
+                unLocador = em.getReference(unLocador.getClass(), unLocador.getId());
+                casa.setUnLocador(unLocador);
+            }
             em.persist(casa);
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().add(casa);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
+            }
+            if (unLocador != null) {
+                unLocador.getInmuebles().add(casa);
+                unLocador = em.merge(unLocador);
             }
             em.getTransaction().commit();
         } finally {
@@ -63,9 +73,15 @@ public class CasaJpaController implements Serializable {
             Casa persistentCasa = em.find(Casa.class, casa.getId());
             Inmobiliaria unaInmobiliariaInmuebleOld = persistentCasa.getUnaInmobiliariaInmueble();
             Inmobiliaria unaInmobiliariaInmuebleNew = casa.getUnaInmobiliariaInmueble();
+            Locador unLocadorOld = persistentCasa.getUnLocador();
+            Locador unLocadorNew = casa.getUnLocador();
             if (unaInmobiliariaInmuebleNew != null) {
                 unaInmobiliariaInmuebleNew = em.getReference(unaInmobiliariaInmuebleNew.getClass(), unaInmobiliariaInmuebleNew.getId());
                 casa.setUnaInmobiliariaInmueble(unaInmobiliariaInmuebleNew);
+            }
+            if (unLocadorNew != null) {
+                unLocadorNew = em.getReference(unLocadorNew.getClass(), unLocadorNew.getId());
+                casa.setUnLocador(unLocadorNew);
             }
             casa = em.merge(casa);
             if (unaInmobiliariaInmuebleOld != null && !unaInmobiliariaInmuebleOld.equals(unaInmobiliariaInmuebleNew)) {
@@ -75,6 +91,14 @@ public class CasaJpaController implements Serializable {
             if (unaInmobiliariaInmuebleNew != null && !unaInmobiliariaInmuebleNew.equals(unaInmobiliariaInmuebleOld)) {
                 unaInmobiliariaInmuebleNew.getInmuebles().add(casa);
                 unaInmobiliariaInmuebleNew = em.merge(unaInmobiliariaInmuebleNew);
+            }
+            if (unLocadorOld != null && !unLocadorOld.equals(unLocadorNew)) {
+                unLocadorOld.getInmuebles().remove(casa);
+                unLocadorOld = em.merge(unLocadorOld);
+            }
+            if (unLocadorNew != null && !unLocadorNew.equals(unLocadorOld)) {
+                unLocadorNew.getInmuebles().add(casa);
+                unLocadorNew = em.merge(unLocadorNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -109,6 +133,11 @@ public class CasaJpaController implements Serializable {
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().remove(casa);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
+            }
+            Locador unLocador = casa.getUnLocador();
+            if (unLocador != null) {
+                unLocador.getInmuebles().remove(casa);
+                unLocador = em.merge(unLocador);
             }
             em.remove(casa);
             em.getTransaction().commit();
