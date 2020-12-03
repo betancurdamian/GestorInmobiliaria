@@ -5,7 +5,6 @@ import dto.AlquilerDTO;
 import dto.ArancelEspecialDTO;
 import dto.ArancelEspecialExpensaDTO;
 import dto.ArancelEspecialServicioDTO;
-import dto.BarrioDTO;
 import dto.BoletaDePagoDTO;
 import dto.CasaDTO;
 import dto.ClienteDTO;
@@ -27,12 +26,10 @@ import dto.InmuebleDTO;
 import dto.LineaDeComisionDTO;
 import dto.LocadorDTO;
 import dto.LocalComercialDTO;
-import dto.LocalidadDTO;
 import dto.LocatarioDTO;
 import dto.LocatarioDependienteDTO;
 import dto.LocatarioEstudianteDTO;
 import dto.LocatarioIndependienteDTO;
-import dto.ProvinciaDTO;
 import dto.RecargoPorMoraDTO;
 import dto.ReciboDeSueldoDTO;
 import dto.TerrenoDTO;
@@ -48,7 +45,6 @@ import model.entity.Alquiler;
 import model.entity.ArancelEspecial;
 import model.entity.ArancelEspecialExpensa;
 import model.entity.ArancelEspecialServicio;
-import model.entity.Barrio;
 import model.entity.BoletaDePago;
 import model.entity.Casa;
 import model.entity.Cliente;
@@ -70,12 +66,10 @@ import model.entity.Inmueble;
 import model.entity.LineaDeComision;
 import model.entity.Locador;
 import model.entity.LocalComercial;
-import model.entity.Localidad;
 import model.entity.Locatario;
 import model.entity.LocatarioDependiente;
 import model.entity.LocatarioEstudiante;
 import model.entity.LocatarioIndependiente;
-import model.entity.Provincia;
 import model.entity.RecargoPorMora;
 import model.entity.ReciboDeSueldo;
 import model.entity.Terreno;
@@ -443,12 +437,7 @@ public interface InmobiliariaMapper {
     Actividad toEntity(ActividadDTO dto);
 
     List<ActividadDTO> toDTOActividadList(List<Actividad> entities);
-
-    BarrioDTO toDTO(Barrio entity);
-
-    Barrio toEntity(BarrioDTO dto);
-
-    List<BarrioDTO> toDTOBarrioList(List<Barrio> entities);
+    
 
     TipoUsuarioDTO toDTO(TipoUsuario entity);
 
@@ -462,11 +451,7 @@ public interface InmobiliariaMapper {
 
     List<RecargoPorMoraDTO> toDTORecargoPorMoraList(List<RecargoPorMora> entities);
 
-    LocalidadDTO toDTO(Localidad entity);
-
-    Localidad toEntity(LocalidadDTO dto);
-
-    List<LocalidadDTO> toDTOLocalidadList(List<Localidad> entities);
+    
 
     TipoDNIDTO toDTO(TipoDNI entity);
 
@@ -509,12 +494,6 @@ public interface InmobiliariaMapper {
     EstadoCivil toEntity(EstadoCivilDTO dto);
 
     List<EstadoCivilDTO> toDTOEstadoCivilList(List<EstadoCivil> entities);
-
-    ProvinciaDTO toDTO(Provincia entity);
-
-    Provincia toEntity(ProvinciaDTO dto);
-
-    List<ProvinciaDTO> toDTOProvinciaList(List<Provincia> entities);
 
     List<TerrenoDTO> toDTOTerrenoList(List<Terreno> entities);
 

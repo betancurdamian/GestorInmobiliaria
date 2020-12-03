@@ -19,23 +19,15 @@ import javax.persistence.OneToMany;
 @Entity
 @DiscriminatorValue("LOCADOR")
 public class Locador extends Cliente {
-    
+
     @OneToMany(mappedBy = "unLocador", cascade = CascadeType.ALL)
     private List<Inmueble> inmuebles;
-    
+
     public Locador() {
         this.inmuebles = new ArrayList<>();
     }
 
-    public Locador(Inmobiliaria unaInmobiliariaCliente, UsuarioCliente unUsuarioCliente) {
-        super(unaInmobiliariaCliente, unUsuarioCliente);
-        this.inmuebles = new ArrayList<>();
-    }
-
-    public Locador(Inmobiliaria unaInmobiliariaCliente, UsuarioCliente unUsuarioCliente, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
-        super(unaInmobiliariaCliente, unUsuarioCliente, nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, telefono, correoElectronico);
-        this.inmuebles = new ArrayList<>();
-    }
+    
 
     public List<Inmueble> getInmuebles() {
         return inmuebles;
@@ -45,5 +37,4 @@ public class Locador extends Cliente {
         this.inmuebles = inmuebles;
     }
 
-    
 }

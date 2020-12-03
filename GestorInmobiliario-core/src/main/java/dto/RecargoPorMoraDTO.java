@@ -12,7 +12,7 @@ package dto;
 public class RecargoPorMoraDTO {
     private Long id;
     private String unaFechaDeRecargo;
-    private Float monto;
+    private Float porcentaje;
     private InmobiliariaDTO unaInmobiliariaRecargoPorMora;
 
     public Long getId() {
@@ -31,12 +31,12 @@ public class RecargoPorMoraDTO {
         this.unaFechaDeRecargo = unaFechaDeRecargo;
     }
 
-    public Float getMonto() {
-        return monto;
+    public Float getPorcentaje() {
+        return porcentaje;
     }
 
-    public void setMonto(Float monto) {
-        this.monto = monto;
+    public void setPorcentaje(Float porcentaje) {
+        this.porcentaje = porcentaje;
     }
 
     public InmobiliariaDTO getUnaInmobiliariaRecargoPorMora() {

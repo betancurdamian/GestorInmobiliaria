@@ -17,9 +17,6 @@ public class InmobiliariaDTO {
     private String cuit;
     private String direccionCalle;
     private String direccionNumero;
-    private ProvinciaDTO direccionProvincia;
-    private LocalidadDTO direccionLocalidad;
-    private BarrioDTO direccionBarrio;
     private String telefono;
     private String correoElectronico;
     private List<ClienteDTO> clientes;
@@ -69,31 +66,7 @@ public class InmobiliariaDTO {
 
     public void setDireccionNumero(String direccionNumero) {
         this.direccionNumero = direccionNumero;
-    }
-
-    public ProvinciaDTO getDireccionProvincia() {
-        return direccionProvincia;
-    }
-
-    public void setDireccionProvincia(ProvinciaDTO direccionProvincia) {
-        this.direccionProvincia = direccionProvincia;
-    }
-
-    public LocalidadDTO getDireccionLocalidad() {
-        return direccionLocalidad;
-    }
-
-    public void setDireccionLocalidad(LocalidadDTO direccionLocalidad) {
-        this.direccionLocalidad = direccionLocalidad;
-    }
-
-    public BarrioDTO getDireccionBarrio() {
-        return direccionBarrio;
-    }
-
-    public void setDireccionBarrio(BarrioDTO direccionBarrio) {
-        this.direccionBarrio = direccionBarrio;
-    }
+    }    
 
     public String getTelefono() {
         return telefono;

@@ -49,18 +49,6 @@ public abstract class Persona implements Serializable {
     @Column(name = "direccion_numero")
     private String direccionNumero;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_provincia")
-    private Provincia direccionProvincia;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_localidad")
-    private Localidad direccionLocalidad;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_barrio")
-    private Barrio direccionBarrio;
-
     @Column(name = "telefono")
     private String telefono;
 
@@ -69,8 +57,8 @@ public abstract class Persona implements Serializable {
 
     public Persona() {
     }
-
-    public Persona(String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
+    
+    public Persona(String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, String telefono, String correoElectronico) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.unTipoDNI = unTipoDNI;
@@ -78,13 +66,11 @@ public abstract class Persona implements Serializable {
         this.unEstadoCivil = unEstadoCivil;
         this.direccionCalle = direccionCalle;
         this.direccionNumero = direccionNumero;
-        this.direccionProvincia = direccionProvincia;
-        this.direccionLocalidad = direccionLocalidad;
-        this.direccionBarrio = direccionBarrio;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
     }
 
+   
    
 
     @Override
@@ -174,31 +160,7 @@ public abstract class Persona implements Serializable {
 
     public void setDireccionNumero(String direccionNumero) {
         this.direccionNumero = direccionNumero;
-    }
-
-    public Provincia getDireccionProvincia() {
-        return direccionProvincia;
-    }
-
-    public void setDireccionProvincia(Provincia direccionProvincia) {
-        this.direccionProvincia = direccionProvincia;
-    }
-
-    public Localidad getDireccionLocalidad() {
-        return direccionLocalidad;
-    }
-
-    public void setDireccionLocalidad(Localidad direccionLocalidad) {
-        this.direccionLocalidad = direccionLocalidad;
-    }
-
-    public Barrio getDireccionBarrio() {
-        return direccionBarrio;
-    }
-
-    public void setDireccionBarrio(Barrio direccionBarrio) {
-        this.direccionBarrio = direccionBarrio;
-    }
+    }   
 
     public String getTelefono() {
         return telefono;

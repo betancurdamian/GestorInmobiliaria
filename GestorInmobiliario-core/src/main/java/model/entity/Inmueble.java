@@ -39,18 +39,6 @@ public abstract class Inmueble implements Serializable {
     @Column(name = "direccion_numero")
     private String direccionNumero;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_provincia")
-    private Provincia direccionProvincia;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_localidad")
-    private Localidad direccionLocalidad;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_barrio")
-    private Barrio direccionBarrio;
-
     @Column(name = "superficie_total")
     private Integer superficieTotal;
 
@@ -67,25 +55,30 @@ public abstract class Inmueble implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_locador")
     private Locador unLocador;
+    
+    @Column(name = "precio_base_venta")
+    private Float precioBaseVenta;
+    
+    @Column(name = "precio_base_alquiler")
+    private Float precioBaseAlquiler;
 
     public Inmueble() {
     }
 
-    public Inmueble(String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unaLocador) {
+    public Inmueble(String direccionCalle, String direccionNumero, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unLocador, Float precioBaseVenta, Float precioBaseAlquiler) {
         this.direccionCalle = direccionCalle;
         this.direccionNumero = direccionNumero;
-        this.direccionProvincia = direccionProvincia;
-        this.direccionLocalidad = direccionLocalidad;
-        this.direccionBarrio = direccionBarrio;
         this.superficieTotal = superficieTotal;
         this.disponible = disponible;
         this.descripcion = descripcion;
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
-        this.unLocador = unaLocador;
+        this.unLocador = unLocador;
+        this.precioBaseVenta = precioBaseVenta;
+        this.precioBaseAlquiler = precioBaseAlquiler;
     }
 
     
-
+    
     public Long getId() {
         return id;
     }
@@ -108,31 +101,7 @@ public abstract class Inmueble implements Serializable {
 
     public void setDireccionNumero(String direccionNumero) {
         this.direccionNumero = direccionNumero;
-    }
-
-    public Provincia getDireccionProvincia() {
-        return direccionProvincia;
-    }
-
-    public void setDireccionProvincia(Provincia direccionProvincia) {
-        this.direccionProvincia = direccionProvincia;
-    }
-
-    public Localidad getDireccionLocalidad() {
-        return direccionLocalidad;
-    }
-
-    public void setDireccionLocalidad(Localidad direccionLocalidad) {
-        this.direccionLocalidad = direccionLocalidad;
-    }
-
-    public Barrio getDireccionBarrio() {
-        return direccionBarrio;
-    }
-
-    public void setDireccionBarrio(Barrio direccionBarrio) {
-        this.direccionBarrio = direccionBarrio;
-    }
+    }    
 
     public Integer getSuperficieTotal() {
         return superficieTotal;
@@ -172,6 +141,22 @@ public abstract class Inmueble implements Serializable {
 
     public void setUnLocador(Locador unLocador) {
         this.unLocador = unLocador;
+    }
+
+    public Float getPrecioBaseVenta() {
+        return precioBaseVenta;
+    }
+
+    public void setPrecioBaseVenta(Float precioBaseVenta) {
+        this.precioBaseVenta = precioBaseVenta;
+    }
+
+    public Float getPrecioBaseAlquiler() {
+        return precioBaseAlquiler;
+    }
+
+    public void setPrecioBaseAlquiler(Float precioBaseAlquiler) {
+        this.precioBaseAlquiler = precioBaseAlquiler;
     }
     
     

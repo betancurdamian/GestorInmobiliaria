@@ -5,6 +5,7 @@
  */
 package model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
@@ -39,7 +40,7 @@ public abstract class Garante extends Persona {
     @ManyToOne
     @JoinColumn(name = "fk_locatario")
     private Locatario unLocatario;
-    
+
     @OneToOne(mappedBy = "unGarante")
     private ContratoAlquiler unContratoAlquiler;
 
@@ -47,26 +48,25 @@ public abstract class Garante extends Persona {
     private List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes;
 
     public Garante() {
+        this.comprobantesDeIngresosGarantes = new ArrayList<>();
     }
 
-    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes) {
+    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler) {
         this.unaActividad = unaActividad;
         this.unaInmobiliariaGarante = unaInmobiliariaGarante;
         this.unLocatario = unLocatario;
         this.unContratoAlquiler = unContratoAlquiler;
-        this.comprobantesDeIngresosGarantes = comprobantesDeIngresosGarantes;
+        this.comprobantesDeIngresosGarantes = new ArrayList<>();
     }
 
-    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
-        super(nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, telefono, correoElectronico);
+    public Garante(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, String telefono, String correoElectronico) {
+        super(nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, telefono, correoElectronico);
         this.unaActividad = unaActividad;
         this.unaInmobiliariaGarante = unaInmobiliariaGarante;
         this.unLocatario = unLocatario;
         this.unContratoAlquiler = unContratoAlquiler;
-        this.comprobantesDeIngresosGarantes = comprobantesDeIngresosGarantes;
+        this.comprobantesDeIngresosGarantes = new ArrayList<>();
     }
-
-   
 
     public Actividad getUnaActividad() {
         return unaActividad;
@@ -108,5 +108,4 @@ public abstract class Garante extends Persona {
         this.unContratoAlquiler = unContratoAlquiler;
     }
 
-    
 }

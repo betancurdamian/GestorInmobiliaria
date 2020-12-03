@@ -6,10 +6,12 @@
 package controller;
 
 import dto.CasaDTO;
+import dto.ClienteDTO;
 import dto.InmuebleDTO;
 import dto.LocadorDTO;
 import dto.LocatarioDTO;
 import dto.LocatarioDependienteDTO;
+import model.service.Impl.InmuebleServiceImpl;
 import model.service.Impl.facade.ProcesarVenta;
 
 
@@ -25,25 +27,28 @@ public class Main {
         
        procesarVenta.crearNuevaVenta();
        
-        for (LocatarioDTO locatario : procesarVenta.listarLocatarios()) {
-            System.out.println(""+locatario.getId());
-        }
+       //procesarVenta.listarLocatarios();
+       
+//        for (CasaDTO i : procesarVenta.listarInmuebles()) {
+//            System.out.println(""+i.getId());
+//        }
+       
         
         LocatarioDependienteDTO unLocatarioDependiente = new LocatarioDependienteDTO();
-        unLocatarioDependiente.setId(251l);
+        unLocatarioDependiente.setId(21l);
         
-        procesarVenta.agregarLocatario(unLocador);
+        procesarVenta.agregarLocatario(unLocatarioDependiente);
+//        
+//        for (InmuebleDTO inmueble : procesarVenta.listarInmuebles()) {
+//            System.out.println(""+inmueble.getId());
+//        }
         
-        for (InmuebleDTO inmueble : procesarVenta.listarInmuebles()) {
-            System.out.println(""+inmueble.getId());
-        }
+//        CasaDTO unInmueble = new CasaDTO();
+//        unInmueble.setId(1l);
+//        
+//        procesarVenta.agregarInmueble(unInmueble);
         
-        CasaDTO unInmueble = new CasaDTO();
-        unInmueble.setId(1901l);
-        
-        procesarVenta.agregarInmueble(unInmueble);
-        
-        
+       
        
     }
 

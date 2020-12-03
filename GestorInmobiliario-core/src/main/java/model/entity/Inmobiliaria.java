@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.eclipse.persistence.annotations.PrivateOwned;
 
 /**
  *
@@ -44,46 +45,42 @@ public class Inmobiliaria implements Serializable {
     @Column(name = "direccion_numero")
     private String direccionNumero;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_provincia")
-    private Provincia direccionProvincia;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_localidad")
-    private Localidad direccionLocalidad;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_direccion_barrio")
-    private Barrio direccionBarrio;
-
     @Column(name = "telefono")
     private String telefono;
 
     @Column(name = "correo_electronico")
     private String correoElectronico;
 
-    @OneToMany(mappedBy = "unaInmobiliariaCliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unaInmobiliariaCliente", cascade = CascadeType.ALL, targetEntity = Cliente.class)
+    @PrivateOwned
     private List<Cliente> clientes;
 
-    @OneToMany(mappedBy = "unaInmobiliariaGarante", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unaInmobiliariaGarante", cascade = CascadeType.ALL, targetEntity = Garante.class)
+    @PrivateOwned
     private List<Garante> garantes;
 
-    @OneToMany(mappedBy = "unaInmobiliariaInmueble", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unaInmobiliariaInmueble", cascade = CascadeType.ALL, targetEntity = Inmueble.class)
+    @PrivateOwned
     private List<Inmueble> inmuebles;
 
-    @OneToMany(mappedBy = "unaInmobiliariaAlquiler", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unaInmobiliariaAlquiler", cascade = CascadeType.ALL, targetEntity = Alquiler.class)
+    @PrivateOwned
     private List<Alquiler> alquileres;
 
-    @OneToMany(mappedBy = "unaInmobiliariaVenta", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unaInmobiliariaVenta", cascade = CascadeType.ALL, targetEntity = Venta.class)
+    @PrivateOwned
     private List<Venta> ventas;
 
-    @OneToMany(mappedBy = "unaInmobiliariaRecargoPorMora", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unaInmobiliariaRecargoPorMora", cascade = CascadeType.ALL, targetEntity = RecargoPorMora.class)
+    @PrivateOwned
     private List<RecargoPorMora> recargosPorMoras;
-    
-    @OneToMany(mappedBy = "unaInmobiliariaArancelEspecial", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "unaInmobiliariaArancelEspecial", cascade = CascadeType.ALL, targetEntity = ArancelEspecial.class)
+    @PrivateOwned
     private List<ArancelEspecial> arancelesEspeciales;
-    
-    @OneToMany(mappedBy = "unaInmobiliariaUsuario", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "unaInmobiliariaUsuario", cascade = CascadeType.ALL, targetEntity = Usuario.class)
+    @PrivateOwned
     private List<Usuario> usuarios;
 
     public Inmobiliaria() {
@@ -97,19 +94,22 @@ public class Inmobiliaria implements Serializable {
         this.usuarios = new ArrayList<>();
     }
 
-    public Inmobiliaria(String razonSocial, String cuit, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
+    public Inmobiliaria(String razonSocial, String cuit, String direccionCalle, String direccionNumero, String telefono, String correoElectronico) {
         this.razonSocial = razonSocial;
         this.cuit = cuit;
         this.direccionCalle = direccionCalle;
         this.direccionNumero = direccionNumero;
-        this.direccionProvincia = direccionProvincia;
-        this.direccionLocalidad = direccionLocalidad;
-        this.direccionBarrio = direccionBarrio;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
+        this.garantes = new ArrayList<>();
+        this.clientes = new ArrayList<>();
+        this.inmuebles = new ArrayList<>();
+        this.alquileres = new ArrayList<>();
+        this.ventas = new ArrayList<>();
+        this.recargosPorMoras = new ArrayList<>();
+        this.arancelesEspeciales = new ArrayList<>();
+        this.usuarios = new ArrayList<>();
     }
-
-    
 
     public Long getId() {
         return id;
@@ -144,13 +144,11 @@ public class Inmobiliaria implements Serializable {
         return "com.betancur.gestorinmobiliario.dao.Inmobiliaria[ id=" + id + " ]";
     }
 
-    
-    
-    public boolean verificarUsuario(Usuario unUsuario){
-    
+    public boolean verificarUsuario(Usuario unUsuario) {
+
         for (Usuario usuarioR : usuarios) {
             if (usuarioR.getUserName().equals(unUsuario.getUserName())) {
-                
+
             }
         }
         return false;
@@ -186,30 +184,6 @@ public class Inmobiliaria implements Serializable {
 
     public void setDireccionNumero(String direccionNumero) {
         this.direccionNumero = direccionNumero;
-    }
-
-    public Provincia getDireccionProvincia() {
-        return direccionProvincia;
-    }
-
-    public void setDireccionProvincia(Provincia direccionProvincia) {
-        this.direccionProvincia = direccionProvincia;
-    }
-
-    public Localidad getDireccionLocalidad() {
-        return direccionLocalidad;
-    }
-
-    public void setDireccionLocalidad(Localidad direccionLocalidad) {
-        this.direccionLocalidad = direccionLocalidad;
-    }
-
-    public Barrio getDireccionBarrio() {
-        return direccionBarrio;
-    }
-
-    public void setDireccionBarrio(Barrio direccionBarrio) {
-        this.direccionBarrio = direccionBarrio;
     }
 
     public String getTelefono() {

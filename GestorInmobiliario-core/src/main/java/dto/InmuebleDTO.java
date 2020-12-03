@@ -14,14 +14,14 @@ public abstract class InmuebleDTO {
     private Long id;
     private String direccionCalle;
     private String direccionNumero;
-    private ProvinciaDTO direccionProvincia;
-    private LocalidadDTO direccionLocalidad;
-    private BarrioDTO direccionBarrio;
     private Integer superficieTotal;
     private Boolean disponible;
     private String descripcion;
     private InmobiliariaDTO unaInmobiliariaInmueble;
-    private LocadorDTO unaLocador;
+    private LocadorDTO unLocador;
+    private Float precioBaseVenta;
+    private Float precioBaseAlquiler;
+    
 
     public Long getId() {
         return id;
@@ -45,31 +45,7 @@ public abstract class InmuebleDTO {
 
     public void setDireccionNumero(String direccionNumero) {
         this.direccionNumero = direccionNumero;
-    }
-
-    public ProvinciaDTO getDireccionProvincia() {
-        return direccionProvincia;
-    }
-
-    public void setDireccionProvincia(ProvinciaDTO direccionProvincia) {
-        this.direccionProvincia = direccionProvincia;
-    }
-
-    public LocalidadDTO getDireccionLocalidad() {
-        return direccionLocalidad;
-    }
-
-    public void setDireccionLocalidad(LocalidadDTO direccionLocalidad) {
-        this.direccionLocalidad = direccionLocalidad;
-    }
-
-    public BarrioDTO getDireccionBarrio() {
-        return direccionBarrio;
-    }
-
-    public void setDireccionBarrio(BarrioDTO direccionBarrio) {
-        this.direccionBarrio = direccionBarrio;
-    }
+    }    
 
     public Integer getSuperficieTotal() {
         return superficieTotal;
@@ -103,12 +79,28 @@ public abstract class InmuebleDTO {
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
 
-    public LocadorDTO getUnaLocador() {
-        return unaLocador;
+    public LocadorDTO getUnLocador() {
+        return unLocador;
     }
 
-    public void setUnaLocador(LocadorDTO unaLocador) {
-        this.unaLocador = unaLocador;
+    public void setUnLocador(LocadorDTO unLocador) {
+        this.unLocador = unLocador;
+    }
+
+    public Float getPrecioBaseVenta() {
+        return precioBaseVenta;
+    }
+
+    public void setPrecioBaseVenta(Float precioBaseVenta) {
+        this.precioBaseVenta = precioBaseVenta;
+    }
+
+    public Float getPrecioBaseAlquiler() {
+        return precioBaseAlquiler;
+    }
+
+    public void setPrecioBaseAlquiler(Float precioBaseAlquiler) {
+        this.precioBaseAlquiler = precioBaseAlquiler;
     }
 
     

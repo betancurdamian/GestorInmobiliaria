@@ -20,14 +20,13 @@ public class GaranteIndependiente extends Garante{
     public GaranteIndependiente() {
     }
 
-    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes) {
-        super(unaActividad, unaInmobiliariaGarante, unLocatario, unContratoAlquiler, comprobantesDeIngresosGarantes);
+    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler) {
+        super(unaActividad, unaInmobiliariaGarante, unLocatario, unContratoAlquiler);
     }
 
-    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, List<ComprobanteDeIngreso> comprobantesDeIngresosGarantes, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
-        super(unaActividad, unaInmobiliariaGarante, unLocatario, unContratoAlquiler, comprobantesDeIngresosGarantes, nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, telefono, correoElectronico);
+    public GaranteIndependiente(Actividad unaActividad, Inmobiliaria unaInmobiliariaGarante, Locatario unLocatario, ContratoAlquiler unContratoAlquiler, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, String telefono, String correoElectronico) {
+        super(unaActividad, unaInmobiliariaGarante, unLocatario, unContratoAlquiler, nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, telefono, correoElectronico);
     }
 
-    
     
 }

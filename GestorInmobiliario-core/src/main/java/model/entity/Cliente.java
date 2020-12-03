@@ -40,12 +40,15 @@ public abstract class Cliente extends Persona {
         this.unUsuarioCliente = unUsuarioCliente;
     }
 
-    public Cliente(Inmobiliaria unaInmobiliariaCliente, UsuarioCliente unUsuarioCliente, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, String telefono, String correoElectronico) {
-        super(nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, telefono, correoElectronico);
+    public Cliente(Inmobiliaria unaInmobiliariaCliente, UsuarioCliente unUsuarioCliente, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, String telefono, String correoElectronico) {
+        super(nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, telefono, correoElectronico);
         this.unaInmobiliariaCliente = unaInmobiliariaCliente;
         this.unUsuarioCliente = unUsuarioCliente;
     }
 
+    
+
+    
     
 
     public void setUnaInmobiliariaCliente(Inmobiliaria unaInmobiliariaCliente) {

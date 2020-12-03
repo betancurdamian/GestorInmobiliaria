@@ -32,8 +32,8 @@ public class RecargoPorMora implements Serializable {
     @Column(name = "fecha_recargo")
     private LocalDate unaFechaDeRecargo;
 
-    @Column(name = "monto")
-    private Float monto;
+    @Column(name = "porcentaje")
+    private Float porcentaje;
 
     @ManyToOne
     @JoinColumn(name = "fk_inmobiliaria")
@@ -44,7 +44,7 @@ public class RecargoPorMora implements Serializable {
 
     public RecargoPorMora(LocalDate unaFechaDeRecargo, Float monto, Inmobiliaria unaInmobiliariaRecargoPorMona) {
         this.unaFechaDeRecargo = unaFechaDeRecargo;
-        this.monto = monto;
+        this.porcentaje = monto;
         this.unaInmobiliariaRecargoPorMora = unaInmobiliariaRecargoPorMona;
     }
 
@@ -89,12 +89,12 @@ public class RecargoPorMora implements Serializable {
         this.unaFechaDeRecargo = unaFechaDeRecargo;
     }
 
-    public Float getMonto() {
-        return monto;
+    public Float getPorcentaje() {
+        return porcentaje;
     }
 
-    public void setMonto(Float monto) {
-        this.monto = monto;
+    public void setPorcentaje(Float porcentaje) {
+        this.porcentaje = porcentaje;
     }
 
     public Inmobiliaria getUnaInmobiliariaRecargoPorMora() {

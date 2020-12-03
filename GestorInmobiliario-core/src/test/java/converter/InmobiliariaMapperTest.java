@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 
 public class InmobiliariaMapperTest {
     @Test
-    public void testToDTO() {
+    public void testToLocalidadDTO() {
         System.out.println("toDTO");
         Inmobiliaria entity = new Inmobiliaria();
         entity.setId(1l);

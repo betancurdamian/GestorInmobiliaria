@@ -31,11 +31,13 @@ public class Terreno extends Inmueble {
         this.largo = largo;
     }
 
-    public Terreno(Integer ancho, Integer largo, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unaLocador) {
-        super(direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble, unaLocador);
+    public Terreno(Integer ancho, Integer largo, String direccionCalle, String direccionNumero, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unLocador, Float precioBaseVenta, Float precioBaseAlquiler) {
+        super(direccionCalle, direccionNumero, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble, unLocador, precioBaseVenta, precioBaseAlquiler);
         this.ancho = ancho;
         this.largo = largo;
     }
+
+   
 
     
 
@@ -54,7 +56,5 @@ public class Terreno extends Inmueble {
     public void setLargo(Integer largo) {
         this.largo = largo;
     }
-
-    
 
 }

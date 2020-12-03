@@ -35,12 +35,14 @@ public class Departamento extends Inmueble {
         this.balcon = balcon;
     }
 
-    public Departamento(Integer cantidadDeDormitorios, Integer cantidadDeBanio, Boolean balcon, String direccionCalle, String direccionNumero, Provincia direccionProvincia, Localidad direccionLocalidad, Barrio direccionBarrio, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unaLocador) {
-        super(direccionCalle, direccionNumero, direccionProvincia, direccionLocalidad, direccionBarrio, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble, unaLocador);
+    public Departamento(Integer cantidadDeDormitorios, Integer cantidadDeBanio, Boolean balcon, String direccionCalle, String direccionNumero, Integer superficieTotal, Boolean disponible, String descripcion, Inmobiliaria unaInmobiliariaInmueble, Locador unLocador, Float precioBaseVenta, Float precioBaseAlquiler) {
+        super(direccionCalle, direccionNumero, superficieTotal, disponible, descripcion, unaInmobiliariaInmueble, unLocador, precioBaseVenta, precioBaseAlquiler);
         this.cantidadDeDormitorios = cantidadDeDormitorios;
         this.cantidadDeBanio = cantidadDeBanio;
         this.balcon = balcon;
     }
+
+   
 
     
 

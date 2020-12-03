@@ -18,9 +18,6 @@ public abstract class PersonaDTO {
     private EstadoCivilDTO unEstadoCivil;
     private String direccionCalle;
     private String direccionNumero;
-    private ProvinciaDTO direccionProvincia;
-    private LocalidadDTO direccionLocalidad;
-    private BarrioDTO direccionBarrio;
     private String telefono;
     private String correoElectronico;
 
@@ -88,29 +85,6 @@ public abstract class PersonaDTO {
         this.direccionNumero = direccionNumero;
     }
 
-    public ProvinciaDTO getDireccionProvincia() {
-        return direccionProvincia;
-    }
-
-    public void setDireccionProvincia(ProvinciaDTO direccionProvincia) {
-        this.direccionProvincia = direccionProvincia;
-    }
-
-    public LocalidadDTO getDireccionLocalidad() {
-        return direccionLocalidad;
-    }
-
-    public void setDireccionLocalidad(LocalidadDTO direccionLocalidad) {
-        this.direccionLocalidad = direccionLocalidad;
-    }
-
-    public BarrioDTO getDireccionBarrio() {
-        return direccionBarrio;
-    }
-
-    public void setDireccionBarrio(BarrioDTO direccionBarrio) {
-        this.direccionBarrio = direccionBarrio;
-    }
 
     public String getTelefono() {
         return telefono;
