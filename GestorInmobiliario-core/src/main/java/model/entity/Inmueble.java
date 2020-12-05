@@ -53,8 +53,8 @@ public abstract class Inmueble implements Serializable {
     private Inmobiliaria unaInmobiliariaInmueble;
     
     @ManyToOne
-    @JoinColumn(name = "fk_locador")
-    private Locador unLocador;
+    @JoinColumn(name = "fk_duenio")
+    private Cliente unCliente;
     
     @Column(name = "precio_base_venta")
     private Float precioBaseVenta;
@@ -72,7 +72,7 @@ public abstract class Inmueble implements Serializable {
         this.disponible = disponible;
         this.descripcion = descripcion;
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
-        this.unLocador = unLocador;
+        this.unCliente = unLocador;
         this.precioBaseVenta = precioBaseVenta;
         this.precioBaseAlquiler = precioBaseAlquiler;
     }
@@ -135,12 +135,12 @@ public abstract class Inmueble implements Serializable {
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
 
-    public Locador getUnLocador() {
-        return unLocador;
+    public Cliente getUnCliente() {
+        return unCliente;
     }
 
-    public void setUnLocador(Locador unLocador) {
-        this.unLocador = unLocador;
+    public void setUnCliente(Cliente unCliente) {
+        this.unCliente = unCliente;
     }
 
     public Float getPrecioBaseVenta() {

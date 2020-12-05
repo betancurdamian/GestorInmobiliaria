@@ -19,6 +19,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import model.dao.exceptions.NonexistentEntityException;
+import model.entity.Inmueble;
 import model.entity.Locatario;
 
 /**
@@ -39,6 +40,9 @@ public class LocatarioJpaController implements Serializable {
     public void create(Locatario locatario) {
         if (locatario.getComprobantesDeIngresosLocatarios() == null) {
             locatario.setComprobantesDeIngresosLocatarios(new ArrayList<ComprobanteDeIngreso>());
+        }
+        if (locatario.getInmuebles() == null) {
+            locatario.setInmuebles(new ArrayList<Inmueble>());
         }
         EntityManager em = null;
         try {
@@ -65,6 +69,12 @@ public class LocatarioJpaController implements Serializable {
                 attachedComprobantesDeIngresosLocatarios.add(comprobantesDeIngresosLocatariosComprobanteDeIngresoToAttach);
             }
             locatario.setComprobantesDeIngresosLocatarios(attachedComprobantesDeIngresosLocatarios);
+            List<Inmueble> attachedInmuebles = new ArrayList<Inmueble>();
+            for (Inmueble inmueblesInmuebleToAttach : locatario.getInmuebles()) {
+                inmueblesInmuebleToAttach = em.getReference(inmueblesInmuebleToAttach.getClass(), inmueblesInmuebleToAttach.getId());
+                attachedInmuebles.add(inmueblesInmuebleToAttach);
+            }
+            locatario.setInmuebles(attachedInmuebles);
             em.persist(locatario);
             if (unGarante != null) {
                 Locatario oldUnLocatarioOfUnGarante = unGarante.getUnLocatario();
@@ -97,6 +107,15 @@ public class LocatarioJpaController implements Serializable {
                     oldUnLocatarioOfComprobantesDeIngresosLocatariosComprobanteDeIngreso = em.merge(oldUnLocatarioOfComprobantesDeIngresosLocatariosComprobanteDeIngreso);
                 }
             }
+            for (Inmueble inmueblesInmueble : locatario.getInmuebles()) {
+                model.entity.Cliente oldUnClienteOfInmueblesInmueble = inmueblesInmueble.getUnCliente();
+                inmueblesInmueble.setUnCliente(locatario);
+                inmueblesInmueble = em.merge(inmueblesInmueble);
+                if (oldUnClienteOfInmueblesInmueble != null) {
+                    oldUnClienteOfInmueblesInmueble.getInmuebles().remove(inmueblesInmueble);
+                    oldUnClienteOfInmueblesInmueble = em.merge(oldUnClienteOfInmueblesInmueble);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -119,6 +138,8 @@ public class LocatarioJpaController implements Serializable {
             UsuarioCliente unUsuarioClienteNew = locatario.getUnUsuarioCliente();
             List<ComprobanteDeIngreso> comprobantesDeIngresosLocatariosOld = persistentLocatario.getComprobantesDeIngresosLocatarios();
             List<ComprobanteDeIngreso> comprobantesDeIngresosLocatariosNew = locatario.getComprobantesDeIngresosLocatarios();
+            List<Inmueble> inmueblesOld = persistentLocatario.getInmuebles();
+            List<Inmueble> inmueblesNew = locatario.getInmuebles();
             if (unGaranteNew != null) {
                 unGaranteNew = em.getReference(unGaranteNew.getClass(), unGaranteNew.getId());
                 locatario.setUnGarante(unGaranteNew);
@@ -138,6 +159,13 @@ public class LocatarioJpaController implements Serializable {
             }
             comprobantesDeIngresosLocatariosNew = attachedComprobantesDeIngresosLocatariosNew;
             locatario.setComprobantesDeIngresosLocatarios(comprobantesDeIngresosLocatariosNew);
+            List<Inmueble> attachedInmueblesNew = new ArrayList<Inmueble>();
+            for (Inmueble inmueblesNewInmuebleToAttach : inmueblesNew) {
+                inmueblesNewInmuebleToAttach = em.getReference(inmueblesNewInmuebleToAttach.getClass(), inmueblesNewInmuebleToAttach.getId());
+                attachedInmueblesNew.add(inmueblesNewInmuebleToAttach);
+            }
+            inmueblesNew = attachedInmueblesNew;
+            locatario.setInmuebles(inmueblesNew);
             locatario = em.merge(locatario);
             if (unGaranteOld != null && !unGaranteOld.equals(unGaranteNew)) {
                 unGaranteOld.setUnLocatario(null);
@@ -190,6 +218,23 @@ public class LocatarioJpaController implements Serializable {
                     }
                 }
             }
+            for (Inmueble inmueblesOldInmueble : inmueblesOld) {
+                if (!inmueblesNew.contains(inmueblesOldInmueble)) {
+                    inmueblesOldInmueble.setUnCliente(null);
+                    inmueblesOldInmueble = em.merge(inmueblesOldInmueble);
+                }
+            }
+            for (Inmueble inmueblesNewInmueble : inmueblesNew) {
+                if (!inmueblesOld.contains(inmueblesNewInmueble)) {
+                    Locatario oldUnClienteOfInmueblesNewInmueble = (Locatario) inmueblesNewInmueble.getUnCliente();
+                    inmueblesNewInmueble.setUnCliente(locatario);
+                    inmueblesNewInmueble = em.merge(inmueblesNewInmueble);
+                    if (oldUnClienteOfInmueblesNewInmueble != null && !oldUnClienteOfInmueblesNewInmueble.equals(locatario)) {
+                        oldUnClienteOfInmueblesNewInmueble.getInmuebles().remove(inmueblesNewInmueble);
+                        oldUnClienteOfInmueblesNewInmueble = em.merge(oldUnClienteOfInmueblesNewInmueble);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -238,6 +283,11 @@ public class LocatarioJpaController implements Serializable {
             for (ComprobanteDeIngreso comprobantesDeIngresosLocatariosComprobanteDeIngreso : comprobantesDeIngresosLocatarios) {
                 comprobantesDeIngresosLocatariosComprobanteDeIngreso.setUnLocatario(null);
                 comprobantesDeIngresosLocatariosComprobanteDeIngreso = em.merge(comprobantesDeIngresosLocatariosComprobanteDeIngreso);
+            }
+            List<Inmueble> inmuebles = locatario.getInmuebles();
+            for (Inmueble inmueblesInmueble : inmuebles) {
+                inmueblesInmueble.setUnCliente(null);
+                inmueblesInmueble = em.merge(inmueblesInmueble);
             }
             em.remove(locatario);
             em.getTransaction().commit();

@@ -74,12 +74,12 @@ public class LocadorJpaController implements Serializable {
                 unUsuarioCliente = em.merge(unUsuarioCliente);
             }
             for (Inmueble inmueblesInmueble : locador.getInmuebles()) {
-                Locador oldUnLocadorOfInmueblesInmueble = inmueblesInmueble.getUnLocador();
-                inmueblesInmueble.setUnLocador(locador);
+                model.entity.Cliente oldUnClienteOfInmueblesInmueble = inmueblesInmueble.getUnCliente();
+                inmueblesInmueble.setUnCliente(locador);
                 inmueblesInmueble = em.merge(inmueblesInmueble);
-                if (oldUnLocadorOfInmueblesInmueble != null) {
-                    oldUnLocadorOfInmueblesInmueble.getInmuebles().remove(inmueblesInmueble);
-                    oldUnLocadorOfInmueblesInmueble = em.merge(oldUnLocadorOfInmueblesInmueble);
+                if (oldUnClienteOfInmueblesInmueble != null) {
+                    oldUnClienteOfInmueblesInmueble.getInmuebles().remove(inmueblesInmueble);
+                    oldUnClienteOfInmueblesInmueble = em.merge(oldUnClienteOfInmueblesInmueble);
                 }
             }
             em.getTransaction().commit();
@@ -141,18 +141,18 @@ public class LocadorJpaController implements Serializable {
             }
             for (Inmueble inmueblesOldInmueble : inmueblesOld) {
                 if (!inmueblesNew.contains(inmueblesOldInmueble)) {
-                    inmueblesOldInmueble.setUnLocador(null);
+                    inmueblesOldInmueble.setUnCliente(null);
                     inmueblesOldInmueble = em.merge(inmueblesOldInmueble);
                 }
             }
             for (Inmueble inmueblesNewInmueble : inmueblesNew) {
                 if (!inmueblesOld.contains(inmueblesNewInmueble)) {
-                    Locador oldUnLocadorOfInmueblesNewInmueble = inmueblesNewInmueble.getUnLocador();
-                    inmueblesNewInmueble.setUnLocador(locador);
+                    Locador oldUnClienteOfInmueblesNewInmueble = (Locador) inmueblesNewInmueble.getUnCliente();
+                    inmueblesNewInmueble.setUnCliente(locador);
                     inmueblesNewInmueble = em.merge(inmueblesNewInmueble);
-                    if (oldUnLocadorOfInmueblesNewInmueble != null && !oldUnLocadorOfInmueblesNewInmueble.equals(locador)) {
-                        oldUnLocadorOfInmueblesNewInmueble.getInmuebles().remove(inmueblesNewInmueble);
-                        oldUnLocadorOfInmueblesNewInmueble = em.merge(oldUnLocadorOfInmueblesNewInmueble);
+                    if (oldUnClienteOfInmueblesNewInmueble != null && !oldUnClienteOfInmueblesNewInmueble.equals(locador)) {
+                        oldUnClienteOfInmueblesNewInmueble.getInmuebles().remove(inmueblesNewInmueble);
+                        oldUnClienteOfInmueblesNewInmueble = em.merge(oldUnClienteOfInmueblesNewInmueble);
                     }
                 }
             }
@@ -197,7 +197,7 @@ public class LocadorJpaController implements Serializable {
             }
             List<Inmueble> inmuebles = locador.getInmuebles();
             for (Inmueble inmueblesInmueble : inmuebles) {
-                inmueblesInmueble.setUnLocador(null);
+                inmueblesInmueble.setUnCliente(null);
                 inmueblesInmueble = em.merge(inmueblesInmueble);
             }
             em.remove(locador);

@@ -4,6 +4,7 @@ import converter.InmobiliariaMapper;
 import dto.ContratoAlquilerDTO;
 import dto.ContratoDTO;
 import dto.ContratoVentaDTO;
+import dto.CuotaVentaDTO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,8 @@ public class ContratoServiceImpl implements IContratoService {
     private final ContratoVentaJpaController contratoVentaDAO;
     private final ContratoAlquilerJpaController contratoAlquilerDAO;
     private final InmobiliariaMapper converter;
+    private final CuotaVentaServiceImpl cuotasVentaService;
+    private final ComisionServiceImpl comisionService;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public ContratoServiceImpl() {
@@ -36,6 +39,8 @@ public class ContratoServiceImpl implements IContratoService {
         this.contratoVentaDAO = new ContratoVentaJpaController(Conexion.getEmf());
         this.contratoAlquilerDAO = new ContratoAlquilerJpaController(Conexion.getEmf());
         this.converter = Mappers.getMapper(InmobiliariaMapper.class);
+        this.cuotasVentaService = new CuotaVentaServiceImpl();
+        this.comisionService = new ComisionServiceImpl();
     }
 
     @Override
@@ -43,8 +48,15 @@ public class ContratoServiceImpl implements IContratoService {
         if (dto != null) {
             if (dto instanceof ContratoVentaDTO) {
                 ContratoVenta entity = converter.toContratoVentaEntity((ContratoVentaDTO) dto);
+                entity.setCuotasVenta(null);
                 this.contratoVentaDAO.create(entity);
                 dto.setId(entity.getId());
+                for (CuotaVentaDTO cv : ((ContratoVentaDTO) dto).getCuotasVenta()) {
+                    cv.setUnContratoVenta(converter.toContratoVentaDTO(entity));
+                    this.cuotasVentaService.crear(cv);
+                }
+                dto.getUnaComision().setUnContrato(dto);
+                this.comisionService.crear(dto.getUnaComision());                
             }
             if (dto instanceof ContratoAlquilerDTO) {
                 ContratoAlquiler entity = converter.toContratoAlquilerEntity((ContratoAlquilerDTO) dto);

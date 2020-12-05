@@ -29,7 +29,7 @@ public class TipoDNIServiceImpl implements ITipoDNIService{
     @Override
     public TipoDNIDTO crear(TipoDNIDTO dto) {
         if (dto != null) {
-            TipoDNI entity = converter.toEntity(dto);
+            TipoDNI entity = converter.toTipoDNIEntity(dto);
             this.tipoDNIDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -43,7 +43,7 @@ public class TipoDNIServiceImpl implements ITipoDNIService{
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    TipoDNI entity = converter.toEntity(dto);
+                    TipoDNI entity = converter.toTipoDNIEntity(dto);
                     tipoDNIDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -78,7 +78,7 @@ public class TipoDNIServiceImpl implements ITipoDNIService{
     @Override
     public TipoDNIDTO listarID(Long id) {
         TipoDNI entity = tipoDNIDAO.findTipoDNI(id);
-        return converter.toDTO(entity);
+        return converter.toTipoDNIDTO(entity);
     }
 
     @Override

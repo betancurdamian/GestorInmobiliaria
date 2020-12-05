@@ -36,7 +36,7 @@ public class InmobiliariaServiceImpl implements IInmobiliariaService{
     @Override
     public InmobiliariaDTO crear(InmobiliariaDTO dto) {
         if (dto != null) {
-            Inmobiliaria entity = converter.toEntity(dto);
+            Inmobiliaria entity = converter.toInmobiliariaEntity(dto);
             this.inmobiliariaDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,7 +50,7 @@ public class InmobiliariaServiceImpl implements IInmobiliariaService{
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    Inmobiliaria entity = converter.toEntity(dto);
+                    Inmobiliaria entity = converter.toInmobiliariaEntity(dto);
                     inmobiliariaDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -85,13 +85,22 @@ public class InmobiliariaServiceImpl implements IInmobiliariaService{
     @Override
     public InmobiliariaDTO listarID(Long id) {
         Inmobiliaria entity = inmobiliariaDAO.findInmobiliaria(id);
-        return converter.toDTO(entity);
+        return converter.toInmobiliariaDTO(entity);
     }
 
     @Override
     public List<InmobiliariaDTO> listarTodos() {
         List<Inmobiliaria> entities = inmobiliariaDAO.findInmobiliariaEntities();
-        return converter.toDTOList(entities);
+        return converter.toInmobiliariaDTOList(entities);
+    }
+
+    @Override
+    public InmobiliariaDTO obtenerPrimeraInmobiliaria() {
+        InmobiliariaDTO primeraInmobiliaria = null;        
+        for (Inmobiliaria im : inmobiliariaDAO.findInmobiliariaEntities(1, 0)) {
+            primeraInmobiliaria = converter.toInmobiliariaDTO(im);
+        }        
+        return primeraInmobiliaria;
     }
     
 }

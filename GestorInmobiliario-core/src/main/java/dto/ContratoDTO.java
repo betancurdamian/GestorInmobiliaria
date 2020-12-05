@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class ContratoDTO {
     private Long id;
-    private String unaFechaPrimerVencimiento;
-    private String unaFechaSegundoVencimiento;
+    private Integer unDiaPrimerVencimiento;
+    private Integer unDiaSegundoVencimiento;
     private Float montoTotal;
     private Integer cantidadDeCuotas;
     private RecargoPorMoraDTO unRecargoPorMora;
-    private LocadorDTO unLocador;
-    private LocatarioDTO unLocatario;
+    private ClienteDTO unLocador;
+    private ClienteDTO unLocatario;
     private ComisionDTO unaComision;
     private List<ArancelEspecialDTO> arancelesEspeciales;
     private List<BoletaDePagoDTO> boletasDePago;
@@ -32,20 +32,20 @@ public class ContratoDTO {
         this.id = id;
     }
 
-    public String getUnaFechaPrimerVencimiento() {
-        return unaFechaPrimerVencimiento;
+    public Integer getUnDiaPrimerVencimiento() {
+        return unDiaPrimerVencimiento;
     }
 
-    public void setUnaFechaPrimerVencimiento(String unaFechaPrimerVencimiento) {
-        this.unaFechaPrimerVencimiento = unaFechaPrimerVencimiento;
+    public void setUnDiaPrimerVencimiento(Integer unDiaPrimerVencimiento) {
+        this.unDiaPrimerVencimiento = unDiaPrimerVencimiento;
     }
 
-    public String getUnaFechaSegundoVencimiento() {
-        return unaFechaSegundoVencimiento;
+    public Integer getUnDiaSegundoVencimiento() {
+        return unDiaSegundoVencimiento;
     }
 
-    public void setUnaFechaSegundoVencimiento(String unaFechaSegundoVencimiento) {
-        this.unaFechaSegundoVencimiento = unaFechaSegundoVencimiento;
+    public void setUnDiaSegundoVencimiento(Integer unDiaSegundoVencimiento) {
+        this.unDiaSegundoVencimiento = unDiaSegundoVencimiento;
     }
 
     public Float getMontoTotal() {
@@ -72,19 +72,19 @@ public class ContratoDTO {
         this.unRecargoPorMora = unRecargoPorMora;
     }
 
-    public LocadorDTO getUnLocador() {
+    public ClienteDTO getUnLocador() {
         return unLocador;
     }
 
-    public void setUnLocador(LocadorDTO unLocador) {
+    public void setUnLocador(ClienteDTO unLocador) {
         this.unLocador = unLocador;
     }
 
-    public LocatarioDTO getUnLocatario() {
+    public ClienteDTO getUnLocatario() {
         return unLocatario;
     }
 
-    public void setUnLocatario(LocatarioDTO unLocatario) {
+    public void setUnLocatario(ClienteDTO unLocatario) {
         this.unLocatario = unLocatario;
     }
 

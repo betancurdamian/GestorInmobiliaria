@@ -36,7 +36,7 @@ public class TipoUsuarioServiceImpl implements ITipoUsuarioService{
     @Override
     public TipoUsuarioDTO crear(TipoUsuarioDTO dto) {
         if (dto != null) {
-            TipoUsuario entity = converter.toEntity(dto);
+            TipoUsuario entity = converter.toTipoUsuarioEntity(dto);
             this.tipoUsuarioDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,7 +50,7 @@ public class TipoUsuarioServiceImpl implements ITipoUsuarioService{
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    TipoUsuario entity = converter.toEntity(dto);
+                    TipoUsuario entity = converter.toTipoUsuarioEntity(dto);
                     tipoUsuarioDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -85,7 +85,7 @@ public class TipoUsuarioServiceImpl implements ITipoUsuarioService{
     @Override
     public TipoUsuarioDTO listarID(Long id) {
         TipoUsuario entity = tipoUsuarioDAO.findTipoUsuario(id);
-        return converter.toDTO(entity);
+        return converter.toTipoUsuarioDTO(entity);
     }
 
     @Override

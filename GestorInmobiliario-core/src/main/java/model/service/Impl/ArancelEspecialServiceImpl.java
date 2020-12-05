@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.ArancelEspecial;
 import org.mapstruct.factory.Mappers;
-import util.Converter;
 
 /**
  *
@@ -45,14 +44,12 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
         if (dto != null) {
             if (dto instanceof ArancelEspecialExpensaDTO) {
                 ArancelEspecialExpensa entity = converter.toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
-                entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                 this.arancelEspecialExpensaDAO.create(entity);
                 dto.setId(entity.getId());
             }
             if (dto instanceof ArancelEspecialServicioDTO) {
 
                 ArancelEspecialServicio entity = converter.toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
-                entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                 this.arancelEspecialServicioDAO.create(entity);
                 dto.setId(entity.getId());
             }
@@ -69,7 +66,6 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
                 if (dto instanceof ArancelEspecialExpensaDTO) {
                     try {
                         ArancelEspecialExpensa entity = converter.toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
-                        entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                         this.arancelEspecialExpensaDAO.edit(entity);
                         dto.setId(entity.getId());
                     } catch (Exception ex) {
@@ -79,7 +75,6 @@ public class ArancelEspecialServiceImpl implements IArancelEspecialService {
                 if (dto instanceof ArancelEspecialServicioDTO) {
                     try {
                         ArancelEspecialServicio entity = converter.toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
-                        entity.setUnaFechaArancel(Converter.converterStringToLocalDate(dto.getUnaFechaArancel()));
                         this.arancelEspecialServicioDAO.edit(entity);
                         dto.setId(entity.getId());
                     } catch (Exception ex) {

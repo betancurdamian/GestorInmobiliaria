@@ -5,7 +5,6 @@
  */
 package model.entity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -20,7 +19,7 @@ import javax.persistence.OneToMany;
  * @author Ariel
  */
 @Entity
-@DiscriminatorValue("CONTRATO ALQUILER")
+@DiscriminatorValue("CONTRATO VENTA")
 public class ContratoVenta extends Contrato {
 
     @OneToMany(mappedBy = "unContratoVenta", cascade = CascadeType.ALL)
@@ -39,7 +38,7 @@ public class ContratoVenta extends Contrato {
         this.cuotasVenta = new ArrayList<>();
     }
 
-    public ContratoVenta(Venta unaVenta, LocalDate unaFechaPrimerVencimiento, LocalDate unaFechaSegundoVencimiento, Float montoTotal, Integer cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
+    public ContratoVenta(Venta unaVenta, Integer unaFechaPrimerVencimiento, Integer unaFechaSegundoVencimiento, Float montoTotal, Integer cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
         super(unaFechaPrimerVencimiento, unaFechaSegundoVencimiento, montoTotal, cantidadDeCuotas, unRecargoPorMora, unLocador, unLocatario);
         this.unaVenta = unaVenta;
         this.cuotasVenta = new ArrayList<>();

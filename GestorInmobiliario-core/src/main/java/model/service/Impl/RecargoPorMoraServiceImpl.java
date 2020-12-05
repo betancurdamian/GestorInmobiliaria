@@ -36,7 +36,7 @@ public class RecargoPorMoraServiceImpl implements IRecargoPorMoraService{
     @Override
     public RecargoPorMoraDTO crear(RecargoPorMoraDTO dto) {
         if (dto != null) {
-            RecargoPorMora entity = converter.toEntity(dto);
+            RecargoPorMora entity = converter.toRecargoPorMoraEntity(dto);
             this.recargoPorMoraDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,7 +50,7 @@ public class RecargoPorMoraServiceImpl implements IRecargoPorMoraService{
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    RecargoPorMora entity = converter.toEntity(dto);
+                    RecargoPorMora entity = converter.toRecargoPorMoraEntity(dto);
                     recargoPorMoraDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -85,13 +85,22 @@ public class RecargoPorMoraServiceImpl implements IRecargoPorMoraService{
     @Override
     public RecargoPorMoraDTO listarID(Long id) {
         RecargoPorMora entity = recargoPorMoraDAO.findRecargoPorMora(id);
-        return converter.toDTO(entity);
+        return converter.toRecargoPorMoraDTO(entity);
     }
 
     @Override
     public List<RecargoPorMoraDTO> listarTodos() {
         List<RecargoPorMora> entities = recargoPorMoraDAO.findRecargoPorMoraEntities();
         return converter.toDTORecargoPorMoraList(entities);
+    }
+
+    @Override
+    public RecargoPorMoraDTO obtenerUltimoRecargoPorMora() {
+        RecargoPorMoraDTO ultimoRecargoPorMora = null;        
+        for (RecargoPorMora rpm : recargoPorMoraDAO.findRecargoPorMoraEntities(1, recargoPorMoraDAO.getRecargoPorMoraCount()-1)) {
+            ultimoRecargoPorMora = converter.toRecargoPorMoraDTO(rpm);
+        }        
+        return ultimoRecargoPorMora;
     }
     
 }

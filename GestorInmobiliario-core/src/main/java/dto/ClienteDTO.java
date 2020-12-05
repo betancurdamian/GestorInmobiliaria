@@ -5,6 +5,8 @@
  */
 package dto;
 
+import java.util.List;
+
 /**
  *
  * @author Ariel
@@ -13,6 +15,7 @@ public abstract class ClienteDTO extends PersonaDTO{
     
     private InmobiliariaDTO unaInmobiliariaCliente;
     private UsuarioClienteDTO unUsuarioCliente;
+    private List<InmuebleDTO> inmuebles;
 
     public InmobiliariaDTO getUnaInmobiliariaCliente() {
         return unaInmobiliariaCliente;
@@ -28,6 +31,14 @@ public abstract class ClienteDTO extends PersonaDTO{
 
     public void setUnUsuarioCliente(UsuarioClienteDTO unUsuarioCliente) {
         this.unUsuarioCliente = unUsuarioCliente;
+    }
+
+    public List<InmuebleDTO> getInmuebles() {
+        return inmuebles;
+    }
+
+    public void setInmuebles(List<InmuebleDTO> inmuebles) {
+        this.inmuebles = inmuebles;
     }
     
     

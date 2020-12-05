@@ -32,7 +32,7 @@ public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
     @Override
     public BoletaDePagoDTO crear(BoletaDePagoDTO dto) {
         if (dto != null) {
-            BoletaDePago entity = converter.toEntity(dto);
+            BoletaDePago entity = converter.toBoletaDePagoEntity(dto);
             this.boletaDePagoDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -46,7 +46,7 @@ public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    BoletaDePago entity = converter.toEntity(dto);
+                    BoletaDePago entity = converter.toBoletaDePagoEntity(dto);
                     boletaDePagoDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -81,7 +81,7 @@ public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
     @Override
     public BoletaDePagoDTO listarID(Long id) {
         BoletaDePago entity = boletaDePagoDAO.findBoletaDePago(id);
-        return converter.toDTO(entity);
+        return converter.toBoletaDePagoDTO(entity);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class CuotaVentaServiceImpl implements ICuotaVentaService {
     @Override
     public CuotaVentaDTO crear(CuotaVentaDTO dto) {
         if (dto != null) {
-            CuotaVenta entity = converter.toEntity(dto);
+            CuotaVenta entity = converter.toCuotaVentaEntity(dto);
             this.cuotaVentaDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,7 +50,7 @@ public class CuotaVentaServiceImpl implements ICuotaVentaService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    CuotaVenta entity = converter.toEntity(dto);
+                    CuotaVenta entity = converter.toCuotaVentaEntity(dto);
                     cuotaVentaDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -85,7 +85,7 @@ public class CuotaVentaServiceImpl implements ICuotaVentaService {
     @Override
     public CuotaVentaDTO listarID(Long id) {
         CuotaVenta entity = cuotaVentaDAO.findCuotaVenta(id);
-        return converter.toDTO(entity);
+        return converter.toCuotaVentaDTO(entity);
     }
 
     @Override

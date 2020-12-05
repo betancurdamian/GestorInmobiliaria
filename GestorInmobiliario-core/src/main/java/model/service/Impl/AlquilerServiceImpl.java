@@ -32,7 +32,7 @@ public class AlquilerServiceImpl implements IAlquilerService {
     @Override
     public AlquilerDTO crear(AlquilerDTO dto) {
         if (dto != null) {
-            Alquiler entity = converter.toEntity(dto);
+            Alquiler entity = converter.toAlquilerEntity(dto);
             this.alquilerDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -46,7 +46,7 @@ public class AlquilerServiceImpl implements IAlquilerService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    Alquiler entity = converter.toEntity(dto);
+                    Alquiler entity = converter.toAlquilerEntity(dto);
                     alquilerDAO.edit(entity);
                 } catch (Exception ex) {
                     Logger.getLogger(AlquilerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,7 +80,7 @@ public class AlquilerServiceImpl implements IAlquilerService {
     @Override
     public AlquilerDTO listarID(Long id) {
         Alquiler entity = alquilerDAO.findAlquiler(id);
-        return converter.toDTO(entity);
+        return converter.toAlquilerDTO(entity);
     }
 
     @Override

@@ -12,5 +12,5 @@ import dto.RecargoPorMoraDTO;
  * @author Ariel
  */
 public interface IRecargoPorMoraService extends ICRUD<RecargoPorMoraDTO>{
-    
+    RecargoPorMoraDTO obtenerUltimoRecargoPorMora();
 }

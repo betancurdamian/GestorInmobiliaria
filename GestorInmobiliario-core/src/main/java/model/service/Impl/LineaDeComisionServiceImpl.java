@@ -36,7 +36,7 @@ public class LineaDeComisionServiceImpl implements ILineaDeComisionService{
     @Override
     public LineaDeComisionDTO crear(LineaDeComisionDTO dto) {
         if (dto != null) {
-            LineaDeComision entity = converter.toEntity(dto);
+            LineaDeComision entity = converter.toLineaDeComisionEntity(dto);
             this.lineaDeComisionDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,7 +50,7 @@ public class LineaDeComisionServiceImpl implements ILineaDeComisionService{
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    LineaDeComision entity = converter.toEntity(dto);
+                    LineaDeComision entity = converter.toLineaDeComisionEntity(dto);
                     lineaDeComisionDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -85,7 +85,7 @@ public class LineaDeComisionServiceImpl implements ILineaDeComisionService{
     @Override
     public LineaDeComisionDTO listarID(Long id) {
         LineaDeComision entity = lineaDeComisionDAO.findLineaDeComision(id);
-        return converter.toDTO(entity);
+        return converter.toLineaDeComisionDTO(entity);
     }
 
     @Override

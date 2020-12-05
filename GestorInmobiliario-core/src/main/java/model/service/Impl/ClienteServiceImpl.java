@@ -188,7 +188,7 @@ public class ClienteServiceImpl implements IClienteService {
     @Override
     public LocatarioDTO listarLocatarioID(Long id) {
         Locatario entity = locatarioDAO.findLocatario(id);
-        return converter.toDTO(entity);
+        return converter.toLocatarioDTO(entity);
     }
 
     @Override

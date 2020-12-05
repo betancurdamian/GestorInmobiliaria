@@ -18,7 +18,7 @@ public abstract class InmuebleDTO {
     private Boolean disponible;
     private String descripcion;
     private InmobiliariaDTO unaInmobiliariaInmueble;
-    private LocadorDTO unLocador;
+    private ClienteDTO unCliente;
     private Float precioBaseVenta;
     private Float precioBaseAlquiler;
     
@@ -79,12 +79,12 @@ public abstract class InmuebleDTO {
         this.unaInmobiliariaInmueble = unaInmobiliariaInmueble;
     }
 
-    public LocadorDTO getUnLocador() {
-        return unLocador;
+    public ClienteDTO getUnCliente() {
+        return unCliente;
     }
 
-    public void setUnLocador(LocadorDTO unLocador) {
-        this.unLocador = unLocador;
+    public void setUnCliente(ClienteDTO unCliente) {
+        this.unCliente = unCliente;
     }
 
     public Float getPrecioBaseVenta() {

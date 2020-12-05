@@ -1,0 +1,34 @@
+//Crear objetos Recargo por mora
+RecargoPorMoraDTO rp = new RecargoPorMoraDTO();
+rp.setUnaFechaDeRecargo("2020-12-04");
+        
+RecargoPorMoraServiceImpl service = new RecargoPorMoraServiceImpl();
+service.crear(rp);
+
+
+//Creacion de aranceles especiales
+ArancelEspecialExpensaDTO aee1 = new ArancelEspecialExpensaDTO();
+        aee1.setUnaFechaArancel("2020-12-04");
+        aee1.setDescripcion("Alumbrado");
+        aee1.setMonto(500f);
+        
+        ArancelEspecialExpensaDTO aee2 = new ArancelEspecialExpensaDTO();
+        aee2.setUnaFechaArancel("2020-12-04");
+        aee2.setDescripcion("Recoleccion Residuo");
+        aee2.setMonto(700f);
+        
+        ArancelEspecialServicioDTO aes1 = new ArancelEspecialServicioDTO();
+        aes1.setUnaFechaArancel("2020-12-04");
+        aes1.setDescripcion("Limpieza");
+        aes1.setMonto(400f);
+        
+        ArancelEspecialServicioDTO aes2 = new ArancelEspecialServicioDTO();
+        aes2.setUnaFechaArancel("2020-12-04");
+        aes2.setDescripcion("Seguridad");
+        aes2.setMonto(1500f);
+        
+        ArancelEspecialServiceImpl service = new ArancelEspecialServiceImpl();
+        service.crear(aee1);
+        service.crear(aee2);
+        service.crear(aes1);
+        service.crear(aes2);

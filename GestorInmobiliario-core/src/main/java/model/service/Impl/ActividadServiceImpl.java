@@ -36,7 +36,7 @@ public class ActividadServiceImpl implements IActividadService {
     @Override
     public ActividadDTO crear(ActividadDTO dto) {
         if (dto != null) {
-            Actividad entity = converter.toEntity(dto);
+            Actividad entity = converter.toActividadEntity(dto);
             this.actividadDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,7 +50,7 @@ public class ActividadServiceImpl implements IActividadService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    Actividad entity = converter.toEntity(dto);
+                    Actividad entity = converter.toActividadEntity(dto);
                     actividadDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -85,7 +85,7 @@ public class ActividadServiceImpl implements IActividadService {
     @Override
     public ActividadDTO listarID(Long id) {
         Actividad entity = actividadDAO.findActividad(id);
-        return converter.toDTO(entity);
+        return converter.toActividadDTO(entity);
     }
 
     @Override

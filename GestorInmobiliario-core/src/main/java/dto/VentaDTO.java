@@ -14,7 +14,7 @@ public class VentaDTO {
     private String unaFechaVenta;
     private Boolean completa;
     private ContratoVentaDTO unContratoVenta;
-    private InmuebleDTO unInmueble;
+    private InmuebleDTO unInmuebleVenta;
     private InmobiliariaDTO unaInmobiliariaVenta;
 
     public Long getId() {
@@ -49,12 +49,12 @@ public class VentaDTO {
         this.unContratoVenta = unContratoVenta;
     }
 
-    public InmuebleDTO getUnInmueble() {
-        return unInmueble;
+    public InmuebleDTO getUnInmuebleVenta() {
+        return unInmuebleVenta;
     }
 
-    public void setUnInmueble(InmuebleDTO unInmueble) {
-        this.unInmueble = unInmueble;
+    public void setUnInmuebleVenta(InmuebleDTO unInmuebleVenta) {
+        this.unInmuebleVenta = unInmuebleVenta;
     }
 
     public InmobiliariaDTO getUnaInmobiliariaVenta() {

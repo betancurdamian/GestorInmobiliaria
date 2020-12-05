@@ -34,14 +34,14 @@ public class ComisionServiceImpl implements IComisionService {
     @Override
     public ComisionDTO crear(ComisionDTO dto) {
         if (dto != null) {
-            Comision entity = converter.toEntity(dto);
+            Comision entity = converter.toComisionEntity(dto);
 
             entity.setLineasDeComisiones(null);
             comisionDAO.create(entity);
 
             dto.getLineasDeComisiones().forEach(lcdto -> {
                 LineaDeComision lc = new LineaDeComision();
-                lc = converter.toEntity(lcdto);
+                lc = converter.toLineaDeComisionEntity(lcdto);
                 lc.setUnaComision(entity);
                 lineaDeComisionDAO.create(lc);
             });
@@ -56,13 +56,13 @@ public class ComisionServiceImpl implements IComisionService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    Comision entity = converter.toEntity(dto);
+                    Comision entity = converter.toComisionEntity(dto);
                     entity.setLineasDeComisiones(null);
                     comisionDAO.edit(entity);
 
                     dto.getLineasDeComisiones().forEach(lcdto -> {
                         LineaDeComision lc = new LineaDeComision();
-                        lc = converter.toEntity(lcdto);
+                        lc = converter.toLineaDeComisionEntity(lcdto);
                         lc.setUnaComision(entity);
                         try {
                             lineaDeComisionDAO.edit(lc);
@@ -104,7 +104,7 @@ public class ComisionServiceImpl implements IComisionService {
     @Override
     public ComisionDTO listarID(Long id) {
         Comision entity = comisionDAO.findComision(id);
-        return converter.toDTO(entity);
+        return converter.toComisionDTO(entity);
     }
 
     @Override

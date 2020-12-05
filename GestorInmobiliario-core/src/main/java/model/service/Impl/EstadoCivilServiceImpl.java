@@ -36,7 +36,7 @@ public class EstadoCivilServiceImpl implements IEstadoCivilService {
     @Override
     public EstadoCivilDTO crear(EstadoCivilDTO dto) {
         if (dto != null) {
-            EstadoCivil entity = converter.toEntity(dto);
+            EstadoCivil entity = converter.toEstadoCivilEntity(dto);
             this.estadoCivilDAO.create(entity);
             dto.setId(entity.getId());
         } else {
@@ -50,7 +50,7 @@ public class EstadoCivilServiceImpl implements IEstadoCivilService {
         if (dto != null) {
             if (dto.getId() != null) {
                 try {
-                    EstadoCivil entity = converter.toEntity(dto);
+                    EstadoCivil entity = converter.toEstadoCivilEntity(dto);
                     estadoCivilDAO.edit(entity);
                     dto.setId(entity.getId());
                 } catch (Exception ex) {
@@ -85,7 +85,7 @@ public class EstadoCivilServiceImpl implements IEstadoCivilService {
     @Override
     public EstadoCivilDTO listarID(Long id) {
         EstadoCivil entity = estadoCivilDAO.findEstadoCivil(id);
-        return converter.toDTO(entity);
+        return converter.toEstadoCivilDTO(entity);
     }
 
     @Override

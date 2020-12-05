@@ -6,7 +6,6 @@
 package model.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -38,11 +37,11 @@ public abstract class Contrato implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(name = "fecha_primer_vencimiento")
-    private LocalDate unaFechaPrimerVencimiento;
+    @Column(name = "dia_primer_vencimiento")
+    private Integer unDiaPrimerVencimiento;
 
-    @Column(name = "fecha_segundo_vencimiento")
-    private LocalDate unaFechaSegundoVencimiento;
+    @Column(name = "dia_segundo_vencimiento")
+    private Integer unDiaSegundoVencimiento;
 
     @Column(name = "monto_total")
     private Float montoTotal;
@@ -56,11 +55,11 @@ public abstract class Contrato implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "fk_locador")
-    private Locador unLocador;
+    private Cliente unLocador;
 
     @ManyToOne
     @JoinColumn(name = "fk_locatario")
-    private Locatario unLocatario;
+    private Cliente unLocatario;
 
     @ManyToOne
     @JoinColumn(name = "fk_comision")
@@ -77,9 +76,9 @@ public abstract class Contrato implements Serializable {
         this.boletasDePago = new ArrayList<>();
     }
 
-    public Contrato(LocalDate unaFechaPrimerVencimiento, LocalDate unaFechaSegundoVencimiento, Float montoTotal, Integer cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
-        this.unaFechaPrimerVencimiento = unaFechaPrimerVencimiento;
-        this.unaFechaSegundoVencimiento = unaFechaSegundoVencimiento;
+    public Contrato(Integer unaFechaPrimerVencimiento, Integer unaFechaSegundoVencimiento, Float montoTotal, Integer cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
+        this.unDiaPrimerVencimiento = unaFechaPrimerVencimiento;
+        this.unDiaSegundoVencimiento = unaFechaSegundoVencimiento;
         this.montoTotal = montoTotal;
         this.cantidadDeCuotas = cantidadDeCuotas;
         this.unRecargoPorMora = unRecargoPorMora;
@@ -97,20 +96,20 @@ public abstract class Contrato implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getUnaFechaPrimerVencimiento() {
-        return unaFechaPrimerVencimiento;
+    public Integer getUnDiaPrimerVencimiento() {
+        return unDiaPrimerVencimiento;
     }
 
-    public void setUnaFechaPrimerVencimiento(LocalDate unaFechaPrimerVencimiento) {
-        this.unaFechaPrimerVencimiento = unaFechaPrimerVencimiento;
+    public void setUnDiaPrimerVencimiento(Integer unDiaPrimerVencimiento) {
+        this.unDiaPrimerVencimiento = unDiaPrimerVencimiento;
     }
 
-    public LocalDate getUnaFechaSegundoVencimiento() {
-        return unaFechaSegundoVencimiento;
+    public Integer getUnDiaSegundoVencimiento() {
+        return unDiaSegundoVencimiento;
     }
 
-    public void setUnaFechaSegundoVencimiento(LocalDate unaFechaSegundoVencimiento) {
-        this.unaFechaSegundoVencimiento = unaFechaSegundoVencimiento;
+    public void setUnDiaSegundoVencimiento(Integer unDiaSegundoVencimiento) {
+        this.unDiaSegundoVencimiento = unDiaSegundoVencimiento;
     }
 
     public Float getMontoTotal() {
@@ -137,19 +136,19 @@ public abstract class Contrato implements Serializable {
         this.unRecargoPorMora = unRecargoPorMora;
     }
 
-    public Locador getUnLocador() {
+    public Cliente getUnLocador() {
         return unLocador;
     }
 
-    public void setUnLocador(Locador unLocador) {
+    public void setUnLocador(Cliente unLocador) {
         this.unLocador = unLocador;
     }
 
-    public Locatario getUnLocatario() {
+    public Cliente getUnLocatario() {
         return unLocatario;
     }
 
-    public void setUnLocatario(Locatario unLocatario) {
+    public void setUnLocatario(Cliente unLocatario) {
         this.unLocatario = unLocatario;
     }
 

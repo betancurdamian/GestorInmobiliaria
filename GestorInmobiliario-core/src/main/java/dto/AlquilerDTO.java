@@ -17,7 +17,7 @@ public class AlquilerDTO {
     private ContratoAlquilerDTO unContratoAlquiler;
     private InmuebleDTO unInmueble;
     private InmobiliariaDTO unaInmobiliariaAlquiler;
-    private Boolean disponible;
+    private Boolean completa;
 
     public Long getId() {
         return id;
@@ -67,12 +67,12 @@ public class AlquilerDTO {
         this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
     }
 
-    public Boolean getDisponible() {
-        return disponible;
+    public Boolean getCompleta() {
+        return completa;
     }
 
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
+    public void setCompleta(Boolean completa) {
+        this.completa = completa;
     }
 
 }

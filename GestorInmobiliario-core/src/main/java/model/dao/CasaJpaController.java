@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
 import model.dao.exceptions.NonexistentEntityException;
 import model.entity.Casa;
 import model.entity.Inmobiliaria;
-import model.entity.Locador;
+import model.entity.Cliente;
 
 /**
  *
@@ -43,19 +43,19 @@ public class CasaJpaController implements Serializable {
                 unaInmobiliariaInmueble = em.getReference(unaInmobiliariaInmueble.getClass(), unaInmobiliariaInmueble.getId());
                 casa.setUnaInmobiliariaInmueble(unaInmobiliariaInmueble);
             }
-            Locador unLocador = casa.getUnLocador();
-            if (unLocador != null) {
-                unLocador = em.getReference(unLocador.getClass(), unLocador.getId());
-                casa.setUnLocador(unLocador);
+            Cliente unCliente = casa.getUnCliente();
+            if (unCliente != null) {
+                unCliente = em.getReference(unCliente.getClass(), unCliente.getId());
+                casa.setUnCliente(unCliente);
             }
             em.persist(casa);
             if (unaInmobiliariaInmueble != null) {
                 unaInmobiliariaInmueble.getInmuebles().add(casa);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
             }
-            if (unLocador != null) {
-                unLocador.getInmuebles().add(casa);
-                unLocador = em.merge(unLocador);
+            if (unCliente != null) {
+                unCliente.getInmuebles().add(casa);
+                unCliente = em.merge(unCliente);
             }
             em.getTransaction().commit();
         } finally {
@@ -73,15 +73,15 @@ public class CasaJpaController implements Serializable {
             Casa persistentCasa = em.find(Casa.class, casa.getId());
             Inmobiliaria unaInmobiliariaInmuebleOld = persistentCasa.getUnaInmobiliariaInmueble();
             Inmobiliaria unaInmobiliariaInmuebleNew = casa.getUnaInmobiliariaInmueble();
-            Locador unLocadorOld = persistentCasa.getUnLocador();
-            Locador unLocadorNew = casa.getUnLocador();
+            Cliente unClienteOld = persistentCasa.getUnCliente();
+            Cliente unClienteNew = casa.getUnCliente();
             if (unaInmobiliariaInmuebleNew != null) {
                 unaInmobiliariaInmuebleNew = em.getReference(unaInmobiliariaInmuebleNew.getClass(), unaInmobiliariaInmuebleNew.getId());
                 casa.setUnaInmobiliariaInmueble(unaInmobiliariaInmuebleNew);
             }
-            if (unLocadorNew != null) {
-                unLocadorNew = em.getReference(unLocadorNew.getClass(), unLocadorNew.getId());
-                casa.setUnLocador(unLocadorNew);
+            if (unClienteNew != null) {
+                unClienteNew = em.getReference(unClienteNew.getClass(), unClienteNew.getId());
+                casa.setUnCliente(unClienteNew);
             }
             casa = em.merge(casa);
             if (unaInmobiliariaInmuebleOld != null && !unaInmobiliariaInmuebleOld.equals(unaInmobiliariaInmuebleNew)) {
@@ -92,13 +92,13 @@ public class CasaJpaController implements Serializable {
                 unaInmobiliariaInmuebleNew.getInmuebles().add(casa);
                 unaInmobiliariaInmuebleNew = em.merge(unaInmobiliariaInmuebleNew);
             }
-            if (unLocadorOld != null && !unLocadorOld.equals(unLocadorNew)) {
-                unLocadorOld.getInmuebles().remove(casa);
-                unLocadorOld = em.merge(unLocadorOld);
+            if (unClienteOld != null && !unClienteOld.equals(unClienteNew)) {
+                unClienteOld.getInmuebles().remove(casa);
+                unClienteOld = em.merge(unClienteOld);
             }
-            if (unLocadorNew != null && !unLocadorNew.equals(unLocadorOld)) {
-                unLocadorNew.getInmuebles().add(casa);
-                unLocadorNew = em.merge(unLocadorNew);
+            if (unClienteNew != null && !unClienteNew.equals(unClienteOld)) {
+                unClienteNew.getInmuebles().add(casa);
+                unClienteNew = em.merge(unClienteNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -134,10 +134,10 @@ public class CasaJpaController implements Serializable {
                 unaInmobiliariaInmueble.getInmuebles().remove(casa);
                 unaInmobiliariaInmueble = em.merge(unaInmobiliariaInmueble);
             }
-            Locador unLocador = casa.getUnLocador();
-            if (unLocador != null) {
-                unLocador.getInmuebles().remove(casa);
-                unLocador = em.merge(unLocador);
+            Cliente unCliente = casa.getUnCliente();
+            if (unCliente != null) {
+                unCliente.getInmuebles().remove(casa);
+                unCliente = em.merge(unCliente);
             }
             em.remove(casa);
             em.getTransaction().commit();

@@ -7,7 +7,6 @@ package model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,8 +47,8 @@ public class Alquiler implements Serializable {
     @JoinColumn(name = "fk_inmobiliaria")
     private Inmobiliaria unaInmobiliariaAlquiler;
 
-    @Column(name = "disponible")
-    private Boolean disponible;
+    @Column(name = "completa")
+    private Boolean completa;
 
     public Alquiler() {
     }
@@ -59,7 +58,7 @@ public class Alquiler implements Serializable {
         this.unaFechaFin = unaFechaFin;
         this.unInmuebleAlquiler = unInmueble;
         this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
-        this.disponible = disponible;
+        this.completa = disponible;
     }
 
     public Long getId() {
@@ -135,12 +134,12 @@ public class Alquiler implements Serializable {
         this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
     }
 
-    public Boolean getDisponible() {
-        return disponible;
+    public Boolean getCompleta() {
+        return completa;
     }
 
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
+    public void setCompleta(Boolean completa) {
+        this.completa = completa;
     }
     
 }

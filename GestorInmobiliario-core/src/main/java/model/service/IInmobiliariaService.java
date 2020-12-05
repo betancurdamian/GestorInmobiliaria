@@ -12,5 +12,5 @@ import dto.InmobiliariaDTO;
  * @author Ariel
  */
 public interface IInmobiliariaService extends ICRUD<InmobiliariaDTO>{
-    
+    InmobiliariaDTO obtenerPrimeraInmobiliaria();
 }

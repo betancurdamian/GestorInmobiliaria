@@ -39,6 +39,9 @@ import dto.UsuarioClienteDTO;
 import dto.UsuarioDTO;
 import dto.UsuarioEmpresaDTO;
 import dto.VentaDTO;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import model.entity.Actividad;
 import model.entity.Alquiler;
@@ -79,40 +82,58 @@ import model.entity.Usuario;
 import model.entity.UsuarioCliente;
 import model.entity.UsuarioEmpresa;
 import model.entity.Venta;
+import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface InmobiliariaMapper {
 
-    InmobiliariaDTO toDTO(Inmobiliaria entity);
+    InmobiliariaMapper INSTANCE = Mappers.getMapper(InmobiliariaMapper.class);
 
-    Inmobiliaria toEntity(InmobiliariaDTO dto);
+    @Mapping(target = "clientes", ignore = true)
+    @Mapping(target = "garantes", ignore = true)
+    @Mapping(target = "inmuebles", ignore = true)
+    @Mapping(target = "alquileres", ignore = true)
+    @Mapping(target = "ventas", ignore = true)
+    @Mapping(target = "recargosPorMoras", ignore = true)
+    @Mapping(target = "arancelesEspeciales", ignore = true)
+    @Mapping(target = "usuarios", ignore = true)
+    InmobiliariaDTO toInmobiliariaDTO(Inmobiliaria entity);
 
-    List<InmobiliariaDTO> toDTOList(List<Inmobiliaria> entities);
+    Inmobiliaria toInmobiliariaEntity(InmobiliariaDTO dto);
 
-    default ClienteDTO toDTO(Cliente entity) {
-        ClienteDTO dtoAux = null;
+    List<InmobiliariaDTO> toInmobiliariaDTOList(List<Inmobiliaria> entities);
+
+    default ClienteDTO toClienteDTO(Cliente entity) {
+
         if (entity == null) {
             return null;
+        } else {
+            ClienteDTO dtoAux = null;
+            if (entity instanceof Locador) {
+                dtoAux = toLocadorDTO((Locador) entity);
+            }
+            if (entity instanceof LocatarioDependiente) {
+                dtoAux = toLocatatioDependienteDTO((LocatarioDependiente) entity);
+            }
+            if (entity instanceof LocatarioIndependiente) {
+                dtoAux = toLocatarioIndependienteDTO((LocatarioIndependiente) entity);
+            }
+            if (entity instanceof LocatarioEstudiante) {
+                dtoAux = toLocatarioEstudianteDTO((LocatarioEstudiante) entity);
+            }
+            return dtoAux;
         }
-        if (entity instanceof Locador) {
-            dtoAux = toLocadorDTO((Locador) entity);
-        }
-        if (entity instanceof LocatarioDependiente) {
-            dtoAux = toLocatatioDependienteDTO((LocatarioDependiente) entity);
-        }
-        if (entity instanceof LocatarioIndependiente) {
-            dtoAux = toLocatarioIndependienteDTO((LocatarioIndependiente) entity);
-        }
-        if (entity instanceof LocatarioEstudiante) {
-            dtoAux = toLocatarioEstudianteDTO((LocatarioEstudiante) entity);
-        }
-        return dtoAux;
+
     }
 
+    @Mapping(target = "inmuebles", ignore = true)
     LocadorDTO toLocadorDTO(Locador entity);
 
-    default LocatarioDTO toDTO(Locatario entity) {
+    default LocatarioDTO toLocatarioDTO(Locatario entity) {
         LocatarioDTO dtoAux = null;
         if (entity == null) {
             return null;
@@ -129,23 +150,31 @@ public interface InmobiliariaMapper {
         return dtoAux;
     }
 
+    @Mapping(target = "inmuebles", ignore = true)
+    @Mapping(target = "unGarante", ignore = true)
     LocatarioDependienteDTO toLocatatioDependienteDTO(LocatarioDependiente entity);
 
+    @Mapping(target = "inmuebles", ignore = true)
+    @Mapping(target = "unGarante", ignore = true)
     LocatarioIndependienteDTO toLocatarioIndependienteDTO(LocatarioIndependiente entity);
 
+    @Mapping(target = "inmuebles", ignore = true)
+    @Mapping(target = "unGarante", ignore = true)
     LocatarioEstudianteDTO toLocatarioEstudianteDTO(LocatarioEstudiante entity);
 
-    default GaranteDTO toDTO(Garante entity) {
+    default GaranteDTO toGaranteDTO(Garante entity) {
         GaranteDTO dtoAux = null;
         if (entity == null) {
             return null;
+        } else {
+            if (entity instanceof GaranteDependiente) {
+                dtoAux = toGaranteDependienteDTO((GaranteDependiente) entity);
+            }
+            if (entity instanceof GaranteIndependiente) {
+                dtoAux = toGaranteIndependienteDTO((GaranteIndependiente) entity);
+            }
         }
-        if (entity instanceof GaranteDependiente) {
-            dtoAux = toGaranteDependienteDTO((GaranteDependiente) entity);
-        }
-        if (entity instanceof GaranteIndependiente) {
-            dtoAux = toGaranteIndependienteDTO((GaranteIndependiente) entity);
-        }
+
         return dtoAux;
     }
 
@@ -153,23 +182,25 @@ public interface InmobiliariaMapper {
 
     GaranteIndependienteDTO toGaranteIndependienteDTO(GaranteIndependiente entity);
 
-    default InmuebleDTO toDTO(Inmueble entity) {
+    default InmuebleDTO toInmuebleDTO(Inmueble entity) {
         InmuebleDTO dtoAux = null;
         if (entity == null) {
             return null;
+        } else {
+            if (entity instanceof Terreno) {
+                dtoAux = toTerrenoDTO((Terreno) entity);
+            }
+            if (entity instanceof Casa) {
+                dtoAux = toCasaDTO((Casa) entity);
+            }
+            if (entity instanceof Departamento) {
+                dtoAux = toDepartamentoDTO((Departamento) entity);
+            }
+            if (entity instanceof LocalComercial) {
+                dtoAux = toLocalComercialDTO((LocalComercial) entity);
+            }
         }
-        if (entity instanceof Terreno) {
-            dtoAux = toTerrenoDTO((Terreno) entity);
-        }
-        if (entity instanceof Casa) {
-            dtoAux = toCasaDTO((Casa) entity);
-        }
-        if (entity instanceof Departamento) {
-            dtoAux = toDepartamentoDTO((Departamento) entity);
-        }
-        if (entity instanceof LocalComercial) {
-            dtoAux = toLocalComercialDTO((LocalComercial) entity);
-        }
+
         return dtoAux;
     }
 
@@ -181,7 +212,7 @@ public interface InmobiliariaMapper {
 
     LocalComercialDTO toLocalComercialDTO(LocalComercial entity);
 
-    default ComprobanteDeIngresoDTO toDTO(ComprobanteDeIngreso entity) {
+    default ComprobanteDeIngresoDTO toComprobanteDTO(ComprobanteDeIngreso entity) {
         ComprobanteDeIngresoDTO dtoAux = null;
         if (entity == null) {
             return null;
@@ -204,7 +235,7 @@ public interface InmobiliariaMapper {
 
     DocumentoDeIngresoDTO toDocumentoDeIngresoDTO(DocumentoDeIngreso entity);
 
-    default ArancelEspecialDTO toDTO(ArancelEspecial entity) {
+    default ArancelEspecialDTO toArancelEspecialDTO(ArancelEspecial entity) {
         ArancelEspecialDTO dtoAux = null;
         if (entity == null) {
             return null;
@@ -218,11 +249,13 @@ public interface InmobiliariaMapper {
         return dtoAux;
     }
 
+    @Mapping(source = "unaFechaArancel", target = "unaFechaArancel", qualifiedByName = "localDateString")
     ArancelEspecialExpensaDTO toArancelEspecialExpensaDTO(ArancelEspecialExpensa entity);
 
+    @Mapping(source = "unaFechaArancel", target = "unaFechaArancel", qualifiedByName = "localDateString")
     ArancelEspecialServicioDTO toArancelEspecialServicioDTO(ArancelEspecialServicio entity);
 
-    default UsuarioDTO toDTO(Usuario entity) {
+    default UsuarioDTO toUsuarioDTO(Usuario entity) {
         UsuarioDTO dtoAux = null;
         if (entity == null) {
             return null;
@@ -240,7 +273,7 @@ public interface InmobiliariaMapper {
 
     UsuarioClienteDTO toUsuarioClienteDTO(UsuarioCliente entity);
 
-    default ContratoDTO toDTO(Contrato entity) {
+    default ContratoDTO toContratoDTO(Contrato entity) {
         ContratoDTO dtoAux = null;
         if (entity == null) {
             return null;
@@ -258,7 +291,7 @@ public interface InmobiliariaMapper {
 
     ContratoAlquilerDTO toContratoAlquilerDTO(ContratoAlquiler entity);
 
-    default Cliente toEntity(ClienteDTO dto) {
+    default Cliente toClienteEntity(ClienteDTO dto) {
         Cliente entityAux = null;
         if (dto == null) {
             return null;
@@ -280,7 +313,7 @@ public interface InmobiliariaMapper {
 
     Locador toLocadorEntity(LocadorDTO dto);
 
-    default Locatario toEntity(LocatarioDTO dto) {
+    default Locatario toLocatarioEntity(LocatarioDTO dto) {
         Locatario entityAux = null;
         if (dto == null) {
             return null;
@@ -303,7 +336,7 @@ public interface InmobiliariaMapper {
 
     LocatarioEstudiante toLocatarioEstudianteEntity(LocatarioEstudianteDTO dto);
 
-    default Garante toEntity(GaranteDTO dto) {
+    default Garante toGaranteEntity(GaranteDTO dto) {
         Garante entityAux = null;
         if (dto == null) {
             return null;
@@ -321,7 +354,7 @@ public interface InmobiliariaMapper {
 
     GaranteIndependiente toGaranteIndependienteEntity(GaranteIndependienteDTO dto);
 
-    default Inmueble toEntity(InmuebleDTO dto) {
+    default Inmueble toInmuebleEntity(InmuebleDTO dto) {
         Inmueble entityAux = null;
         if (dto == null) {
             return null;
@@ -349,7 +382,7 @@ public interface InmobiliariaMapper {
 
     LocalComercial toLocalComercialEntity(LocalComercialDTO dto);
 
-    default ComprobanteDeIngreso toEntity(ComprobanteDeIngresoDTO dto) {
+    default ComprobanteDeIngreso toComprobanteDeIngresoEntity(ComprobanteDeIngresoDTO dto) {
         ComprobanteDeIngreso entityAux = null;
         if (dto == null) {
             return null;
@@ -372,25 +405,29 @@ public interface InmobiliariaMapper {
 
     DocumentoDeIngreso toDocumentoDeIngresoEntity(DocumentoDeIngresoDTO dto);
 
-    default ArancelEspecial toEntity(ArancelEspecialDTO dto) {
+    default ArancelEspecial toArancelEspecialEntity(ArancelEspecialDTO dto) {
         ArancelEspecial entityAux = null;
         if (dto == null) {
             return null;
+        } else {
+            if (dto instanceof ArancelEspecialExpensaDTO) {
+                entityAux = toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
+            }
+            if (dto instanceof ArancelEspecialServicioDTO) {
+                entityAux = toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
+            }
+            return entityAux;
         }
-        if (dto instanceof ArancelEspecialExpensaDTO) {
-            entityAux = toArancelEspecialExpensaEntity((ArancelEspecialExpensaDTO) dto);
-        }
-        if (dto instanceof ArancelEspecialServicioDTO) {
-            entityAux = toArancelEspecialServicioEntity((ArancelEspecialServicioDTO) dto);
-        }
-        return entityAux;
+
     }
 
+    @Mapping(source = "unaFechaArancel", target = "unaFechaArancel", qualifiedByName = "localDate")
     ArancelEspecialExpensa toArancelEspecialExpensaEntity(ArancelEspecialExpensaDTO dto);
 
+    @Mapping(source = "unaFechaArancel", target = "unaFechaArancel", qualifiedByName = "localDate")
     ArancelEspecialServicio toArancelEspecialServicioEntity(ArancelEspecialServicioDTO dto);
 
-    default Usuario toEntity(UsuarioDTO dto) {
+    default Usuario toUsuarioEntity(UsuarioDTO dto) {
         Usuario entityAux = null;
         if (dto == null) {
             return null;
@@ -408,90 +445,100 @@ public interface InmobiliariaMapper {
 
     UsuarioCliente toUsuarioClienteEntity(UsuarioClienteDTO dto);
 
-    default Contrato toEntity(ContratoDTO dto) {
+    default Contrato toContratoEntity(ContratoDTO dto) {
         Contrato entityAux = null;
         if (dto == null) {
             return null;
+        } else {
+            if (dto instanceof ContratoVentaDTO) {
+                entityAux = toContratoVentaEntity((ContratoVentaDTO) dto);
+            }
+            if (dto instanceof ContratoAlquilerDTO) {
+                entityAux = toContratoAlquilerEntity((ContratoAlquilerDTO) dto);
+            }
+            return entityAux;
         }
-        if (dto instanceof ContratoVentaDTO) {
-            entityAux = toContratoVentaEntity((ContratoVentaDTO) dto);
-        }
-        if (dto instanceof ContratoAlquilerDTO) {
-            entityAux = toContratoAlquilerEntity((ContratoAlquilerDTO) dto);
-        }
-        return entityAux;
+
     }
 
+    @Mapping(target = "cuotasVenta", ignore = true)
+    @Mapping(target = "unaComision", ignore = true)
     ContratoVenta toContratoVentaEntity(ContratoVentaDTO dto);
 
+    @Mapping(target = "unaComision", ignore = true)
     ContratoAlquiler toContratoAlquilerEntity(ContratoAlquilerDTO dto);
 
-    AlquilerDTO toDTO(Alquiler entity);
+    AlquilerDTO toAlquilerDTO(Alquiler entity);
 
-    Alquiler toEntity(AlquilerDTO dto);
+    Alquiler toAlquilerEntity(AlquilerDTO dto);
 
     List<AlquilerDTO> toDTOAlquilerList(List<Alquiler> entities);
 
-    ActividadDTO toDTO(Actividad entity);
+    ActividadDTO toActividadDTO(Actividad entity);
 
-    Actividad toEntity(ActividadDTO dto);
+    Actividad toActividadEntity(ActividadDTO dto);
 
     List<ActividadDTO> toDTOActividadList(List<Actividad> entities);
-    
 
-    TipoUsuarioDTO toDTO(TipoUsuario entity);
+    TipoUsuarioDTO toTipoUsuarioDTO(TipoUsuario entity);
 
-    TipoUsuario toEntity(TipoUsuarioDTO dto);
+    TipoUsuario toTipoUsuarioEntity(TipoUsuarioDTO dto);
 
     List<TipoUsuarioDTO> toDTOTipoUsuarioList(List<TipoUsuario> entities);
 
-    RecargoPorMoraDTO toDTO(RecargoPorMora entity);
+    @Mapping(source = "unaFechaDeRecargo", target = "unaFechaDeRecargo", qualifiedByName = "localDateString")
+    RecargoPorMoraDTO toRecargoPorMoraDTO(RecargoPorMora entity);
 
-    RecargoPorMora toEntity(RecargoPorMoraDTO dto);
+    @Mapping(source = "unaFechaDeRecargo", target = "unaFechaDeRecargo", qualifiedByName = "localDate")
+    RecargoPorMora toRecargoPorMoraEntity(RecargoPorMoraDTO dto);
 
     List<RecargoPorMoraDTO> toDTORecargoPorMoraList(List<RecargoPorMora> entities);
 
-    
+    TipoDNIDTO toTipoDNIDTO(TipoDNI entity);
 
-    TipoDNIDTO toDTO(TipoDNI entity);
-
-    TipoDNI toEntity(TipoDNIDTO dto);
+    TipoDNI toTipoDNIEntity(TipoDNIDTO dto);
 
     List<TipoDNIDTO> toDTOTipoDNIList(List<TipoDNI> entities);
 
-    CuotaVentaDTO toDTO(CuotaVenta entity);
+    CuotaVentaDTO toCuotaVentaDTO(CuotaVenta entity);
 
-    CuotaVenta toEntity(CuotaVentaDTO dto);
+    CuotaVenta toCuotaVentaEntity(CuotaVentaDTO dto);
 
     List<CuotaVentaDTO> toDTOCuotaVentaList(List<CuotaVenta> entities);
 
-    VentaDTO toDTO(Venta entity);
+    @Mapping(target = "unContratoVenta", ignore = true)
+    @Mapping(source = "unaFechaVenta", target = "unaFechaVenta", qualifiedByName = "localDateString")
+    VentaDTO toVentaDTO(Venta entity);
 
-    Venta toEntity(VentaDTO dto);
+    @Mapping(target = "unContratoVenta", ignore = true)
+    @Mapping(source = "unaFechaVenta", target = "unaFechaVenta", qualifiedByName = "localDate")
+    Venta toVentaEntity(VentaDTO dto);
 
     List<VentaDTO> toDTOVentaList(List<Venta> entities);
 
-    ComisionDTO toDTO(Comision entity);
+    ComisionDTO toComisionDTO(Comision entity);
 
-    Comision toEntity(ComisionDTO dto);
+    @Mapping(target = "lineasDeComisiones", ignore = true)
+    Comision toComisionEntity(ComisionDTO dto);
 
+    @Mapping(target = "lineasDeComisiones", ignore = true)
     List<ComisionDTO> toDTOComisionList(List<Comision> entities);
 
-    LineaDeComisionDTO toDTO(LineaDeComision entity);
+    LineaDeComisionDTO toLineaDeComisionDTO(LineaDeComision entity);
 
-    LineaDeComision toEntity(LineaDeComisionDTO dto);
+    LineaDeComision toLineaDeComisionEntity(LineaDeComisionDTO dto);
 
     List<LineaDeComisionDTO> toDTOLineaDeComisionList(List<LineaDeComision> entities);
 
-    BoletaDePagoDTO toDTO(BoletaDePago entity);
+    BoletaDePagoDTO toBoletaDePagoDTO(BoletaDePago entity);
 
-    BoletaDePago toEntity(BoletaDePagoDTO dto);
+    BoletaDePago toBoletaDePagoEntity(BoletaDePagoDTO dto);
 
     List<BoletaDePagoDTO> toDTOBoletaDePagoList(List<BoletaDePago> entities);
 
-    EstadoCivilDTO toDTO(EstadoCivil entity);
+    EstadoCivilDTO toEstadoCivilDTO(EstadoCivil entity);
 
-    EstadoCivil toEntity(EstadoCivilDTO dto);
+    EstadoCivil toEstadoCivilEntity(EstadoCivilDTO dto);
 
     List<EstadoCivilDTO> toDTOEstadoCivilList(List<EstadoCivil> entities);
 
@@ -548,4 +595,28 @@ public interface InmobiliariaMapper {
     List<ComprobanteMonotributoDTO> toDTOComprobanteDeMonotributoList(List<ComprobanteMonotributo> entities);
 
     List<DocumentoDeIngresoDTO> toDTODocumentoDeIngresoList(List<DocumentoDeIngreso> entities);
+
+    @Named("localDate")
+    static LocalDate converterStringToLocalDate(String strLocalDate) {
+        if (strLocalDate != null) {
+            DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()
+                    .append(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toFormatter();
+            LocalDate datetime = LocalDate.parse(strLocalDate, f);
+            return datetime;
+        } else {
+            return null;
+        }
+
+    }
+
+    @Named("localDateString")
+    static String converterLocalDateToString(LocalDate ldt) {
+        if (ldt != null) {
+            String formattedDate = ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            return formattedDate;
+        } else {
+            return null;
+        }
+
+    }
 }

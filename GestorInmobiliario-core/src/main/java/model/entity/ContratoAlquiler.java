@@ -5,12 +5,10 @@
  */
 package model.entity;
 
-import java.time.LocalDate;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -36,7 +34,7 @@ public class ContratoAlquiler extends Contrato {
         this.unAlquiler = unAlquiler;
     }
 
-    public ContratoAlquiler(Garante unGarante, Alquiler unAlquiler, LocalDate unaFechaPrimerVencimiento, LocalDate unaFechaSegundoVencimiento, Float montoTotal, Integer cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
+    public ContratoAlquiler(Garante unGarante, Alquiler unAlquiler, Integer unaFechaPrimerVencimiento, Integer unaFechaSegundoVencimiento, Float montoTotal, Integer cantidadDeCuotas, RecargoPorMora unRecargoPorMora, Locador unLocador, Locatario unLocatario) {
         super(unaFechaPrimerVencimiento, unaFechaSegundoVencimiento, montoTotal, cantidadDeCuotas, unRecargoPorMora, unLocador, unLocatario);
         this.unGarante = unGarante;
         this.unAlquiler = unAlquiler;

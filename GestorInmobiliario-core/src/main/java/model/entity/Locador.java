@@ -5,12 +5,8 @@
  */
 package model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -20,21 +16,16 @@ import javax.persistence.OneToMany;
 @DiscriminatorValue("LOCADOR")
 public class Locador extends Cliente {
 
-    @OneToMany(mappedBy = "unLocador", cascade = CascadeType.ALL)
-    private List<Inmueble> inmuebles;
-
     public Locador() {
-        this.inmuebles = new ArrayList<>();
+    }
+
+    public Locador(Inmobiliaria unaInmobiliariaCliente, UsuarioCliente unUsuarioCliente) {
+        super(unaInmobiliariaCliente, unUsuarioCliente);
+    }
+
+    public Locador(Inmobiliaria unaInmobiliariaCliente, UsuarioCliente unUsuarioCliente, String nombre, String apellido, TipoDNI unTipoDNI, String dni, EstadoCivil unEstadoCivil, String direccionCalle, String direccionNumero, String telefono, String correoElectronico) {
+        super(unaInmobiliariaCliente, unUsuarioCliente, nombre, apellido, unTipoDNI, dni, unEstadoCivil, direccionCalle, direccionNumero, telefono, correoElectronico);
     }
 
     
-
-    public List<Inmueble> getInmuebles() {
-        return inmuebles;
-    }
-
-    public void setInmuebles(List<Inmueble> inmuebles) {
-        this.inmuebles = inmuebles;
-    }
-
 }

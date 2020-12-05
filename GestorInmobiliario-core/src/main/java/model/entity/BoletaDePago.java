@@ -31,6 +31,12 @@ public class BoletaDePago implements Serializable {
 
     @Column(name = "numero_boleta")
     private String numeroBoleta;
+    
+    @Column(name = "fecha_primer_vencimiento")
+    private LocalDate fechaPrimerVencimientoPago;
+    
+    @Column(name = "fecha_segundo_vencimiento")
+    private LocalDate fechaSegundoVencimientoPago;
 
     @Column(name = "fecha_pago")
     private LocalDate fechaPago;
@@ -52,14 +58,18 @@ public class BoletaDePago implements Serializable {
 
     }
 
-    public BoletaDePago(String numeroBoleta, LocalDate fechaPago, Integer numeroCuota, Float monto, Boolean pagado, Contrato unContrato) {
+    public BoletaDePago(String numeroBoleta, LocalDate fechaPrimerVencimientoPago, LocalDate fechaSegundoVencimientoPago, LocalDate fechaPago, Integer numeroCuota, Float monto, Boolean pagado, Contrato unContrato) {
         this.numeroBoleta = numeroBoleta;
+        this.fechaPrimerVencimientoPago = fechaPrimerVencimientoPago;
+        this.fechaSegundoVencimientoPago = fechaSegundoVencimientoPago;
         this.fechaPago = fechaPago;
         this.numeroCuota = numeroCuota;
         this.monto = monto;
         this.pagado = pagado;
         this.unContrato = unContrato;
     }
+
+    
 
     public Long getId() {
         return id;
@@ -140,6 +150,22 @@ public class BoletaDePago implements Serializable {
 
     public void setUnContrato(Contrato unContrato) {
         this.unContrato = unContrato;
+    }
+
+    public LocalDate getFechaPrimerVencimientoPago() {
+        return fechaPrimerVencimientoPago;
+    }
+
+    public void setFechaPrimerVencimientoPago(LocalDate fechaPrimerVencimientoPago) {
+        this.fechaPrimerVencimientoPago = fechaPrimerVencimientoPago;
+    }
+
+    public LocalDate getFechaSegundoVencimientoPago() {
+        return fechaSegundoVencimientoPago;
+    }
+
+    public void setFechaSegundoVencimientoPago(LocalDate fechaSegundoVencimientoPago) {
+        this.fechaSegundoVencimientoPago = fechaSegundoVencimientoPago;
     }
 
     

@@ -5,22 +5,12 @@
  */
 package dto;
 
-import java.util.List;
 
 /**
  *
  * @author Ariel
  */
-public class LocadorDTO extends ClienteDTO{
-    private List<InmuebleDTO> inmuebles;
-
-    public List<InmuebleDTO> getInmuebles() {
-        return inmuebles;
-    }
-
-    public void setInmuebles(List<InmuebleDTO> inmuebles) {
-        this.inmuebles = inmuebles;
-    }
+public class LocadorDTO extends ClienteDTO{    
     
     
 }

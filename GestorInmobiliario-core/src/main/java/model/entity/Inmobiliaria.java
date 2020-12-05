@@ -14,11 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.eclipse.persistence.annotations.PrivateOwned;
 
 /**
  *
@@ -52,35 +49,27 @@ public class Inmobiliaria implements Serializable {
     private String correoElectronico;
 
     @OneToMany(mappedBy = "unaInmobiliariaCliente", cascade = CascadeType.ALL, targetEntity = Cliente.class)
-    @PrivateOwned
     private List<Cliente> clientes;
 
     @OneToMany(mappedBy = "unaInmobiliariaGarante", cascade = CascadeType.ALL, targetEntity = Garante.class)
-    @PrivateOwned
     private List<Garante> garantes;
 
     @OneToMany(mappedBy = "unaInmobiliariaInmueble", cascade = CascadeType.ALL, targetEntity = Inmueble.class)
-    @PrivateOwned
     private List<Inmueble> inmuebles;
 
     @OneToMany(mappedBy = "unaInmobiliariaAlquiler", cascade = CascadeType.ALL, targetEntity = Alquiler.class)
-    @PrivateOwned
     private List<Alquiler> alquileres;
 
     @OneToMany(mappedBy = "unaInmobiliariaVenta", cascade = CascadeType.ALL, targetEntity = Venta.class)
-    @PrivateOwned
     private List<Venta> ventas;
 
     @OneToMany(mappedBy = "unaInmobiliariaRecargoPorMora", cascade = CascadeType.ALL, targetEntity = RecargoPorMora.class)
-    @PrivateOwned
     private List<RecargoPorMora> recargosPorMoras;
 
     @OneToMany(mappedBy = "unaInmobiliariaArancelEspecial", cascade = CascadeType.ALL, targetEntity = ArancelEspecial.class)
-    @PrivateOwned
     private List<ArancelEspecial> arancelesEspeciales;
 
     @OneToMany(mappedBy = "unaInmobiliariaUsuario", cascade = CascadeType.ALL, targetEntity = Usuario.class)
-    @PrivateOwned
     private List<Usuario> usuarios;
 
     public Inmobiliaria() {

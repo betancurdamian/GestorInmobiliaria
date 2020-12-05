@@ -13,6 +13,8 @@ public class BoletaDePagoDTO {
     private Long id;
     private String numeroBoleta;
     private String fechaPago;
+    private String fechaPrimerVencimientoPago;
+    private String fechaSegundoVencimientoPago;
     private Integer numeroCuota;
     private Float monto;
     private Boolean pagado;
@@ -72,6 +74,22 @@ public class BoletaDePagoDTO {
 
     public void setUnContrato(ContratoDTO unContrato) {
         this.unContrato = unContrato;
+    }
+
+    public String getFechaPrimerVencimientoPago() {
+        return fechaPrimerVencimientoPago;
+    }
+
+    public void setFechaPrimerVencimientoPago(String fechaPrimerVencimientoPago) {
+        this.fechaPrimerVencimientoPago = fechaPrimerVencimientoPago;
+    }
+
+    public String getFechaSegundoVencimientoPago() {
+        return fechaSegundoVencimientoPago;
+    }
+
+    public void setFechaSegundoVencimientoPago(String fechaSegundoVencimientoPago) {
+        this.fechaSegundoVencimientoPago = fechaSegundoVencimientoPago;
     }
 
     

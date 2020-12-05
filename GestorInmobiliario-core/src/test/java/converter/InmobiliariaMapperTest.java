@@ -21,7 +21,7 @@ public class InmobiliariaMapperTest {
         
         InmobiliariaDTO expResult = new InmobiliariaDTO();
         expResult.setId(1l);
-        InmobiliariaDTO result = converter.toDTO(entity);
+        InmobiliariaDTO result = converter.toInmobiliariaDTO(entity);
         assertEquals(expResult.getId(), result.getId());
         
     }
