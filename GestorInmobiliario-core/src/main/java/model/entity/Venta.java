@@ -29,7 +29,7 @@ public class Venta implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(name = "fecha_venta")
+    @Column(name = "fecha_venta", columnDefinition = "DATE")
     private LocalDate unaFechaVenta;
     
     @Column(name = "completa")

@@ -153,4 +153,15 @@ public class GaranteServiceImpl implements IGaranteService {
         return converter.toDTOGaranteIndependienteList(entities);
     }
 
+    @Override
+    public GaranteDTO verGaranteDelLocatario(Long id) {
+        GaranteDTO garanteDelLocatario = null;        
+        for (Garante g : garanteDAO.findGaranteEntities()) {
+            if (g.getUnLocatario().getId() == id) {                
+                garanteDelLocatario = converter.toGaranteDTO(g);
+            }
+        }
+        return garanteDelLocatario;
+    }
+
 }

@@ -2,6 +2,7 @@ package model.service.Impl.facade;
 
 import dto.AlquilerDTO;
 import dto.ArancelEspecialDTO;
+import dto.ClienteDTO;
 import dto.ComisionDTO;
 import dto.ComprobanteDeIngresoDTO;
 import dto.ContratoAlquilerDTO;
@@ -15,6 +16,8 @@ import java.util.List;
 import model.service.Impl.AlquilerServiceImpl;
 import model.service.Impl.ArancelEspecialServiceImpl;
 import model.service.Impl.ClienteServiceImpl;
+import model.service.Impl.ComprobanteDeIngresoServiceImpl;
+import model.service.Impl.GaranteServiceImpl;
 import model.service.Impl.InmobiliariaServiceImpl;
 import model.service.Impl.InmuebleServiceImpl;
 import model.service.Impl.RecargoPorMoraServiceImpl;
@@ -30,6 +33,8 @@ public class ProcesarAlquiler {
     private final ArancelEspecialServiceImpl arancelEspecialService;
     private final RecargoPorMoraServiceImpl recargoPorMoraService;
     private final AlquilerServiceImpl alquilerService;
+    private final ComprobanteDeIngresoServiceImpl comprobanteIngresoService;
+    private final GaranteServiceImpl garanteService;
 
     public ProcesarAlquiler() {
         this.inmobiliariaService = new InmobiliariaServiceImpl();
@@ -38,6 +43,8 @@ public class ProcesarAlquiler {
         this.arancelEspecialService = new ArancelEspecialServiceImpl();
         this.recargoPorMoraService = new RecargoPorMoraServiceImpl();
         this.alquilerService = new AlquilerServiceImpl();
+        this.comprobanteIngresoService = new ComprobanteDeIngresoServiceImpl();
+        this.garanteService = new GaranteServiceImpl();
     }
 
     public void crearNuevoAlquiler(String fechaInicio, String fechaFin) {
@@ -48,35 +55,67 @@ public class ProcesarAlquiler {
         this.nuevoAlquiler.setUnaInmobiliariaAlquiler(this.inmobiliariaService.obtenerPrimeraInmobiliaria());
     }
 
-    public List<LocatarioDTO> listaLocatarios() {
-        return this.clienteService.listarTodosLocatarios();
+    public List<ClienteDTO> listarClientes() {
+        return this.clienteService.listarTodos();
+    }
+    
+    public List<LocatarioDTO> fitrarLocatariosPorDNI(String dniABuscar) {
+        List<LocatarioDTO> locatariosFiltrados = new ArrayList();
+        boolean resultado = false;
+        for (LocatarioDTO cl : this.clienteService.listarTodosLocatarios()) {
+            resultado = cl.getDni().startsWith(dniABuscar);
+            if (resultado) {
+                locatariosFiltrados.add(cl);
+            }
+        }
+        return locatariosFiltrados;
     }
 
-    public void seleccionarLocatario(LocatarioDTO unLocatario) {
+    public void seleccionarLocatario(ClienteDTO unLocatario) {
         if (unLocatario != null) {
             this.locatarioSeleccionado = clienteService.listarLocatarioID(unLocatario.getId());
         } else {
             System.out.println("El locatario no existe");
         }
     }
-    
-    public List<ComprobanteDeIngresoDTO> buscarUltimosTresComprobantesDeIngresoLocatario(){
-        List<ComprobanteDeIngresoDTO> comprobantesDeingresos = new ArrayList();
-        
-        return comprobantesDeingresos;
+
+    public List<ComprobanteDeIngresoDTO> buscarUltimosComprobantesDelLocatario(int cantidadDeComprobantes) {
+        List<ComprobanteDeIngresoDTO> comprobantesEncontrados = new ArrayList();
+        if (locatarioSeleccionado != null) {
+            for (int i = 0; i < cantidadDeComprobantes; i++) {
+                if (this.comprobanteIngresoService.listarUltimosComprobantesLocatario(i, locatarioSeleccionado) != null) {
+                    comprobantesEncontrados.add(this.comprobanteIngresoService.listarUltimosComprobantesLocatario(i, locatarioSeleccionado));
+                }
+            }
+        }
+        return comprobantesEncontrados;
     }
-    
-    public GaranteDTO buscarGaranteDelLocatario(){
-        GaranteDTO garanteDelLocatario = null;
-        clienteService.listarLocatarioID(Long.MIN_VALUE);
-        return garanteDelLocatario;
+
+    public GaranteDTO buscarGaranteDelLocatario() {
+        if (locatarioSeleccionado != null) {
+            return garanteService.verGaranteDelLocatario(this.locatarioSeleccionado.getId());
+        }else{
+            return null;
+        }
+    }
+
+    public List<ComprobanteDeIngresoDTO> buscarUltimosComprobantesDelGarante(int cantidadDeComprobantes) {
+        List<ComprobanteDeIngresoDTO> comprobantesEncontrados = new ArrayList();
+        if (locatarioSeleccionado != null) {
+            for (int i = 0; i < cantidadDeComprobantes; i++) {
+                if (this.comprobanteIngresoService.listarUltimosComprobantesGarante(i, garanteService.verGaranteDelLocatario(this.locatarioSeleccionado.getId())) != null) {
+                    comprobantesEncontrados.add(this.comprobanteIngresoService.listarUltimosComprobantesGarante(i, garanteService.verGaranteDelLocatario(this.locatarioSeleccionado.getId())));
+                }
+            }
+        }
+        return comprobantesEncontrados;
     }
 
     public List<InmuebleDTO> listarInmueblesDisponibles() {
         List<InmuebleDTO> inmueblesDisponibles = new ArrayList();
         for (InmuebleDTO i : this.inmuebleService.listarTodos()) {
             if (i.getDisponible()) {
-                if (i.getUnCliente().equals(this.locatarioSeleccionado)) {
+                if (!i.getUnCliente().equals(this.locatarioSeleccionado)) {
                     inmueblesDisponibles.add(i);
                 }
             }
@@ -139,7 +178,7 @@ public class ProcesarAlquiler {
     }
 
     public void finalizarAlquiler() {
-        this.nuevoAlquiler.setId(this.alquilerService.crear(nuevoAlquiler).getId());        
+        this.nuevoAlquiler.setId(this.alquilerService.crear(nuevoAlquiler).getId());
     }
 
     public AlquilerDTO getNuevoAlquiler() {

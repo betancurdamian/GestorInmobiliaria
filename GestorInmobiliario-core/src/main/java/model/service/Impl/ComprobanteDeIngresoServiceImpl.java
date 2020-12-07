@@ -9,7 +9,11 @@ import converter.InmobiliariaMapper;
 import dto.ComprobanteDeIngresoDTO;
 import dto.ComprobanteMonotributoDTO;
 import dto.DocumentoDeIngresoDTO;
+import dto.GaranteDTO;
+import dto.LocatarioDTO;
 import dto.ReciboDeSueldoDTO;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +29,7 @@ import model.entity.DocumentoDeIngreso;
 import model.entity.ReciboDeSueldo;
 import model.service.IComprobanteDeIngresoService;
 import org.mapstruct.factory.Mappers;
+import util.ConverterDate;
 
 /**
  *
@@ -185,6 +190,58 @@ public class ComprobanteDeIngresoServiceImpl implements IComprobanteDeIngresoSer
     public List<DocumentoDeIngresoDTO> listarTodosDocumentoDeIngresos() {
         List<DocumentoDeIngreso> entities = documentoDeIngresoDAO.findDocumentoDeIngresoEntities();
         return converter.toDTODocumentoDeIngresoList(entities);
+    }
+
+    @Override
+    public ComprobanteDeIngresoDTO listarUltimosComprobantesLocatario(int mesARestar, LocatarioDTO unLocatario) {
+        LocalDate fechaAuxDate;
+        LocalDate fechaActualDate = LocalDate.now();
+        fechaActualDate=fechaActualDate.minusMonths(mesARestar);
+        ComprobanteDeIngresoDTO comprobante=null;
+        for (ComprobanteDeIngreso ci : this.comprobanteDeIngresoDAO.findComprobanteDeIngresoEntities()) {
+            if (ci.getUnLocatario() != null) {
+                if (ci.getUnLocatario().getId().equals(unLocatario.getId())) {
+                    if (ci.getMes() >= 1 && ci.getMes() <= 9) {
+                        fechaAuxDate = ConverterDate.converterStringToLocalDate(ci.getAnio().toString() + "-0" + ci.getMes().toString() + "-01");
+                    } else {
+                        fechaAuxDate = ConverterDate.converterStringToLocalDate(ci.getAnio().toString() + "-" + ci.getMes().toString() + "-01");
+                    }
+                    if (fechaActualDate.getYear() == fechaAuxDate.getYear()) {
+                        if (fechaActualDate.getMonthValue() == fechaAuxDate.getMonthValue()) {                            
+                            comprobante = converter.toComprobanteDTO(ci);
+                        }
+                    }
+                }
+            }
+
+        }
+        return comprobante;
+    }
+
+    @Override
+    public ComprobanteDeIngresoDTO listarUltimosComprobantesGarante(int mesARestar, GaranteDTO unGarante) {
+        LocalDate fechaAuxDate;
+        LocalDate fechaActualDate = LocalDate.now();
+        fechaActualDate=fechaActualDate.minusMonths(mesARestar);
+        ComprobanteDeIngresoDTO comprobante=null;
+        for (ComprobanteDeIngreso ci : this.comprobanteDeIngresoDAO.findComprobanteDeIngresoEntities()) {
+            if (ci.getUnGarante()!= null) {
+                if (ci.getUnGarante().getId().equals(unGarante.getId())) {
+                    if (ci.getMes() >= 1 && ci.getMes() <= 9) {
+                        fechaAuxDate = ConverterDate.converterStringToLocalDate(ci.getAnio().toString() + "-0" + ci.getMes().toString() + "-01");
+                    } else {
+                        fechaAuxDate = ConverterDate.converterStringToLocalDate(ci.getAnio().toString() + "-" + ci.getMes().toString() + "-01");
+                    }
+                    if (fechaActualDate.getYear() == fechaAuxDate.getYear()) {
+                        if (fechaActualDate.getMonthValue() == fechaAuxDate.getMonthValue()) {                            
+                            comprobante = converter.toComprobanteDTO(ci);
+                        }
+                    }
+                }
+            }
+
+        }
+        return comprobante;
     }
 
 }

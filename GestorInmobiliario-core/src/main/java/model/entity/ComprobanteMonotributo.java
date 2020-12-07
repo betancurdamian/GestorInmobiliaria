@@ -14,11 +14,8 @@ import javax.persistence.Entity;
  * @author Ariel
  */
 @Entity
-@DiscriminatorValue("RECIBO DE SUELDO")
+@DiscriminatorValue("COMPROBANTE DE MONOTRIBUTO")
 public class ComprobanteMonotributo extends ComprobanteDeIngreso {
-
-    @Column(name = "cuit")
-    private String cuit;
 
     @Column(name = "estado_monotributo")
     private Boolean estadoMonotributo;
@@ -26,27 +23,15 @@ public class ComprobanteMonotributo extends ComprobanteDeIngreso {
     public ComprobanteMonotributo() {
     }
 
-    public ComprobanteMonotributo(String cuit, Boolean estadoMonotributo) {
-        this.cuit = cuit;
+    public ComprobanteMonotributo(Boolean estadoMonotributo) {
         this.estadoMonotributo = estadoMonotributo;
     }
 
-    public ComprobanteMonotributo(String cuit, Boolean estadoMonotributo, Integer mes, Integer anio, Float importeBruto, Float importeNeto, Locatario unLocatario, Garante unGarante) {
+    public ComprobanteMonotributo(Boolean estadoMonotributo, Integer mes, Integer anio, Float importeBruto, Float importeNeto, Locatario unLocatario, Garante unGarante) {
         super(mes, anio, importeBruto, importeNeto, unLocatario, unGarante);
-        this.cuit = cuit;
         this.estadoMonotributo = estadoMonotributo;
     }
-
     
-
-    public String getCuit() {
-        return cuit;
-    }
-
-    public void setCuit(String cuit) {
-        this.cuit = cuit;
-    }
-
     public Boolean getEstadoMonotributo() {
         return estadoMonotributo;
     }

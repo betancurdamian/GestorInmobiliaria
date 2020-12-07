@@ -8,13 +8,11 @@ package util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-
 /**
  *
  * @author Ariel
  */
-public class Converter {
-
+public class ConverterDate {
     public static LocalDate converterStringToLocalDate(String strLocalDate) {
         if (strLocalDate != null) {
             DateTimeFormatter f = new DateTimeFormatterBuilder().parseCaseInsensitive()

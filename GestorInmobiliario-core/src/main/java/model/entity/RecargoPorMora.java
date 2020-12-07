@@ -8,6 +8,8 @@ package model.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,9 +29,9 @@ public class RecargoPorMora implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name = "fecha_recargo")
+    private Long id;    
+    
+    @Column(name = "fecha_recargo", columnDefinition = "DATE") 
     private LocalDate unaFechaDeRecargo;
 
     @Column(name = "porcentaje")

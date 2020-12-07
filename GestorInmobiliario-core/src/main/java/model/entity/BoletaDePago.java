@@ -32,10 +32,10 @@ public class BoletaDePago implements Serializable {
     @Column(name = "numero_boleta")
     private String numeroBoleta;
     
-    @Column(name = "fecha_primer_vencimiento")
+    @Column(name = "fecha_primer_vencimiento", columnDefinition = "DATE")
     private LocalDate fechaPrimerVencimientoPago;
     
-    @Column(name = "fecha_segundo_vencimiento")
+    @Column(name = "fecha_segundo_vencimiento", columnDefinition = "DATE")
     private LocalDate fechaSegundoVencimientoPago;
 
     @Column(name = "fecha_pago")

@@ -34,7 +34,7 @@ public abstract class ArancelEspecial implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "fecha_recargo")
+    @Column(name = "fecha_recargo", columnDefinition = "DATE")
     private LocalDate unaFechaArancel;
 
     @Column(name = "descripcion")

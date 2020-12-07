@@ -29,10 +29,10 @@ public class Alquiler implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "fecha_inicio")
+    @Column(name = "fecha_inicio", columnDefinition = "DATE")
     private LocalDate unaFechaInicio;
 
-    @Column(name = "fecha_fin")
+    @Column(name = "fecha_fin", columnDefinition = "DATE")
     private LocalDate unaFechaFin;
 
     @ManyToOne
@@ -53,12 +53,12 @@ public class Alquiler implements Serializable {
     public Alquiler() {
     }
 
-    public Alquiler(LocalDate unaFechaInicio, LocalDate unaFechaFin, Inmueble unInmueble, Inmobiliaria unaInmobiliariaAlquiler, Boolean disponible) {
+    public Alquiler(LocalDate unaFechaInicio, LocalDate unaFechaFin, Inmueble unInmueble, Inmobiliaria unaInmobiliariaAlquiler, Boolean completa) {
         this.unaFechaInicio = unaFechaInicio;
         this.unaFechaFin = unaFechaFin;
         this.unInmuebleAlquiler = unInmueble;
         this.unaInmobiliariaAlquiler = unaInmobiliariaAlquiler;
-        this.completa = disponible;
+        this.completa = completa;
     }
 
     public Long getId() {

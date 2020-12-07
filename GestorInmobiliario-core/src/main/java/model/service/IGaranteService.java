@@ -20,4 +20,6 @@ public interface IGaranteService extends ICRUD<GaranteDTO>{
     
     GaranteIndependienteDTO listarGaranteIndependienteID(Long id);
     List<GaranteIndependienteDTO> listarTodosGarantesIndependientes();
+    
+    GaranteDTO verGaranteDelLocatario(Long id);
 }

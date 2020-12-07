@@ -468,8 +468,14 @@ public interface InmobiliariaMapper {
     @Mapping(target = "unaComision", ignore = true)
     ContratoAlquiler toContratoAlquilerEntity(ContratoAlquilerDTO dto);
 
+    @Mapping(target = "unContratoAlquiler", ignore = true)
+    @Mapping(source = "unaFechaInicio", target = "unaFechaInicio", qualifiedByName = "localDateString")
+    @Mapping(source = "unaFechaFin", target = "unaFechaFin", qualifiedByName = "localDateString")
     AlquilerDTO toAlquilerDTO(Alquiler entity);
 
+    @Mapping(target = "unContratoAlquiler", ignore = true)
+    @Mapping(source = "unaFechaInicio", target = "unaFechaInicio", qualifiedByName = "localDate")
+            @Mapping(source = "unaFechaFin", target = "unaFechaFin", qualifiedByName = "localDate")
     Alquiler toAlquilerEntity(AlquilerDTO dto);
 
     List<AlquilerDTO> toDTOAlquilerList(List<Alquiler> entities);

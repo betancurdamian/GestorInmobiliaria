@@ -8,7 +8,6 @@ import dto.CuotaVentaDTO;
 import dto.InmuebleDTO;
 import dto.LineaDeComisionDTO;
 import dto.LocadorDTO;
-import dto.LocatarioDTO;
 import dto.VentaDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +49,18 @@ public class ProcesarVenta {
     public List<ClienteDTO> listarClientes() {
         return this.clienteService.listarTodos();
     }
+    
+    public List<ClienteDTO> fitrarClientesPorDNI(String dniABuscar) {
+        List<ClienteDTO> clientesFiltrados = new ArrayList();
+        boolean resultado = false;
+        for (ClienteDTO cl : this.clienteService.listarTodos()) {
+            resultado = cl.getDni().startsWith(dniABuscar);
+            if (resultado) {
+                clientesFiltrados.add(cl);
+            }
+        }
+        return clientesFiltrados;
+    }
 
     public void seleccionarClienteComprador(ClienteDTO unClienteComprador) {
         if (unClienteComprador != null) {
@@ -63,7 +74,7 @@ public class ProcesarVenta {
         List<InmuebleDTO> inmueblesDisponibles = new ArrayList();
         for (InmuebleDTO i : this.inmuebleService.listarTodos()) {
             if (i.getDisponible()) {
-                if (i.getUnCliente().equals(this.clienteCompradorSeleccionado)) {
+                if (!i.getUnCliente().equals(this.clienteCompradorSeleccionado)) {
                     inmueblesDisponibles.add(i);
                 }                
             }
@@ -141,6 +152,11 @@ public class ProcesarVenta {
         this.nuevaVenta.setId(this.ventaService.crear(nuevaVenta).getId());
         nuevaVenta.getUnInmuebleVenta().setUnCliente(clienteCompradorSeleccionado);
         this.inmuebleService.modificar(nuevaVenta.getUnInmuebleVenta());
+    }
+    
+    public void crearBoletaDePagoVenta(){
+        
+    
     }
 
     public VentaDTO getNuevaVenta() {

@@ -10,16 +10,8 @@ package dto;
  * @author Ariel
  */
 public class ComprobanteMonotributoDTO extends ComprobanteDeIngresoDTO{
-    private String cuit;
-    private Boolean estadoMonotributo;
-
-    public String getCuit() {
-        return cuit;
-    }
-
-    public void setCuit(String cuit) {
-        this.cuit = cuit;
-    }
+    
+    private Boolean estadoMonotributo;    
 
     public Boolean getEstadoMonotributo() {
         return estadoMonotributo;

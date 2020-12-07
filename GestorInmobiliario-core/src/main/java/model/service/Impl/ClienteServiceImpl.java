@@ -2,6 +2,7 @@ package model.service.Impl;
 
 import converter.InmobiliariaMapper;
 import dto.ClienteDTO;
+import dto.GaranteDTO;
 import dto.LocadorDTO;
 import dto.LocatarioDTO;
 import dto.LocatarioDependienteDTO;
@@ -232,5 +233,6 @@ public class ClienteServiceImpl implements IClienteService {
         List<LocatarioEstudiante> entities = locatarioEstudianteDAO.findLocatarioEstudianteEntities();
         return converter.toDTOLocatarioEstudianteList(entities);
     }
+
 
 }

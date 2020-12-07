@@ -3,6 +3,7 @@ package model.service.Impl;
 
 import converter.InmobiliariaMapper;
 import dto.AlquilerDTO;
+import dto.ContratoAlquilerDTO;
 import model.dao.AlquilerJpaController;
 import model.dao.Conexion;
 import model.dao.exceptions.NonexistentEntityException;
@@ -21,20 +22,27 @@ public class AlquilerServiceImpl implements IAlquilerService {
 
     private final AlquilerJpaController alquilerDAO;
     private final InmobiliariaMapper converter;
+    private final ContratoServiceImpl contratoService;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public AlquilerServiceImpl() {
         new Conexion();
         this.alquilerDAO = new AlquilerJpaController(Conexion.getEmf());
         this.converter = Mappers.getMapper(InmobiliariaMapper.class);
+        this.contratoService = new ContratoServiceImpl();
     }
 
     @Override
     public AlquilerDTO crear(AlquilerDTO dto) {
         if (dto != null) {
             Alquiler entity = converter.toAlquilerEntity(dto);
+            entity.setUnContratoAlquiler(null);
             this.alquilerDAO.create(entity);
             dto.setId(entity.getId());
+            
+            ContratoAlquilerDTO contrato = dto.getUnContratoAlquiler();
+            contrato.setUnAlquiler(dto);
+            this.contratoService.crear(dto.getUnContratoAlquiler());
         } else {
             System.out.println("El DTO es null");
         }

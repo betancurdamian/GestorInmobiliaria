@@ -14,7 +14,7 @@ import javax.persistence.Entity;
  * @author Ariel
  */
 @Entity
-@DiscriminatorValue("RECIBO DE SUELDO")
+@DiscriminatorValue("DOCUMENTO DE INGRESO")
 public class DocumentoDeIngreso extends ComprobanteDeIngreso {
 
     @Column(name = "validado")
