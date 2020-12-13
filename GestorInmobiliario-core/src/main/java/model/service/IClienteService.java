@@ -6,7 +6,6 @@
 package model.service;
 
 import dto.ClienteDTO;
-import dto.GaranteDTO;
 import dto.LocadorDTO;
 import dto.LocatarioDTO;
 import dto.LocatarioDependienteDTO;

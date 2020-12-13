@@ -6,11 +6,13 @@
 package model.service;
 
 import dto.BoletaDePagoDTO;
+import dto.ContratoDTO;
+import java.util.List;
 
 /**
  *
  * @author Ariel
  */
 public interface IBoletaDePagoService extends ICRUD<BoletaDePagoDTO>{
-    
+     List<BoletaDePagoDTO> listarBoletasDeContrato(ContratoDTO unContrato);
 }

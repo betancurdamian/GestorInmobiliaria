@@ -7,7 +7,6 @@ import dto.ContratoVentaDTO;
 import dto.CuotaVentaDTO;
 import dto.InmuebleDTO;
 import dto.LineaDeComisionDTO;
-import dto.LocadorDTO;
 import dto.VentaDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ public class ProcesarVenta {
     private final ArancelEspecialServiceImpl arancelEspecialService;
     private final RecargoPorMoraServiceImpl recargoPorMoraService;
     private final VentaServiceImpl ventaService;
+    private final ProcesarPago procesarPago;
 
     public ProcesarVenta() {
         this.inmobiliariaService = new InmobiliariaServiceImpl();
@@ -37,6 +37,7 @@ public class ProcesarVenta {
         this.arancelEspecialService = new ArancelEspecialServiceImpl();
         this.recargoPorMoraService = new RecargoPorMoraServiceImpl();
         this.ventaService = new VentaServiceImpl();
+        this.procesarPago = new ProcesarPago();
     }
 
     public void crearNuevaVenta(String fechaActual) {
@@ -95,7 +96,7 @@ public class ProcesarVenta {
         if (unInmueble != null) {
             this.nuevaVenta.setUnInmuebleVenta(inmuebleService.listarID(unInmueble.getId()));
             this.nuevaVenta.getUnContratoVenta().setMontoTotal(this.nuevaVenta.getUnInmuebleVenta().getPrecioBaseVenta());
-            this.nuevaVenta.getUnContratoVenta().setUnLocador((LocadorDTO) this.nuevaVenta.getUnInmuebleVenta().getUnCliente());
+            this.nuevaVenta.getUnContratoVenta().setUnLocador(this.nuevaVenta.getUnInmuebleVenta().getUnCliente());
         } else {
             System.out.println("El Inmueble no existe");
         }
@@ -155,8 +156,17 @@ public class ProcesarVenta {
     }
     
     public void crearBoletaDePagoVenta(){
-        
+        nuevaVenta.getUnContratoVenta().getBoletasDePago().add(procesarPago.crearBoletaDePagoDeVenta(nuevaVenta));        
+    }
     
+    public void pagarBoletaDePagoVenta(){
+        if (nuevaVenta!=null) {
+            if (nuevaVenta.getUnContratoVenta()!=null) {
+                if (nuevaVenta.getUnContratoVenta().getBoletasDePago().get(0)!=null) {
+                    procesarPago.pagarBoletaDePago(nuevaVenta.getUnContratoVenta().getBoletasDePago().get(0));
+                }
+            }
+        }
     }
 
     public VentaDTO getNuevaVenta() {

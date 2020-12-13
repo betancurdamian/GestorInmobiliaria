@@ -3,7 +3,9 @@ package model.service.Impl;
 
 import converter.InmobiliariaMapper;
 import dto.AlquilerDTO;
+import dto.ClienteDTO;
 import dto.ContratoAlquilerDTO;
+import java.util.ArrayList;
 import model.dao.AlquilerJpaController;
 import model.dao.Conexion;
 import model.dao.exceptions.NonexistentEntityException;
@@ -95,6 +97,19 @@ public class AlquilerServiceImpl implements IAlquilerService {
     public List<AlquilerDTO> listarTodos() {
         List<Alquiler> entities = alquilerDAO.findAlquilerEntities();
         return converter.toDTOAlquilerList(entities);
+    }
+
+    @Override
+    public List<AlquilerDTO> listarAlquileresDeCliente(ClienteDTO unLocatario) {
+        List<AlquilerDTO> alquileresDeClientes = new ArrayList<>();
+        if (unLocatario != null && unLocatario.getId() > 0) {
+            for (Alquiler a : alquilerDAO.findAlquilerEntities()) {
+                if (a.getUnContratoAlquiler().getUnLocatario().getId() == unLocatario.getId()) {
+                    alquileresDeClientes.add(converter.toAlquilerDTO(a));
+                }
+            }
+        }
+        return alquileresDeClientes;
     }
 
 }

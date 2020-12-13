@@ -1,8 +1,10 @@
-
 package model.service.Impl;
 
 import converter.InmobiliariaMapper;
 import dto.BoletaDePagoDTO;
+import dto.ClienteDTO;
+import dto.ContratoDTO;
+import java.util.ArrayList;
 import model.dao.Conexion;
 import model.service.IBoletaDePagoService;
 import java.util.List;
@@ -89,4 +91,18 @@ public class BoletaDePagoServiceImpl implements IBoletaDePagoService {
         List<BoletaDePago> entities = boletaDePagoDAO.findBoletaDePagoEntities();
         return converter.toDTOBoletaDePagoList(entities);
     }
+
+    @Override
+    public List<BoletaDePagoDTO> listarBoletasDeContrato(ContratoDTO unContrato) {
+        List<BoletaDePagoDTO> boletasDePago = new ArrayList<>();
+        if (unContrato != null && unContrato.getId() > 0) {
+            for (BoletaDePago bp : boletaDePagoDAO.findBoletaDePagoEntities()) {
+                if (bp.getUnContrato().getId() == unContrato.getId()) {
+                    boletasDePago.add(converter.toBoletaDePagoDTO(bp));
+                }
+            }
+        }
+        return boletasDePago;
+    }
+
 }

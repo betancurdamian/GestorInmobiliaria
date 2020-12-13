@@ -5,12 +5,14 @@
  */
 package model.service;
 
+import dto.ClienteDTO;
 import dto.VentaDTO;
+import java.util.List;
 
 /**
  *
  * @author Ariel
  */
 public interface IVentaService extends ICRUD<VentaDTO>{
-    
+    List<VentaDTO> listarVentasDeCliente(ClienteDTO unLocatario);
 }

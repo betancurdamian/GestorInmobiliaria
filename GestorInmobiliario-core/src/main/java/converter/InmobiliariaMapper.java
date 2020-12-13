@@ -130,6 +130,7 @@ public interface InmobiliariaMapper {
 
     }
 
+    @Mapping(target = "unUsuarioCliente", ignore = true)
     @Mapping(target = "inmuebles", ignore = true)
     LocadorDTO toLocadorDTO(Locador entity);
 
@@ -152,14 +153,17 @@ public interface InmobiliariaMapper {
 
     @Mapping(target = "inmuebles", ignore = true)
     @Mapping(target = "unGarante", ignore = true)
+    @Mapping(target = "unUsuarioCliente", ignore = true)
     LocatarioDependienteDTO toLocatatioDependienteDTO(LocatarioDependiente entity);
 
     @Mapping(target = "inmuebles", ignore = true)
     @Mapping(target = "unGarante", ignore = true)
+    @Mapping(target = "unUsuarioCliente", ignore = true)
     LocatarioIndependienteDTO toLocatarioIndependienteDTO(LocatarioIndependiente entity);
 
     @Mapping(target = "inmuebles", ignore = true)
     @Mapping(target = "unGarante", ignore = true)
+    @Mapping(target = "unUsuarioCliente", ignore = true)
     LocatarioEstudianteDTO toLocatarioEstudianteDTO(LocatarioEstudiante entity);
 
     default GaranteDTO toGaranteDTO(Garante entity) {
@@ -287,8 +291,11 @@ public interface InmobiliariaMapper {
         return dtoAux;
     }
 
+    @Mapping(target = "cuotasVenta", ignore = true)
+    @Mapping(target = "unaComision", ignore = true)
     ContratoVentaDTO toContratoVentaDTO(ContratoVenta entity);
 
+    @Mapping(target = "unaComision", ignore = true)
     ContratoAlquilerDTO toContratoAlquilerDTO(ContratoAlquiler entity);
 
     default Cliente toClienteEntity(ClienteDTO dto) {
@@ -475,7 +482,7 @@ public interface InmobiliariaMapper {
 
     @Mapping(target = "unContratoAlquiler", ignore = true)
     @Mapping(source = "unaFechaInicio", target = "unaFechaInicio", qualifiedByName = "localDate")
-            @Mapping(source = "unaFechaFin", target = "unaFechaFin", qualifiedByName = "localDate")
+    @Mapping(source = "unaFechaFin", target = "unaFechaFin", qualifiedByName = "localDate")
     Alquiler toAlquilerEntity(AlquilerDTO dto);
 
     List<AlquilerDTO> toDTOAlquilerList(List<Alquiler> entities);

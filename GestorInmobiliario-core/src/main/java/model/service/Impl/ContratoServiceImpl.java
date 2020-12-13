@@ -1,10 +1,12 @@
 package model.service.Impl;
 
 import converter.InmobiliariaMapper;
+import dto.AlquilerDTO;
 import dto.ContratoAlquilerDTO;
 import dto.ContratoDTO;
 import dto.ContratoVentaDTO;
 import dto.CuotaVentaDTO;
+import dto.VentaDTO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +58,7 @@ public class ContratoServiceImpl implements IContratoService {
                     this.cuotasVentaService.crear(cv);
                 }
                 dto.getUnaComision().setUnContrato(dto);
-                this.comisionService.crear(dto.getUnaComision());                
+                this.comisionService.crear(dto.getUnaComision());
             }
             if (dto instanceof ContratoAlquilerDTO) {
                 ContratoAlquiler entity = converter.toContratoAlquilerEntity((ContratoAlquilerDTO) dto);
@@ -143,6 +145,19 @@ public class ContratoServiceImpl implements IContratoService {
     }
 
     @Override
+    public ContratoVentaDTO ObtenerContratoDeUnaVenta(VentaDTO unaVenta) {
+        ContratoVentaDTO contratoVentaEncontrado = null;
+        if (unaVenta != null && unaVenta.getId() > 0) {
+            for (ContratoVentaDTO cv : listarTodosContratosVentas()) {
+                if (cv.getUnaVenta().getId() == unaVenta.getId()) {
+                    contratoVentaEncontrado = listarContratoVentaID(cv.getId());
+                }
+            }
+        }
+        return contratoVentaEncontrado;
+    }
+
+    @Override
     public List<ContratoVentaDTO> listarTodosContratosVentas() {
         List<ContratoVenta> entities = contratoVentaDAO.findContratoVentaEntities();
         return converter.toDTOContratoVentaList(entities);
@@ -152,6 +167,19 @@ public class ContratoServiceImpl implements IContratoService {
     public ContratoAlquilerDTO listarContratoAlquilerID(Long id) {
         ContratoAlquiler entity = contratoAlquilerDAO.findContratoAlquiler(id);
         return converter.toContratoAlquilerDTO(entity);
+    }
+
+    @Override
+    public ContratoAlquilerDTO ObtenerContratoDeUnAlquiler(AlquilerDTO unAlquiler) {
+        ContratoAlquilerDTO contratoAlquilerEncontrado = null;
+        if (unAlquiler != null && unAlquiler.getId() > 0) {
+            for (ContratoVentaDTO ca : listarTodosContratosVentas()) {
+                if (ca.getUnaVenta().getId() == unAlquiler.getId()) {
+                    contratoAlquilerEncontrado = listarContratoAlquilerID(ca.getId());
+                }
+            }
+        }
+        return contratoAlquilerEncontrado;
     }
 
     @Override

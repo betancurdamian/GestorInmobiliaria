@@ -6,8 +6,10 @@
 package model.service.Impl;
 
 import converter.InmobiliariaMapper;
+import dto.ClienteDTO;
 import dto.ContratoVentaDTO;
 import dto.VentaDTO;
+import java.util.ArrayList;
 import model.dao.Conexion;
 import model.service.IVentaService;
 import java.util.List;
@@ -22,12 +24,12 @@ import org.mapstruct.factory.Mappers;
  *
  * @author Ariel
  */
-public class VentaServiceImpl implements IVentaService{
+public class VentaServiceImpl implements IVentaService {
 
     private final VentaJpaController ventaDAO;
     private final InmobiliariaMapper converter;
     private final ContratoServiceImpl contratoService;
-    
+
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public VentaServiceImpl() {
         new Conexion();
@@ -41,9 +43,9 @@ public class VentaServiceImpl implements IVentaService{
         if (dto != null) {
             Venta entity = converter.toVentaEntity(dto);
             entity.setUnContratoVenta(null);
-            this.ventaDAO.create(entity);            
+            this.ventaDAO.create(entity);
             dto.setId(entity.getId());
-            
+
             ContratoVentaDTO contrato = dto.getUnContratoVenta();
             contrato.setUnaVenta(dto);
             this.contratoService.crear(dto.getUnContratoVenta());
@@ -101,5 +103,18 @@ public class VentaServiceImpl implements IVentaService{
         List<Venta> entities = ventaDAO.findVentaEntities();
         return converter.toDTOVentaList(entities);
     }
-    
+
+    @Override
+    public List<VentaDTO> listarVentasDeCliente(ClienteDTO unLocatario) {
+        List<VentaDTO> ventasDeClientes = new ArrayList<>();
+        if (unLocatario != null && unLocatario.getId() > 0) {
+            for (Venta v : ventaDAO.findVentaEntities()) {
+                if (v.getUnContratoVenta().getUnLocatario().getId() == unLocatario.getId()) {
+                    ventasDeClientes.add(converter.toVentaDTO(v));
+                }
+            }
+        }
+        return ventasDeClientes;
+    }
+
 }

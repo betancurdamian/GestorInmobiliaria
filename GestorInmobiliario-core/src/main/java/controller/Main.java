@@ -8,6 +8,7 @@ package controller;
 import dto.ArancelEspecialDTO;
 import dto.ArancelEspecialExpensaDTO;
 import dto.ArancelEspecialServicioDTO;
+import dto.BoletaDePagoDTO;
 import dto.CasaDTO;
 import dto.ClienteDTO;
 import dto.ComprobanteDeIngresoDTO;
@@ -17,12 +18,23 @@ import dto.DocumentoDeIngresoDTO;
 import dto.InmuebleDTO;
 import dto.LineaDeComisionDTO;
 import dto.LocatarioDTO;
+import dto.LocatarioDependienteDTO;
 import dto.RecargoPorMoraDTO;
 import dto.ReciboDeSueldoDTO;
+import dto.UsuarioClienteDTO;
+import dto.UsuarioDTO;
+import dto.UsuarioEmpresaDTO;
+import dto.VentaDTO;
+import model.entity.UsuarioCliente;
 import model.service.Impl.ArancelEspecialServiceImpl;
+import model.service.Impl.BoletaDePagoServiceImpl;
 import model.service.Impl.ComprobanteDeIngresoServiceImpl;
 import model.service.Impl.RecargoPorMoraServiceImpl;
+import model.service.Impl.UsuarioServiceImpl;
+import model.service.Impl.VentaServiceImpl;
+import model.service.Impl.facade.Login;
 import model.service.Impl.facade.ProcesarAlquiler;
+import model.service.Impl.facade.ProcesarPago;
 import model.service.Impl.facade.ProcesarVenta;
 
 /**
@@ -32,14 +44,17 @@ import model.service.Impl.facade.ProcesarVenta;
 public class Main {
 
     public static void main(String[] args) {
-
-       ProcesarVenta ventaService = new ProcesarVenta();
        
-       
-        for (ClienteDTO cl : ventaService.fitrarClientesPorDNI("4276")) {
-            System.out.println("dni: "+cl.getDni());
-        }
+        
+        
 
+//       ProcesarVenta ventaService = new ProcesarVenta();
+//       
+//       
+//        for (ClienteDTO cl : ventaService.fitrarClientesPorDNI("4276")) {
+//            System.out.println("dni: "+cl.getDni());
+//        }
+//
 //        ventaService.crearNuevaVenta("2020-12-03");
 //        //InmuebleServiceImpl service = new InmuebleServiceImpl();
 //        //service.listarTodasCasas();
@@ -113,6 +128,10 @@ public class Main {
 //        ventaService.agregarArancelesEspeciales(ventaService.listarArancelesEspeciales());
 //        
 //        ventaService.finalizarVenta();
+//        
+//        ventaService.crearBoletaDePagoVenta();
+        
+        
 
 
 
@@ -206,7 +225,8 @@ public class Main {
 //        alquilerService.finalizarAlquiler();
 
 
-    
+        //BoletaDePagoServiceImpl boletaService = new BoletaDePagoServiceImpl();
+        
     }
 
 }

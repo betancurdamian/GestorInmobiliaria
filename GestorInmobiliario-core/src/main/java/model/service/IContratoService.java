@@ -5,9 +5,11 @@
  */
 package model.service;
 
+import dto.AlquilerDTO;
 import dto.ContratoAlquilerDTO;
 import dto.ContratoDTO;
 import dto.ContratoVentaDTO;
+import dto.VentaDTO;
 import java.util.List;
 
 /**
@@ -16,8 +18,10 @@ import java.util.List;
  */
 public interface IContratoService extends ICRUD<ContratoDTO>{
     ContratoVentaDTO listarContratoVentaID(Long id);
+    ContratoVentaDTO ObtenerContratoDeUnaVenta(VentaDTO unaVenta);
     List<ContratoVentaDTO> listarTodosContratosVentas();
     
-    ContratoAlquilerDTO listarContratoAlquilerID(Long id);
+     ContratoAlquilerDTO listarContratoAlquilerID(Long id);
+    ContratoAlquilerDTO ObtenerContratoDeUnAlquiler(AlquilerDTO unAlquiler);
     List<ContratoAlquilerDTO> listarTodosContratosAlquileres();
 }

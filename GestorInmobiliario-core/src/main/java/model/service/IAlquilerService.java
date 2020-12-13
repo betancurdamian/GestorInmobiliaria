@@ -6,6 +6,8 @@
 package model.service;
 
 import dto.AlquilerDTO;
+import dto.ClienteDTO;
+import java.util.List;
 
 
 /**
@@ -13,5 +15,5 @@ import dto.AlquilerDTO;
  * @author Ariel
  */
 public interface IAlquilerService extends ICRUD<AlquilerDTO>{
-    
+    List<AlquilerDTO> listarAlquileresDeCliente(ClienteDTO unLocatario);
 }
