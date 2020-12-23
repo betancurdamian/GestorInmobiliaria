@@ -1,17 +1,11 @@
-
 package view;
-
-import view.resources.ValidadorDeCampos;
 
 public class JFrameLogin extends javax.swing.JFrame {
 
-    private final ValidadorDeCampos validador;
-    
     public JFrameLogin() {
-        this.validador = new ValidadorDeCampos();
         initComponents();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,11 +98,6 @@ public class JFrameLogin extends javax.swing.JFrame {
         setVisible(true);// visualiza la ventana
     }
 
-    public void limpiar() {
-        this.validador.limpiarCampo(this.jtf_userName);
-        this.validador.limpiarCampo(this.jtf_password);
-    }
-
     public javax.swing.JLabel getJlbl_mensaje() {
         return jlbl_mensaje;
     }
@@ -116,7 +105,6 @@ public class JFrameLogin extends javax.swing.JFrame {
     public void setJlbl_mensaje(javax.swing.JLabel jlbl_mensaje) {
         this.jlbl_mensaje = jlbl_mensaje;
     }
-    
 
     public javax.swing.JPasswordField getJtf_password() {
         return jtf_password;
@@ -137,7 +125,5 @@ public class JFrameLogin extends javax.swing.JFrame {
     public javax.swing.JButton getJbtn_login() {
         return jbtn_login;
     }
-
-    
 
 }

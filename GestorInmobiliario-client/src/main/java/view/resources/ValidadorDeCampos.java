@@ -107,21 +107,18 @@ public class ValidadorDeCampos {
     }
 
     /**
-     * Informa el tamaño del texfield
+     * Verifica que el texfield no este vacio
      *
      * @param unTextField
      * @return
      */
-    public int verificarTamanioCampo(JTextField unTextField) {
-        int posicion = 0;
-        char caracter = (char) 0;
-        for (int i = 0; i <= unTextField.getText().length() - 1; i++) {
-            caracter = unTextField.getText().charAt(i);
-            if (caracter == '.') {
-                posicion = i;
-            }
+    public boolean verificarTextoVacio(JTextField unTextField) {
+        boolean verificado = false;
+        String textoSinEspacio = unTextField.getText();
+        if (!textoSinEspacio.isEmpty()) {
+            verificado = true;
         }
-        return posicion;
+        return verificado;
     }
 
     /**
@@ -185,48 +182,4 @@ public class ValidadorDeCampos {
         unComboBox.removeAllItems();
     }
 
-    /**
-     * calcularFechaTurno Calcula la edad en funcion a la fechaDenacimiento ingresada
-     *
-     * @param fechaDeTurno
-     * @return
-     */
-    public boolean calcularFechaTurno(Date fechaDeTurno) {
-        boolean turnoValido = false;
-        Calendar calendario = Calendar.getInstance(); // fecha actual
-        int anioDeHoy = calendario.get(Calendar.YEAR);
-        int mesDeHoy = calendario.get(Calendar.MONTH);
-        int diaDeHoy = calendario.get(Calendar.DAY_OF_MONTH);
-
-        calendario.setTime(fechaDeTurno); // fecha de turno
-        int anioDeTurno = calendario.get(Calendar.YEAR);
-        int mesDeTurno = calendario.get(Calendar.MONTH);
-        int diaTurno = calendario.get(Calendar.DAY_OF_MONTH);
-
-        if (anioDeTurno >= anioDeHoy) {
-            turnoValido = true;
-        }else{
-            turnoValido = false;
-        }
-
-        if (anioDeTurno == anioDeHoy) {
-            if (mesDeTurno > mesDeHoy) {
-                turnoValido = true;
-            }else{
-                turnoValido = false;
-            }
-        }
-        
-        if (anioDeTurno == anioDeHoy) {
-            if (mesDeTurno == mesDeHoy) {
-                if (diaTurno>=diaDeHoy) {
-                    turnoValido = true;
-                }else{
-                    turnoValido = false;
-                }
-            }
-        }
-
-        return turnoValido;
-    }
 }

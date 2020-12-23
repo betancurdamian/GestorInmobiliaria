@@ -8,11 +8,9 @@ package controller;
 import dto.UsuarioDTO;
 import dto.UsuarioEmpresaDTO;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import javax.swing.event.ListSelectionEvent;
 import model.service.Impl.facade.Login;
 import view.JFrameLogin;
 
@@ -20,23 +18,17 @@ import view.JFrameLogin;
  * Controlador de Login de Usuario
  *
  */
-public class LoginController implements ActionListener, KeyListener, FocusListener {
+public class LoginController extends Controller {
 
     private final Login model;
     private final JFrameLogin view;
-    private PrincipalController controllerPrincipal;
 
     @SuppressWarnings("LeakingThisInConstructor")
     public LoginController() {
-        
         this.model = new Login();
         this.view = new JFrameLogin();
-        this.view.getJtf_username().addKeyListener(this);
-        this.view.getJtf_password().addKeyListener(this);
-        this.view.getJtf_username().addFocusListener(this);
-        this.view.getJtf_password().addFocusListener(this);
-        this.view.getJtf_password().setEnabled(false);
-        this.view.getJbtn_login().addActionListener(this);
+        addListener();
+        habilitarCampos(false);
         this.view.arranca();
     }
 
@@ -47,6 +39,7 @@ public class LoginController implements ActionListener, KeyListener, FocusListen
         }
     }
 
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     private void iniciarSesion() {
         UsuarioDTO usuarioAuxiliar = null;
         usuarioAuxiliar = new UsuarioEmpresaDTO();
@@ -59,17 +52,17 @@ public class LoginController implements ActionListener, KeyListener, FocusListen
         if (usuarioAuxiliar != null) {
             if (usuarioAuxiliar instanceof UsuarioEmpresaDTO) {
                 //Crea la pantalla principal del sistema
-                this.view.limpiar();
+                limpiarCampos();
                 this.view.dispose();
-                this.controllerPrincipal = new PrincipalController();
+                new VistaController();
             } else {
                 this.view.getJlbl_mensaje().setText("ERROR: Ingreso no permitido");
-                this.view.limpiar();
+                limpiarCampos();
                 this.view.getJtf_username().requestFocus();
             }
         } else {
             this.view.getJlbl_mensaje().setText("ERROR: usuario o Password incorrecto");
-            this.view.limpiar();
+            limpiarCampos();
             this.view.getJtf_username().requestFocus();
         }
     }
@@ -88,7 +81,7 @@ public class LoginController implements ActionListener, KeyListener, FocusListen
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             iniciarSesion();
-            this.view.limpiar();
+            limpiarCampos();
         }
 
         if (e.getSource() == this.view.getJtf_username()) {
@@ -113,6 +106,46 @@ public class LoginController implements ActionListener, KeyListener, FocusListen
 
     @Override
     public void focusLost(FocusEvent e) {
+
+    }
+
+    @Override
+    void addListener() {
+        this.view.getJtf_username().addKeyListener(this);
+        this.view.getJtf_password().addKeyListener(this);
+        this.view.getJtf_username().addFocusListener(this);
+        this.view.getJtf_password().addFocusListener(this);
+        this.view.getJbtn_login().addActionListener(this);
+    }
+
+    @Override
+    void formatearCampos() {
+
+    }
+
+    @Override
+    void limpiarCampos() {
+        this.getValidador().limpiarCampo(this.view.getJtf_username());
+        this.getValidador().limpiarCampo(this.view.getJtf_password());
+    }
+
+    @Override
+    void habilitarBotones(boolean estado) {
+
+    }
+
+    @Override
+    void habilitarCampos(boolean estado) {
+        this.view.getJtf_password().setEnabled(estado);
+    }
+
+    @Override
+    void habilitarTabla(boolean estado) {
+
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
 
     }
 

@@ -48,17 +48,17 @@ public class Main {
         
         
 
-//       ProcesarVenta ventaService = new ProcesarVenta();
-//       
-//       
-//        for (ClienteDTO cl : ventaService.fitrarClientesPorDNI("4276")) {
-//            System.out.println("dni: "+cl.getDni());
-//        }
-//
-//        ventaService.crearNuevaVenta("2020-12-03");
-//        //InmuebleServiceImpl service = new InmuebleServiceImpl();
-//        //service.listarTodasCasas();
-//        
+       ProcesarVenta ventaService = new ProcesarVenta();
+       
+       
+        for (ClienteDTO cl : ventaService.fitrarClientesPorDNI("4")) {
+            System.out.println("dni: "+cl.getDni());
+        }
+
+        ventaService.crearNuevaVenta("2020-12-03");
+        //InmuebleServiceImpl service = new InmuebleServiceImpl();
+        //service.listarTodasCasas();
+        
 //        ClienteDTO clienteCompradorAux = null;
 //        for (ClienteDTO l : ventaService.listarClientes()) {
 ////            System.out.println(""+l.getId());
@@ -130,7 +130,7 @@ public class Main {
 //        ventaService.finalizarVenta();
 //        
 //        ventaService.crearBoletaDePagoVenta();
-        
+//        
         
 
 
